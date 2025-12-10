@@ -1,0 +1,41 @@
+{{- $headerColor := "blue+b" -}}
+{{- tablerow
+    ("STATUS" | autocolor $headerColor)
+    ("LAST UPDATE" | autocolor $headerColor)
+    ("WORKFLOW" | autocolor $headerColor)
+    ("BRANCH" | autocolor $headerColor)
+    ("TITLE" | autocolor $headerColor)
+    ("EVENT" | autocolor $headerColor)
+    ("ID" | autocolor $headerColor)
+-}}
+
+{{- range . -}}
+    {{- $statusColor := "yellow" -}}
+    {{- $statusText := .status -}}
+    {{- if ne (len .conclusion) 0 -}}
+        {{- $statusText = .conclusion -}}
+        {{- if eq .conclusion "failure" "startup_failure" -}}
+            {{- $statusColor = "red" -}}
+        {{- else if eq .conclusion "cancelled" "timed_out" -}}
+            {{- $statusColor = "red+d" -}}
+        {{- else if eq .conclusion "action_required" -}}
+            {{- $statusColor = "magenta+h" -}}
+        {{- else if eq .conclusion "stale" -}}
+            {{- $statusColor = "yellow+d" -}}
+        {{- else if eq .conclusion "success" -}}
+            {{- $statusColor = "green" -}}
+        {{- else if eq .conclusion "skipped" -}}
+            {{- $statusColor = "white+d" -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- tablerow
+        ($statusText | autocolor $statusColor)
+        ((timeago .updatedAt) | autocolor "white+d")
+        (.name | autocolor "white+h")
+        (truncate 60 (.headBranch | autocolor "white+d"))
+        (truncate 100 (.displayTitle | autocolor "white+h"))
+        (.event | autocolor "white+d")
+        (.databaseId | autocolor "white+h")
+    -}}
+{{- end -}}

@@ -8,8 +8,35 @@ gh-pr-list() {
 }
 
 gh-run-list() {
-	gum log --level=info "Workflow run support coming soon!"
-	gum log --level=info "Run 'gh-fzf --help' for more information"
+	# Set up columns and template
+	local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
+	local run_template
+	local run_list
+
+	run_template=$(cat "$source_dir/templates/gh-run-list")
+
+	# Query GitHub for workflow runs with spinner feedback
+	run_list=$(gum spin --title "Loading GitHub Runs..." -- \
+		gh run list --json "$run_columns" --template "$run_template" --limit 30)
+
+	# Check if we got any runs
+	if [ -z "$run_list" ]; then
+		gum log --level=warn "No workflow runs found. Make sure you're in a GitHub repository and have workflow runs available."
+		return 1
+	fi
+
+	# Transform and present in fzf
+	echo "$run_list" | fzf --ansi \
+		--with-nth=1.. \
+		--accept-nth=7 \
+		--header="  GitHub Runs" \
+		--header-lines=1 \
+		--color=header:blue \
+		--bind 'ctrl-o:execute(gh run view {-1} --web)+abort' \
+		--bind 'ctrl-v:execute(gh run view {-1})+abort' \
+		--bind 'alt-x:execute(gh run cancel {-1})+abort' \
+		--bind 'alt-l:execute(gh run view --log {-1})+abort' \
+		--bind 'alt-w:execute(gh run watch {-1})+abort'
 }
 
 gh-issue-list() {
@@ -35,6 +62,7 @@ gh-issue-list() {
 		--with-nth=1.. \
 		--accept-nth=1 \
 		--header="  GitHub Issues" \
+		--header-lines=1 \
 		--color=header:blue \
 		--bind 'ctrl-o:execute(gh issue view {1} --web)+abort' \
 		--bind 'ctrl-v:execute(gh issue view {1})+abort' \
@@ -51,13 +79,13 @@ USAGE:
 
 COMMANDS:
     pr          Browse and interact with GitHub pull requests (coming soon)
-    run         Browse and interact with GitHub workflow runs (coming soon)
+    run         Browse and interact with GitHub workflow runs
     issue       Browse and interact with GitHub issues
 
 EXAMPLES:
-    gh-fzf issue                        # Browse issues interactively
     gh-fzf pr                           # Browse pull requests (coming soon)
-    gh-fzf run                          # Browse workflow runs (coming soon)
+    gh-fzf run                          # Browse workflow runs interactively
+    gh-fzf issue                        # Browse issues interactively
 EOF
 }
 
