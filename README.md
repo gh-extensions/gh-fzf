@@ -15,9 +15,9 @@ gh extension install gh-extensions/gh-fzf
 The extension provides an interactive, keyboard-driven interface for
 browsing and managing:
 
-- **GitHub Pull Requests** - View, edit, merge, review, and to manage pull requests
-- **GitHub Workflow Runs** - Monitor, rerun, cancel, and download artifacts
-- **GitHub Issues** - Browse, comment, assign, label, and organize issues
+- **GitHub Pull Requests** - view, edit, merge, review, and manage to pull requests
+- **GitHub Workflow Runs** - monitor, rerun, cancel, and download artifacts
+- **GitHub Issues** - browse, comment, assign, label, and organize issues
 
 ```bash
 # Show help
