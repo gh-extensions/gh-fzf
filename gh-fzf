@@ -2,13 +2,13 @@
 
 source_dir=$(dirname "${BASH_SOURCE[0]}")
 
-gh-pr-list() {
+gh_pr_list() {
 	# Set up columns and template
 	local pr_columns="number,title,state,headRefName,milestone,updatedAt,labels,additions,deletions,changedFiles,isDraft"
 	local pr_template
 	local pr_list
 
-	pr_template=$(cat "$source_dir/templates/gh-pr-list")
+	pr_template=$(cat "$source_dir/templates/gh_pr_list")
 
 	# Query GitHub for pull requests with spinner feedback
 	pr_list=$(gum spin --title "Loading Pull Requests..." -- \
@@ -39,13 +39,13 @@ gh-pr-list() {
 		--bind 'alt-w:execute(gh pr checks {1} --watch)+abort'
 }
 
-gh-run-list() {
+gh_run_list() {
 	# Set up columns and template
 	local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
 	local run_template
 	local run_list
 
-	run_template=$(cat "$source_dir/templates/gh-run-list")
+	run_template=$(cat "$source_dir/templates/gh_run_list")
 
 	# Query GitHub for workflow runs with spinner feedback
 	run_list=$(gum spin --title "Loading GitHub Runs..." -- \
@@ -74,13 +74,13 @@ gh-run-list() {
 		--bind 'alt-w:execute(gh run watch {-1})+abort'
 }
 
-gh-issue-list() {
+gh_issue_list() {
 	# Set up columns and template
 	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
 	local issue_template
 	local issue_list
 
-	issue_template=$(cat "$source_dir/templates/gh-issue-list")
+	issue_template=$(cat "$source_dir/templates/gh_issue_list")
 
 	# Query GitHub for issues with spinner feedback
 	issue_list=$(gum spin --title "Loading GitHub Issues..." -- \
@@ -135,13 +135,13 @@ main() {
 
 	case $command in
 	pr)
-		gh-pr-list
+		gh_pr_list
 		;;
 	run)
-		gh-run-list
+		gh_run_list
 		;;
 	issue)
-		gh-issue-list
+		gh_issue_list
 		;;
 	--help | -h | help | "")
 		_show_root_help
