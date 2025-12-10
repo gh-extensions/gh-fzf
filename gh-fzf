@@ -11,12 +11,12 @@ gh_pr_list() {
 	pr_template=$(cat "$source_dir/templates/gh_pr_list")
 
 	# Query GitHub for pull requests with spinner feedback
-	pr_list=$(gum spin --title "Loading Pull Requests..." -- \
+	pr_list=$(gum spin --title "Loading GitHub Pull Requests..." -- \
 		gh pr list --json "$pr_columns" --template "$pr_template" --limit 30)
 
 	# Check if we got any pull requests
 	if [ -z "$pr_list" ]; then
-		gum log --level=warn "No pull requests found. Make sure you're in a GitHub repository and have pull requests available."
+		gum log --level=warn "No GitHub Pull Requests found. Make sure you're in a GitHub repository and have pull requests available."
 		return 1
 	fi
 
@@ -53,7 +53,7 @@ gh_run_list() {
 
 	# Check if we got any runs
 	if [ -z "$run_list" ]; then
-		gum log --level=warn "No workflow runs found. Make sure you're in a GitHub repository and have workflow runs available."
+		gum log --level=warn "No GitHub Runs found. Make sure you're in a GitHub repository and have workflow runs available."
 		return 1
 	fi
 
@@ -88,7 +88,7 @@ gh_issue_list() {
 
 	# Check if we got any issues
 	if [ -z "$issue_list" ]; then
-		gum log --level=warn "No issues found. Make sure you're in a GitHub repository and have issues available."
+		gum log --level=warn "No GitHub Issues found. Make sure you're in a GitHub repository and have issues available."
 		return 1
 	fi
 
@@ -147,10 +147,9 @@ main() {
 		_show_root_help
 		;;
 	*)
-		echo "Error: Unknown command '$command'"
-		echo ""
-		echo "Available commands: pr, run, issue"
-		echo "Run 'gh-fzf --help' for detailed usage information"
+		gum log --level=error "Unknown command '$command'"
+		gum log --level=info "Available commands: pr, run, issue"
+		gum log --level=info "Run 'gh fzf --help' for detailed usage information"
 		exit 1
 		;;
 	esac
