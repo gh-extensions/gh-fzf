@@ -1,0 +1,30 @@
+{{- $headerColor := "blue+b" -}}
+{{- tablerow
+    ("NUMBER" | autocolor $headerColor)
+    ("UPDATED" | autocolor $headerColor)
+    ("TITLE" | autocolor $headerColor)
+    ("AUTHOR" | autocolor $headerColor)
+    ("MILESTONE" | autocolor $headerColor)
+    ("LABELS" | autocolor $headerColor)
+-}}
+
+{{- range . -}}
+    {{- $milestoneTitle := "" -}}
+    {{- if ne .milestone nil -}}
+        {{- $milestoneTitle = .milestone.title -}}
+    {{- end -}}
+
+    {{- $stateColor := "green" -}}
+    {{- if eq .state "CLOSED" -}}
+        {{- $stateColor = "red" -}}
+    {{- end -}}
+
+    {{- tablerow
+        (printf "#%v" .number | autocolor $stateColor)
+        ((timeago .updatedAt) | autocolor "white+d")
+        (truncate 100 (.title | autocolor "white+h"))
+        (.author.login | autocolor "white+d")
+        ($milestoneTitle | autocolor "white+h")
+        (pluck "name" .labels | join ", " | autocolor "white+d")
+    -}}
+{{- end -}}

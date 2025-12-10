@@ -1,35 +1,90 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
 
-echo "Hello gh-fzf!"
+source_dir=$(dirname "${BASH_SOURCE[0]}")
 
-# Snippets to help get started:
+gh-pr-list() {
+	gum log --level=info "Pull request support coming soon!"
+	gum log --level=info "Run 'gh-fzf --help' for more information"
+}
 
-# Determine if an executable is in the PATH
-# if ! type -p ruby >/dev/null; then
-#   echo "Ruby not found on the system" >&2
-#   exit 1
-# fi
+gh-run-list() {
+	gum log --level=info "Workflow run support coming soon!"
+	gum log --level=info "Run 'gh-fzf --help' for more information"
+}
 
-# Pass arguments through to another command
-# gh issue list "$@" -R cli/cli
+gh-issue-list() {
+	# Set up columns and template
+	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
+	local issue_template
+	local issue_list
 
-# Using the gh api command to retrieve and format information
-# QUERY='
-#   query($endCursor: String) {
-#     viewer {
-#       repositories(first: 100, after: $endCursor) {
-#         nodes {
-#           nameWithOwner
-#           stargazerCount
-#         }
-#       }
-#     }
-#   }
-# '
-# TEMPLATE='
-#   {{- range $repo := .data.viewer.repositories.nodes -}}
-#     {{- printf "name: %s - stargazers: %v\n" $repo.nameWithOwner $repo.stargazerCount -}}
-#   {{- end -}}
-# '
-# exec gh api graphql -f query="${QUERY}" --paginate --template="${TEMPLATE}"
+	issue_template=$(cat "$source_dir/templates/gh-issue-list")
+
+	# Query GitHub for issues with spinner feedback
+	issue_list=$(gum spin --title "Loading GitHub Issues..." -- \
+		gh issue list --json "$issue_columns" --template "$issue_template" --limit 30)
+
+	# Check if we got any issues
+	if [ -z "$issue_list" ]; then
+		gum log --level=warn "No issues found. Make sure you're in a GitHub repository and have issues available."
+		return 1
+	fi
+
+	# Transform and present in fzf
+	echo "$issue_list" | fzf --ansi \
+		--with-nth=1.. \
+		--accept-nth=1 \
+		--header="  GitHub Issues" \
+		--color=header:blue \
+		--bind 'ctrl-o:execute(gh issue view {1} --web)+abort' \
+		--bind 'ctrl-v:execute(gh issue view {1})+abort' \
+		--bind 'alt-c:execute(gh issue comment {1} --editor)+abort' \
+		--bind 'alt-e:execute(gh issue edit {1})+abort'
+}
+
+_show_root_help() {
+	cat <<'EOF'
+gh-fzf - Interactive fuzzy finder for GitHub CLI
+
+USAGE:
+    gh-fzf <command>
+
+COMMANDS:
+    pr          Browse and interact with GitHub pull requests (coming soon)
+    run         Browse and interact with GitHub workflow runs (coming soon)
+    issue       Browse and interact with GitHub issues
+
+EXAMPLES:
+    gh-fzf issue                        # Browse issues interactively
+    gh-fzf pr                           # Browse pull requests (coming soon)
+    gh-fzf run                          # Browse workflow runs (coming soon)
+EOF
+}
+
+main() {
+	local command="$1"
+
+	case $command in
+	pr)
+		gh-pr-list
+		;;
+	run)
+		gh-run-list
+		;;
+	issue)
+		gh-issue-list
+		;;
+	--help | -h | help | "")
+		_show_root_help
+		;;
+	*)
+		echo "Error: Unknown command '$command'"
+		echo ""
+		echo "Available commands: pr, run, issue"
+		echo "Run 'gh-fzf --help' for detailed usage information"
+		exit 1
+		;;
+	esac
+}
+
+main "$@"
