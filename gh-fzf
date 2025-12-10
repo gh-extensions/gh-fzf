@@ -3,8 +3,38 @@
 source_dir=$(dirname "${BASH_SOURCE[0]}")
 
 gh-pr-list() {
-	gum log --level=info "Pull request support coming soon!"
-	gum log --level=info "Run 'gh-fzf --help' for more information"
+	# Set up columns and template
+	local pr_columns="number,title,state,headRefName,milestone,updatedAt,labels,additions,deletions,changedFiles,isDraft"
+	local pr_template
+	local pr_list
+
+	pr_template=$(cat "$source_dir/templates/gh-pr-list")
+
+	# Query GitHub for pull requests with spinner feedback
+	pr_list=$(gum spin --title "Loading Pull Requests..." -- \
+		gh pr list --json "$pr_columns" --template "$pr_template" --limit 30)
+
+	# Check if we got any pull requests
+	if [ -z "$pr_list" ]; then
+		gum log --level=warn "No pull requests found. Make sure you're in a GitHub repository and have pull requests available."
+		return 1
+	fi
+
+	# Transform and present in fzf
+	echo "$pr_list" | fzf --ansi \
+		--with-nth=1.. \
+		--accept-nth=1 \
+		--header="  GitHub Pull Requests" \
+		--header-lines=1 \
+		--color=header:blue \
+		--bind 'ctrl-o:execute(gh pr view {1} --web)+abort' \
+		--bind 'ctrl-v:execute(gh pr view {1})+abort' \
+		--bind 'ctrl-w:execute(gh pr checks {1} --web)+abort' \
+		--bind 'alt-e:execute(gh pr edit {1})+abort' \
+		--bind 'alt-x:execute(gh pr close {1})+abort' \
+		--bind 'alt-m:execute(gh pr merge -r -d {1})+abort' \
+		--bind 'alt-y:execute(gh pr review {1} --approve -c "LGTM")+abort' \
+		--bind 'alt-w:execute(gh pr checks {1} --watch)+abort'
 }
 
 gh-run-list() {
@@ -28,7 +58,7 @@ gh-run-list() {
 	# Transform and present in fzf
 	echo "$run_list" | fzf --ansi \
 		--with-nth=1.. \
-		--accept-nth=7 \
+		--accept-nth=-1 \
 		--header="  GitHub Runs" \
 		--header-lines=1 \
 		--color=header:blue \
@@ -78,12 +108,12 @@ USAGE:
     gh-fzf <command>
 
 COMMANDS:
-    pr          Browse and interact with GitHub pull requests (coming soon)
+    pr          Browse and interact with GitHub pull requests
     run         Browse and interact with GitHub workflow runs
     issue       Browse and interact with GitHub issues
 
 EXAMPLES:
-    gh-fzf pr                           # Browse pull requests (coming soon)
+    gh-fzf pr                           # Browse pull requests interactively
     gh-fzf run                          # Browse workflow runs interactively
     gh-fzf issue                        # Browse issues interactively
 EOF
