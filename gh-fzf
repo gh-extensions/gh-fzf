@@ -30,8 +30,10 @@ gh-pr-list() {
 		--bind 'ctrl-o:execute(gh pr view {1} --web)+abort' \
 		--bind 'ctrl-v:execute(gh pr view {1})+abort' \
 		--bind 'ctrl-w:execute(gh pr checks {1} --web)+abort' \
+		--bind 'alt-c:execute(gh pr comment {1} --editor)+abort' \
 		--bind 'alt-e:execute(gh pr edit {1})+abort' \
 		--bind 'alt-x:execute(gh pr close {1})+abort' \
+		--bind 'alt-r:execute(gh pr reopen {1})+abort' \
 		--bind 'alt-m:execute(gh pr merge -r -d {1})+abort' \
 		--bind 'alt-y:execute(gh pr review {1} --approve -c "LGTM")+abort' \
 		--bind 'alt-w:execute(gh pr checks {1} --watch)+abort'
@@ -64,8 +66,11 @@ gh-run-list() {
 		--color=header:blue \
 		--bind 'ctrl-o:execute(gh run view {-1} --web)+abort' \
 		--bind 'ctrl-v:execute(gh run view {-1})+abort' \
+		--bind 'ctrl-w:execute(gh run view {-1} --web)+abort' \
 		--bind 'alt-x:execute(gh run cancel {-1})+abort' \
+		--bind 'alt-r:execute(gh run rerun {-1})+abort' \
 		--bind 'alt-l:execute(gh run view --log {-1})+abort' \
+		--bind 'alt-d:execute(gh run download {-1})+abort' \
 		--bind 'alt-w:execute(gh run watch {-1})+abort'
 }
 
@@ -97,7 +102,13 @@ gh-issue-list() {
 		--bind 'ctrl-o:execute(gh issue view {1} --web)+abort' \
 		--bind 'ctrl-v:execute(gh issue view {1})+abort' \
 		--bind 'alt-c:execute(gh issue comment {1} --editor)+abort' \
-		--bind 'alt-e:execute(gh issue edit {1})+abort'
+		--bind 'alt-e:execute(gh issue edit {1})+abort' \
+		--bind 'alt-x:execute(gh issue close {1})+abort' \
+		--bind 'alt-r:execute(gh issue reopen {1})+abort' \
+		--bind 'alt-a:execute(gh issue edit {1} --add-assignee @me)+abort' \
+		--bind 'alt-l:execute(gh issue edit {1} --add-label)+abort' \
+		--bind 'alt-p:execute(gh issue pin {1})+abort' \
+		--bind 'alt-u:execute(gh issue unpin {1})+abort'
 }
 
 _show_root_help() {
