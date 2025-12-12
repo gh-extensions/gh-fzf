@@ -2,7 +2,44 @@
 
 source_dir=$(dirname "${BASH_SOURCE[0]}")
 
-gh_pr_list() {
+# _gh_pr_list()
+# 
+# Interactive fuzzy finder for GitHub pull requests
+#
+# DESCRIPTION:
+#   Displays a list of GitHub pull requests in an interactive fuzzy finder (fzf)
+#   with various keyboard shortcuts for common PR operations. Shows up to 30
+#   most recent pull requests with detailed information including PR number,
+#   title, state, branch, milestone, labels, and change statistics.
+#
+# PARAMETERS:
+#   None
+#
+# RETURNS:
+#   0 - Success (user performed an action or exited normally)
+#   1 - Failure (no pull requests found or not in a GitHub repository)
+#
+# KEYBOARD SHORTCUTS:
+#   enter    - View PR details in terminal
+#   ctrl-o   - Open PR in web browser
+#   ctrl-w   - View PR checks in web browser
+#   alt-c    - Comment on PR using editor
+#   alt-e    - Edit PR details
+#   alt-x    - Close PR
+#   alt-r    - Reopen PR
+#   alt-m    - Merge PR (with review and delete branch)
+#   alt-y    - Approve PR with "LGTM" comment
+#   alt-w    - Watch PR checks in terminal
+#
+# DEPENDENCIES:
+#   - gh (GitHub CLI)
+#   - fzf (fuzzy finder)
+#   - gum (for spinner and logging)
+#
+# EXAMPLE:
+#   gh-fzf pr
+#
+_gh_pr_list() {
 	# Set up columns and template
 	local pr_columns="number,title,state,headRefName,milestone,updatedAt,labels,additions,deletions,changedFiles,isDraft"
 	local pr_template
@@ -39,7 +76,46 @@ gh_pr_list() {
 		--bind 'alt-w:execute(gh pr checks {1} --watch)+abort'
 }
 
-gh_run_list() {
+# _gh_run_list()
+#
+# Interactive fuzzy finder for GitHub workflow runs
+#
+# DESCRIPTION:
+#   Displays a list of GitHub workflow runs in an interactive fuzzy finder (fzf)
+#   with various keyboard shortcuts for common run operations. Shows up to 30
+#   most recent workflow runs with detailed information including run date,
+#   trigger event, title, branch, run ID, conclusion status, and workflow name.
+#
+# PARAMETERS:
+#   None
+#
+# RETURNS:
+#   0 - Success (user performed an action or exited normally)
+#   1 - Failure (no workflow runs found or not in a GitHub repository)
+#
+# KEYBOARD SHORTCUTS:
+#   enter    - View run details in terminal
+#   ctrl-o   - Open run in web browser
+#   ctrl-w   - View run in web browser (same as ctrl-o)
+#   alt-x    - Cancel run
+#   alt-r    - Rerun workflow
+#   alt-l    - View run logs in terminal
+#   alt-d    - Download run artifacts
+#   alt-w    - Watch run progress in terminal
+#
+# DEPENDENCIES:
+#   - gh (GitHub CLI)
+#   - fzf (fuzzy finder)
+#   - gum (for spinner and logging)
+#
+# NOTES:
+#   - Run ID is extracted from the last column (-1) in fzf selections
+#   - Runs are sorted by update time (most recent first)
+#
+# EXAMPLE:
+#   gh-fzf run
+#
+_gh_run_list() {
 	# Set up columns and template
 	local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
 	local run_template
@@ -74,7 +150,48 @@ gh_run_list() {
 		--bind 'alt-w:execute(gh run watch {-1})+abort'
 }
 
-gh_issue_list() {
+# _gh_issue_list()
+#
+# Interactive fuzzy finder for GitHub issues
+#
+# DESCRIPTION:
+#   Displays a list of GitHub issues in an interactive fuzzy finder (fzf)
+#   with various keyboard shortcuts for common issue operations. Shows up to 30
+#   most recent issues with detailed information including issue number, title,
+#   author, assignees, state, milestone, labels, and last update time.
+#
+# PARAMETERS:
+#   None
+#
+# RETURNS:
+#   0 - Success (user performed an action or exited normally)
+#   1 - Failure (no issues found or not in a GitHub repository)
+#
+# KEYBOARD SHORTCUTS:
+#   enter    - View issue details in terminal
+#   ctrl-o   - Open issue in web browser
+#   alt-c    - Comment on issue using editor
+#   alt-e    - Edit issue details
+#   alt-x    - Close issue
+#   alt-r    - Reopen issue
+#   alt-a    - Assign issue to self (@me)
+#   alt-l    - Add label to issue
+#   alt-p    - Pin issue
+#   alt-u    - Unpin issue
+#
+# DEPENDENCIES:
+#   - gh (GitHub CLI)
+#   - fzf (fuzzy finder)
+#   - gum (for spinner and logging)
+#
+# NOTES:
+#   - Issue number is extracted from the first column in fzf selections
+#   - Issues are sorted by update time (most recent first)
+#
+# EXAMPLE:
+#   gh-fzf issue
+#
+_gh_issue_list() {
 	# Set up columns and template
 	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
 	local issue_template
@@ -111,6 +228,37 @@ gh_issue_list() {
 		--bind 'alt-u:execute(gh issue unpin {1})+abort'
 }
 
+# _show_root_help()
+#
+# Display help information for gh-fzf
+#
+# DESCRIPTION:
+#   Prints the main help documentation for the gh-fzf tool, including
+#   usage instructions, available commands, and examples. This function
+#   is called when the user requests help or runs gh-fzf without arguments.
+#
+# PARAMETERS:
+#   None
+#
+# RETURNS:
+#   0 - Always returns success
+#
+# OUTPUT:
+#   Writes help text to stdout including:
+#   - Tool description
+#   - Usage syntax
+#   - Available commands (pr, run, issue)
+#   - Example usage for each command
+#
+# DEPENDENCIES:
+#   None
+#
+# EXAMPLE:
+#   gh-fzf --help
+#   gh-fzf -h
+#   gh-fzf help
+#   gh-fzf        # (no arguments)
+#
 _show_root_help() {
 	cat <<'EOF'
 gh-fzf - Interactive fuzzy finder for GitHub CLI
@@ -130,18 +278,59 @@ EXAMPLES:
 EOF
 }
 
+# main()
+#
+# Main entry point for gh-fzf
+#
+# DESCRIPTION:
+#   Processes command line arguments and dispatches to appropriate sub-commands.
+#   Handles command routing for pr, run, and issue commands, as well as help
+#   requests and error cases. This function serves as the central dispatcher
+#   for all gh-fzf functionality.
+#
+# PARAMETERS:
+#   $1 - Command to execute (pr|run|issue|help|--help|-h)
+#        Optional - if omitted, shows help
+#
+# RETURNS:
+#   0   - Success (command executed successfully)
+#   1   - Error (unknown command)
+#   Exit code from sub-command if applicable
+#
+# COMMANDS:
+#   pr      - Launch interactive PR browser
+#   run     - Launch interactive workflow run browser
+#   issue   - Launch interactive issue browser
+#   help    - Show help information
+#   --help  - Show help information
+#   -h      - Show help information
+#   (empty) - Show help information
+#
+# ERROR HANDLING:
+#   - Unknown commands trigger an error message with available commands
+#   - Suggests running 'gh fzf --help' for detailed usage
+#
+# DEPENDENCIES:
+#   - gum (for error logging)
+#   - Sub-command functions (_gh_pr_list, _gh_run_list, _gh_issue_list)
+#
+# EXAMPLE:
+#   main "pr"     # Launch PR browser
+#   main "help"   # Show help
+#   main "foo"    # Error: unknown command
+#
 main() {
 	local command="$1"
 
 	case $command in
 	pr)
-		gh_pr_list
+		_gh_pr_list
 		;;
 	run)
-		gh_run_list
+		_gh_run_list
 		;;
 	issue)
-		gh_issue_list
+		_gh_issue_list
 		;;
 	--help | -h | help | "")
 		_show_root_help
