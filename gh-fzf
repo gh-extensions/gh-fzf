@@ -1,9 +1,11 @@
 #!/bin/bash
 
+[ -z "$DEBUG" ] || set -x
+
 source_dir=$(dirname "${BASH_SOURCE[0]}")
 
 # _gh_pr_list()
-# 
+#
 # Interactive fuzzy finder for GitHub pull requests
 #
 # DESCRIPTION:
@@ -45,7 +47,7 @@ _gh_pr_list() {
 	local pr_template
 	local pr_list
 
-	pr_template=$(cat "$source_dir/templates/gh_pr_list")
+	pr_template=$(cat "$source_dir/template/gh_pr_list.tmpl")
 
 	# Query GitHub for pull requests with spinner feedback
 	pr_list=$(gum spin --title "Loading GitHub Pull Requests..." -- \
@@ -121,7 +123,7 @@ _gh_run_list() {
 	local run_template
 	local run_list
 
-	run_template=$(cat "$source_dir/templates/gh_run_list")
+	run_template=$(cat "$source_dir/template/gh_run_list.tmpl")
 
 	# Query GitHub for workflow runs with spinner feedback
 	run_list=$(gum spin --title "Loading GitHub Runs..." -- \
@@ -197,7 +199,7 @@ _gh_issue_list() {
 	local issue_template
 	local issue_list
 
-	issue_template=$(cat "$source_dir/templates/gh_issue_list")
+	issue_template=$(cat "$source_dir/template/gh_issue_list.tmpl")
 
 	# Query GitHub for issues with spinner feedback
 	issue_list=$(gum spin --title "Loading GitHub Issues..." -- \
