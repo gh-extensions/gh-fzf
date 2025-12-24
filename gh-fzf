@@ -55,27 +55,27 @@ _gh_pr_list() {
 
 	# Check if we got any pull requests
 	if [ -z "$pr_list" ]; then
-		gum log --level=warn "No GitHub Pull Requests found. Make sure you're in a GitHub repository and have pull requests available."
+		gum log --level warn "No GitHub Pull Requests found. Make sure you're in a GitHub repository and have pull requests available."
 		return 1
 	fi
 
 	# Transform and present in fzf
 	echo "$pr_list" | fzf --ansi \
-		--with-nth=1.. \
-		--accept-nth=1 \
-		--header="  GitHub Pull Requests" \
-		--header-lines=1 \
-		--color=header:blue \
-		--bind 'enter:execute(gh pr view {1})+abort' \
-		--bind 'ctrl-o:execute(gh pr view {1} --web)+abort' \
-		--bind 'ctrl-w:execute(gh pr checks {1} --web)+abort' \
-		--bind 'alt-c:execute(gh pr comment {1} --editor)+abort' \
-		--bind 'alt-e:execute(gh pr edit {1})+abort' \
-		--bind 'alt-x:execute(gh pr close {1})+abort' \
-		--bind 'alt-r:execute(gh pr reopen {1})+abort' \
-		--bind 'alt-m:execute(gh pr merge -r -d {1})+abort' \
-		--bind 'alt-y:execute(gh pr review {1} --approve -c "LGTM")+abort' \
-		--bind 'alt-w:execute(gh pr checks {1} --watch)+abort'
+		--with-nth 1.. \
+		--accept-nth 1 \
+		--header "  GitHub Pull Requests" \
+		--header-lines 1 \
+		--color header:blue \
+		--bind "enter:execute(gh pr view {1})+abort" \
+		--bind "ctrl-o:execute(gh pr view {1} --web)+abort" \
+		--bind "ctrl-w:execute(gh pr checks {1} --web)+abort" \
+		--bind "alt-c:execute(gh pr comment {1} --editor)+abort" \
+		--bind "alt-e:execute(gh pr edit {1})+abort" \
+		--bind "alt-x:execute(gh pr close {1})+abort" \
+		--bind "alt-r:execute(gh pr reopen {1})+abort" \
+		--bind "alt-m:execute(gh pr merge -r -d {1})+abort" \
+		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')+abort" \
+		--bind "alt-w:execute(gh pr checks {1} --watch)+abort"
 }
 
 # _gh_run_list()
@@ -131,25 +131,25 @@ _gh_run_list() {
 
 	# Check if we got any runs
 	if [ -z "$run_list" ]; then
-		gum log --level=warn "No GitHub Runs found. Make sure you're in a GitHub repository and have workflow runs available."
+		gum log --level warn "No GitHub Runs found. Make sure you're in a GitHub repository and have workflow runs available."
 		return 1
 	fi
 
 	# Transform and present in fzf
 	echo "$run_list" | fzf --ansi \
-		--with-nth=1.. \
-		--accept-nth=-1 \
-		--header="  GitHub Runs" \
-		--header-lines=1 \
-		--color=header:blue \
-		--bind 'enter:execute(gh run view {-1})+abort' \
-		--bind 'ctrl-o:execute(gh run view {-1} --web)+abort' \
-		--bind 'ctrl-w:execute(gh run view {-1} --web)+abort' \
-		--bind 'alt-x:execute(gh run cancel {-1})+abort' \
-		--bind 'alt-r:execute(gh run rerun {-1})+abort' \
-		--bind 'alt-l:execute(gh run view --log {-1})+abort' \
-		--bind 'alt-d:execute(gh run download {-1})+abort' \
-		--bind 'alt-w:execute(gh run watch {-1})+abort'
+		--with-nth 1.. \
+		--accept-nth -1 \
+		--header "  GitHub Runs" \
+		--header-lines 1 \
+		--color header:blue \
+		--bind "enter:execute(gh run view {-1})+abort" \
+		--bind "ctrl-o:execute(gh run view {-1} --web)+abort" \
+		--bind "ctrl-w:execute(gh run view {-1} --web)+abort" \
+		--bind "alt-x:execute(gh run cancel {-1})+abort" \
+		--bind "alt-r:execute(gh run rerun {-1})+abort" \
+		--bind "alt-l:execute(gh run view --log {-1})+abort" \
+		--bind "alt-d:execute(gh run download {-1})+abort" \
+		--bind "alt-w:execute(gh run watch {-1})+abort"
 }
 
 # _gh_issue_list()
@@ -207,27 +207,27 @@ _gh_issue_list() {
 
 	# Check if we got any issues
 	if [ -z "$issue_list" ]; then
-		gum log --level=warn "No GitHub Issues found. Make sure you're in a GitHub repository and have issues available."
+		gum log --level warn "No GitHub Issues found. Make sure you're in a GitHub repository and have issues available."
 		return 1
 	fi
 
 	# Transform and present in fzf
 	echo "$issue_list" | fzf --ansi \
-		--with-nth=1.. \
-		--accept-nth=1 \
-		--header="  GitHub Issues" \
-		--header-lines=1 \
-		--color=header:blue \
-		--bind 'enter:execute(gh issue view {1})+abort' \
-		--bind 'ctrl-o:execute(gh issue view {1} --web)+abort' \
-		--bind 'alt-c:execute(gh issue comment {1} --editor)+abort' \
-		--bind 'alt-e:execute(gh issue edit {1})+abort' \
-		--bind 'alt-x:execute(gh issue close {1})+abort' \
-		--bind 'alt-r:execute(gh issue reopen {1})+abort' \
-		--bind 'alt-a:execute(gh issue edit {1} --add-assignee @me)+abort' \
-		--bind 'alt-l:execute(gh issue edit {1} --add-label)+abort' \
-		--bind 'alt-p:execute(gh issue pin {1})+abort' \
-		--bind 'alt-u:execute(gh issue unpin {1})+abort'
+		--with-nth 1.. \
+		--accept-nth 1 \
+		--header "  GitHub Issues" \
+		--header-lines 1 \
+		--color header:blue \
+		--bind "enter:execute(gh issue view {1})+abort" \
+		--bind "ctrl-o:execute(gh issue view {1} --web)+abort" \
+		--bind "alt-c:execute(gh issue comment {1} --editor)+abort" \
+		--bind "alt-e:execute(gh issue edit {1})+abort" \
+		--bind "alt-x:execute(gh issue close {1})+abort" \
+		--bind "alt-r:execute(gh issue reopen {1})+abort" \
+		--bind "alt-a:execute(gh issue edit {1} --add-assignee @me)+abort" \
+		--bind "alt-l:execute(gh issue edit {1} --add-label)+abort" \
+		--bind "alt-p:execute(gh issue pin {1})+abort" \
+		--bind "alt-u:execute(gh issue unpin {1})+abort"
 }
 
 # _show_root_help()
@@ -338,9 +338,9 @@ main() {
 		_show_root_help
 		;;
 	*)
-		gum log --level=error "Unknown command '$command'"
-		gum log --level=info "Available commands: pr, run, issue"
-		gum log --level=info "Run 'gh fzf --help' for detailed usage information"
+		gum log --level error "Unknown command '$command'"
+		gum log --level info "Available commands: pr, run, issue"
+		gum log --level info "Run 'gh fzf --help' for detailed usage information"
 		exit 1
 		;;
 	esac
