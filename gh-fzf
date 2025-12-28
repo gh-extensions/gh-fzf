@@ -67,8 +67,8 @@ _gh_pr_list() {
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh pr view {1})+abort" \
-		--bind "ctrl-o:execute(gh pr view {1} --web)+abort" \
-		--bind "ctrl-w:execute(gh pr checks {1} --web)+abort" \
+		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
+		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)+abort" \
 		--bind "alt-e:execute(gh pr edit {1})+abort" \
 		--bind "alt-x:execute(gh pr close {1})+abort" \
@@ -143,8 +143,8 @@ _gh_run_list() {
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh run view {-1})+abort" \
-		--bind "ctrl-o:execute(gh run view {-1} --web)+abort" \
-		--bind "ctrl-w:execute(gh run view {-1} --web)+abort" \
+		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
+		--bind "ctrl-w:execute-silent(gh run view {-1} --web)" \
 		--bind "alt-x:execute(gh run cancel {-1})+abort" \
 		--bind "alt-r:execute(gh run rerun {-1})+abort" \
 		--bind "alt-l:execute(gh run view --log {-1})+abort" \
@@ -219,7 +219,7 @@ _gh_issue_list() {
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh issue view {1})+abort" \
-		--bind "ctrl-o:execute(gh issue view {1} --web)+abort" \
+		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)+abort" \
 		--bind "alt-e:execute(gh issue edit {1})+abort" \
 		--bind "alt-x:execute(gh issue close {1})+abort" \
