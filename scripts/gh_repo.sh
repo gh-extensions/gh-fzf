@@ -29,8 +29,8 @@
 # KEYBOARD SHORTCUTS:
 #   enter    - View repository details in terminal
 #   ctrl-o   - Open repository in web browser
-#   alt-c    - Clone repository
-#   alt-f    - Fork repository
+#   alt-c    - Clone repository to custom directory (if configured)
+#   alt-f    - Fork repository and clone to custom directory (if configured)
 #   alt-v    - View repository README
 #
 # DEPENDENCIES:
@@ -85,6 +85,6 @@ _gh_repo_list() {
 		--bind "enter:execute(gh repo view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "alt-c:execute($_gh_fzf_source_dir/scripts/gh_clone_to_project.sh {1})+abort" \
-		--bind "alt-f:execute(gh repo fork {1})+abort" \
+		--bind "alt-f:execute($_gh_fzf_source_dir/scripts/gh_fork_to_project.sh {1})+abort" \
 		--bind "alt-v:execute(gh repo view {1} --readme)+abort"
 }
