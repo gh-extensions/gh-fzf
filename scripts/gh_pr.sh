@@ -77,7 +77,7 @@ _gh_pr_list() {
 	echo "$pr_list" | fzf --ansi \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--header "  GitHub Pull Requests" \
+		--header "  GitHub Pull Requests" \
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh pr view {1})+abort" \

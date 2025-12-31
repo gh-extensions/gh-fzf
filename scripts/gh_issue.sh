@@ -81,7 +81,7 @@ _gh_issue_list() {
 	echo "$issue_list" | fzf --ansi \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--header "  GitHub Issues" \
+		--header "  GitHub Issues" \
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh issue view {1})+abort" \

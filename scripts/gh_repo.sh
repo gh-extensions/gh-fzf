@@ -79,7 +79,7 @@ _gh_repo_list() {
 	echo "$repo_list" | fzf --ansi \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--header "  GitHub Repositories" \
+		--header "  GitHub Repositories" \
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh repo view {1})+abort" \

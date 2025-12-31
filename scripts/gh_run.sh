@@ -79,7 +79,7 @@ _gh_run_list() {
 	echo "$run_list" | fzf --ansi \
 		--with-nth 1.. \
 		--accept-nth -1 \
-		--header "  GitHub Runs" \
+		--header "  GitHub Runs" \
 		--header-lines 1 \
 		--color header:blue \
 		--bind "enter:execute(gh run view {-1})+abort" \
