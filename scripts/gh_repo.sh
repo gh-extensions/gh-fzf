@@ -84,7 +84,7 @@ _gh_repo_list() {
 		--color header:blue \
 		--bind "enter:execute(gh repo view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "alt-c:execute(gh repo clone {1})+abort" \
+		--bind "alt-c:execute($_gh_fzf_source_dir/scripts/gh_clone_to_project.sh {1})+abort" \
 		--bind "alt-f:execute(gh repo fork {1})+abort" \
 		--bind "alt-v:execute(gh repo view {1} --readme)+abort"
 }
