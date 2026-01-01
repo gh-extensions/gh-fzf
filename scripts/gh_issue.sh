@@ -1,3 +1,7 @@
+#!/bin/bash
+
+_gh_issue_source_dir=$(dirname "${BASH_SOURCE[0]}")
+
 # gh_issue.sh - GitHub Issue commands for gh-fzf
 #
 # This file is sourced by the main gh-fzf script and provides
@@ -57,17 +61,19 @@ _gh_issue_list() {
 		return $?
 	fi
 
+	local _gh_fzf_filtered_args
 	# Filter out arguments that gh-fzf controls
-	local _gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
 
 	# Set up columns and template
 	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
 	local issue_template
 	local issue_list
 
-	issue_template=$(cat "$_gh_fzf_source_dir/templates/gh_issue_list.tmpl")
+	issue_template=$(cat "$_gh_issue_source_dir/templates/gh_issue_list.tmpl")
 
 	# Query GitHub for issues with spinner feedback
+	# shellcheck disable=SC2086
 	issue_list=$(gum spin --title "Loading GitHub Issues..." -- \
 		gh issue list $_gh_fzf_filtered_args --json "$issue_columns" --template "$issue_template")
 

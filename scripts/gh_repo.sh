@@ -1,3 +1,7 @@
+#!/bin/bash
+
+_gh_repo_source_dir=$(dirname "${BASH_SOURCE[0]}")
+
 # gh_repo.sh - GitHub Repository commands for gh-fzf
 #
 # This file is sourced by the main gh-fzf script and provides
@@ -55,17 +59,19 @@ _gh_repo_list() {
 		return $?
 	fi
 
+	local _gh_fzf_filtered_args
 	# Filter out arguments that gh-fzf controls
-	local _gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
 
 	# Set up columns and template
 	local repo_columns="nameWithOwner,description,stargazerCount,primaryLanguage,visibility,isArchived,pushedAt"
 	local repo_template
 	local repo_list
 
-	repo_template=$(cat "$_gh_fzf_source_dir/templates/gh_repo_list.tmpl")
+	repo_template=$(cat "$_gh_repo_source_dir/../templates/gh_repo_list.tmpl")
 
 	# Query GitHub for repositories with spinner feedback
+	# shellcheck disable=SC2086
 	repo_list=$(gum spin --title "Loading GitHub Repositories..." -- \
 		gh repo list $_gh_fzf_filtered_args --json "$repo_columns" --template "$repo_template")
 
@@ -84,7 +90,7 @@ _gh_repo_list() {
 		--color header:blue \
 		--bind "enter:execute(gh repo view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "alt-c:execute($_gh_fzf_source_dir/scripts/gh_clone_to_project.sh {1})+abort" \
-		--bind "alt-f:execute($_gh_fzf_source_dir/scripts/gh_fork_to_project.sh {1})+abort" \
+		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})+abort" \
+		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})+abort" \
 		--bind "alt-v:execute(gh repo view {1} --readme)+abort"
 }
