@@ -1,6 +1,8 @@
 #!/bin/bash
 
 _gh_repo_source_dir=$(dirname "${BASH_SOURCE[0]}")
+# shellcheck source=core.sh
+source "$_gh_repo_source_dir/core.sh"
 
 # gh_repo.sh - GitHub Repository commands for gh-fzf
 #
@@ -82,12 +84,10 @@ _gh_repo_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$repo_list" | fzf --ansi \
+	echo "$repo_list" | fzf --ansi "${_fzf_options[@]}" \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--header "  GitHub Repositories" \
-		--header-lines 1 \
-		--color header:blue \
+		--footer "  GitHub Repositories" \
 		--bind "enter:execute(gh repo view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})+abort" \

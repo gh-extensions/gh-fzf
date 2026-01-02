@@ -1,6 +1,8 @@
 #!/bin/bash
 
 _gh_run_source_dir=$(dirname "${BASH_SOURCE[0]}")
+# shellcheck source=core.sh
+source "$_gh_run_source_dir/core.sh"
 
 # gh_run.sh - GitHub Workflow Run commands for gh-fzf
 #
@@ -82,12 +84,10 @@ _gh_run_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$run_list" | fzf --ansi \
+	echo "$run_list" | fzf --ansi "${_fzf_options[@]}" \
 		--with-nth 1.. \
 		--accept-nth -1 \
-		--header "  GitHub Runs" \
-		--header-lines 1 \
-		--color header:blue \
+		--footer "  GitHub Runs" \
 		--bind "enter:execute(gh run view {-1})+abort" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-w:execute-silent(gh run view {-1} --web)" \

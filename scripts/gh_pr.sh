@@ -1,6 +1,8 @@
 #!/bin/bash
 
 _gh_pr_source_dir=$(dirname "${BASH_SOURCE[0]}")
+# shellcheck source=core.sh
+source "$_gh_pr_source_dir/core.sh"
 
 # gh_pr.sh - GitHub Pull Request commands for gh-fzf
 #
@@ -80,12 +82,10 @@ _gh_pr_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$pr_list" | fzf --ansi \
+	echo "$pr_list" | fzf --ansi "${_fzf_options[@]}" \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--header "  GitHub Pull Requests" \
-		--header-lines 1 \
-		--color header:blue \
+		--footer "  GitHub Pull Requests" \
 		--bind "enter:execute(gh pr view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
