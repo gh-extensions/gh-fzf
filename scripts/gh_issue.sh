@@ -70,7 +70,7 @@ _gh_issue_list() {
 	local issue_template
 	local issue_list
 
-	issue_template=$(cat "$_gh_issue_source_dir/templates/gh_issue_list.tmpl")
+	issue_template=$(cat "$_gh_issue_source_dir/../templates/gh_issue_list.tmpl")
 
 	# Query GitHub for issues with spinner feedback
 	# shellcheck disable=SC2086
