@@ -84,7 +84,7 @@ _gh_pr_list() {
 	# Transform and present in fzf
 	echo "$pr_list" | fzf "${_fzf_options[@]}" \
 		--with-nth 1.. --accept-nth 1 \
-		--footer "  GitHub Pull Requests" \
+		--footer "$_fzf_icon GitHub Pull Requests" \
 		--bind "enter:execute(gh pr view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \

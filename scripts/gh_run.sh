@@ -86,7 +86,7 @@ _gh_run_list() {
 	# Transform and present in fzf
 	echo "$run_list" | fzf "${_fzf_options[@]}" \
 		--with-nth 1.. --accept-nth -1 \
-		--footer "  GitHub Runs" \
+		--footer "$_fzf_icon GitHub Runs" \
 		--bind "enter:execute(gh run view {-1})+abort" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-w:execute-silent(gh run view {-1} --web)" \

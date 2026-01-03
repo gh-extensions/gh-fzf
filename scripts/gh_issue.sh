@@ -89,7 +89,7 @@ _gh_issue_list() {
 	echo "$issue_list" | fzf --ansi "${_fzf_options[@]}" \
 		--with-nth 1.. \
 		--accept-nth 1 \
-		--footer "  GitHub Issues" \
+		--footer "$_fzf_icon GitHub Issues" \
 		--bind "enter:execute(gh issue view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)+abort" \
