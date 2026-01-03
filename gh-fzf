@@ -2,6 +2,8 @@
 
 [ -z "$DEBUG" ] || set -x
 
+set -euo pipefail
+
 _gh_fzf_source_dir=$(dirname "${BASH_SOURCE[0]}")
 
 # _gh_filter_list_args()
@@ -69,7 +71,6 @@ source "$_gh_fzf_source_dir/scripts/gh_pr.sh"
 source "$_gh_fzf_source_dir/scripts/gh_issue.sh"
 source "$_gh_fzf_source_dir/scripts/gh_run.sh"
 source "$_gh_fzf_source_dir/scripts/gh_repo.sh"
-
 
 # _show_root_help()
 #
