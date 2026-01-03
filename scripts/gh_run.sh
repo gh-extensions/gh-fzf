@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+[ -z "$DEBUG" ] || set -x
+
+set -eo pipefail
 
 _gh_run_source_dir=$(dirname "${BASH_SOURCE[0]}")
 # shellcheck source=gh_core.sh

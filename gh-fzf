@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -z "$DEBUG" ] || set -x
 
-set -euo pipefail
+set -eo pipefail
 
 _gh_fzf_source_dir=$(dirname "${BASH_SOURCE[0]}")
 

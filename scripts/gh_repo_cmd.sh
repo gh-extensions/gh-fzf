@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+[ -z "$DEBUG" ] || set -x
+
+set -eo pipefail
 
 # gh_repo_cmd.sh - Repository command wrapper for gh-fzf
 #
