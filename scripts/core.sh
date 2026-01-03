@@ -1,6 +1,7 @@
 #!/bin/bash
 
 _fzf_options=(
+	--ansi
 	--border='none'
 	--tmux='100%,100%'
 	--header-lines='1'

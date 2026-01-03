@@ -84,9 +84,8 @@ _gh_repo_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$repo_list" | fzf --ansi "${_fzf_options[@]}" \
-		--with-nth 1.. \
-		--accept-nth 1 \
+	echo "$repo_list" | fzf "${_fzf_options[@]}" \
+		--with-nth 1.. --accept-nth 1 \
 		--footer "  GitHub Repositories" \
 		--bind "enter:execute(gh repo view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
