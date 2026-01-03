@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # gh_repo_cmd.sh - Repository command wrapper for gh-fzf
 #
 # This script provides clone and fork operations with support for custom
@@ -147,14 +148,14 @@ _gh_repo_fork() {
 
 # Dispatch to appropriate function based on command
 case "$cmd" in
-	clone)
-		_gh_repo_clone "$repo"
-		;;
-	fork)
-		_gh_repo_fork "$repo"
-		;;
-	*)
-		echo "Error: Unknown command '$cmd'. Use 'clone' or 'fork'" >&2
-		exit 1
-		;;
+clone)
+	_gh_repo_clone "$repo"
+	;;
+fork)
+	_gh_repo_fork "$repo"
+	;;
+*)
+	echo "Error: Unknown command '$cmd'. Use 'clone' or 'fork'" >&2
+	exit 1
+	;;
 esac

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 _gh_pr_source_dir=$(dirname "${BASH_SOURCE[0]}")
-# shellcheck source=core.sh
-source "$_gh_pr_source_dir/core.sh"
+# shellcheck source=gh_core.sh
+source "$_gh_pr_source_dir/gh_core.sh"
 
 # gh_pr.sh - GitHub Pull Request commands for gh-fzf
 #
