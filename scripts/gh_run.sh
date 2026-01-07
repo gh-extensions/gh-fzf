@@ -94,9 +94,9 @@ _gh_run_list() {
 		--bind "enter:execute(gh run view {-1})+abort" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-w:execute-silent(gh run view {-1} --web)" \
-		--bind "alt-x:execute(gh run cancel {-1})+abort" \
-		--bind "alt-r:execute(gh run rerun {-1})+abort" \
-		--bind "alt-l:execute(gh run view --log {-1})+abort" \
-		--bind "alt-d:execute(gh run download {-1})+abort" \
-		--bind "alt-w:execute(gh run watch {-1})+abort"
+		--bind "alt-x:execute(gh run cancel {-1})" \
+		--bind "alt-r:execute(gh run rerun {-1})" \
+		--bind "alt-l:execute(gh run view --log {-1})" \
+		--bind "alt-d:execute(gh run download {-1})" \
+		--bind "alt-w:execute(gh run watch {-1})"
 }

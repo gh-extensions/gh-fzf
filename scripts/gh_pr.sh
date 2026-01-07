@@ -92,11 +92,11 @@ _gh_pr_list() {
 		--bind "enter:execute(gh pr view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
-		--bind "alt-c:execute(gh pr comment {1} --editor)+abort" \
-		--bind "alt-e:execute(gh pr edit {1})+abort" \
-		--bind "alt-x:execute(gh pr close {1})+abort" \
-		--bind "alt-r:execute(gh pr reopen {1})+abort" \
-		--bind "alt-m:execute(gh pr merge -r -d {1})+abort" \
-		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')+abort" \
-		--bind "alt-w:execute(gh pr checks {1} --watch)+abort"
+		--bind "alt-c:execute(gh pr comment {1} --editor)" \
+		--bind "alt-e:execute(gh pr edit {1})" \
+		--bind "alt-x:execute(gh pr close {1})" \
+		--bind "alt-r:execute(gh pr reopen {1})" \
+		--bind "alt-m:execute(gh pr merge -r -d {1})" \
+		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')" \
+		--bind "alt-w:execute(gh pr checks {1} --watch)"
 }

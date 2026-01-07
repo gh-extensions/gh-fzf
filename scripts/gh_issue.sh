@@ -96,12 +96,12 @@ _gh_issue_list() {
 		--footer "$_fzf_icon GitHub Issues" \
 		--bind "enter:execute(gh issue view {1})+abort" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
-		--bind "alt-c:execute(gh issue comment {1} --editor)+abort" \
-		--bind "alt-e:execute(gh issue edit {1})+abort" \
-		--bind "alt-x:execute(gh issue close {1})+abort" \
-		--bind "alt-r:execute(gh issue reopen {1})+abort" \
-		--bind "alt-a:execute(gh issue edit {1} --add-assignee @me)+abort" \
-		--bind "alt-l:execute(gh issue edit {1} --add-label)+abort" \
-		--bind "alt-p:execute(gh issue pin {1})+abort" \
-		--bind "alt-u:execute(gh issue unpin {1})+abort"
+		--bind "alt-c:execute(gh issue comment {1} --editor)" \
+		--bind "alt-e:execute(gh issue edit {1})" \
+		--bind "alt-x:execute(gh issue close {1})" \
+		--bind "alt-r:execute(gh issue reopen {1})" \
+		--bind "alt-a:execute(gh issue edit {1} --add-assignee @me)" \
+		--bind "alt-l:execute(gh issue edit {1} --add-label)" \
+		--bind "alt-p:execute(gh issue pin {1})" \
+		--bind "alt-u:execute(gh issue unpin {1})"
 }
