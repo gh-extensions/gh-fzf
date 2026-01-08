@@ -37,11 +37,11 @@ source "$_gh_repo_source_dir/gh_core.sh"
 #   1 - Failure (no repositories found or not authenticated)
 #
 # KEYBOARD SHORTCUTS:
-#   enter    - View repository details in terminal
-#   ctrl-o   - Open repository in web browser
-#   alt-c    - Clone repository to custom directory (if configured)
-#   alt-f    - Fork repository and clone to custom directory (if configured)
-#   alt-v    - View repository README
+#   ctrl-o    - Open repository in web browser
+#   alt-c     - Clone repository to custom directory (if configured)
+#   alt-f     - Fork repository and clone to custom directory (if configured)
+#   alt-v     - View repository README
+#   alt-enter - View repository details in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -89,10 +89,10 @@ _gh_repo_list() {
 
 	# Transform and present in fzf
 	echo "$repo_list" | fzf "${_fzf_options[@]}" \
-		--with-nth 1.. --accept-nth 1 \
+		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Repositories" \
-		--bind "enter:execute(gh repo view {1})" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
-		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})"
+		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
+		--bind "alt-enter:execute-silent($_gh_repo_source_dir/gh_core.sh repo view {1})"
 }

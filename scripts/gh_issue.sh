@@ -37,16 +37,16 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   1 - Failure (no issues found or not in a GitHub repository)
 #
 # KEYBOARD SHORTCUTS:
-#   enter    - View issue details in terminal
-#   ctrl-o   - Open issue in web browser
-#   alt-c    - Comment on issue using editor
-#   alt-e    - Edit issue details
-#   alt-x    - Close issue
-#   alt-r    - Reopen issue
-#   alt-a    - Assign issue to self (@me)
-#   alt-l    - Add label to issue
-#   alt-p    - Pin issue
-#   alt-u    - Unpin issue
+#   ctrl-o    - Open issue in web browser
+#   alt-c     - Comment on issue using editor
+#   alt-e     - Edit issue details
+#   alt-x     - Close issue
+#   alt-r     - Reopen issue
+#   alt-a     - Assign issue to self (@me)
+#   alt-l     - Add label to issue
+#   alt-p     - Pin issue
+#   alt-u     - Unpin issue
+#   alt-enter - View issue details in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -91,10 +91,8 @@ _gh_issue_list() {
 
 	# Transform and present in fzf
 	echo "$issue_list" | fzf --ansi "${_fzf_options[@]}" \
-		--with-nth 1.. \
-		--accept-nth 1 \
+		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues" \
-		--bind "enter:execute(gh issue view {1})" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})" \
@@ -103,5 +101,6 @@ _gh_issue_list() {
 		--bind "alt-a:execute(gh issue edit {1} --add-assignee @me)" \
 		--bind "alt-l:execute(gh issue edit {1} --add-label)" \
 		--bind "alt-p:execute(gh issue pin {1})" \
-		--bind "alt-u:execute(gh issue unpin {1})"
+		--bind "alt-u:execute(gh issue unpin {1})" \
+		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})"
 }

@@ -37,13 +37,13 @@ source "$_gh_run_source_dir/gh_core.sh"
 #   1 - Failure (no workflow runs found or not in a GitHub repository)
 #
 # KEYBOARD SHORTCUTS:
-#   enter    - View run details in terminal
-#   ctrl-o   - Open run in web browser
-#   alt-x    - Cancel run
-#   alt-r    - Rerun workflow
-#   alt-l    - View run logs in terminal
-#   alt-d    - Download run artifacts
-#   alt-w    - Watch run progress in terminal
+#   ctrl-o    - Open run in web browser
+#   alt-x     - Cancel run
+#   alt-r     - Rerun workflow
+#   alt-l     - View run logs in terminal
+#   alt-d     - Download run artifacts
+#   alt-enter - View run details in terminal
+#   alt-w     - Watch run progress in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -88,13 +88,13 @@ _gh_run_list() {
 
 	# Transform and present in fzf
 	echo "$run_list" | fzf "${_fzf_options[@]}" \
-		--with-nth 1.. --accept-nth -1 \
+		--accept-nth -1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Runs" \
-		--bind "enter:execute(gh run view {-1})+abort" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "alt-x:execute(gh run cancel {-1})" \
 		--bind "alt-r:execute(gh run rerun {-1})" \
-		--bind "alt-l:execute(gh run view --log {-1})" \
 		--bind "alt-d:execute(gh run download {-1})" \
-		--bind "alt-w:execute(gh run watch {-1})"
+		--bind "alt-enter:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1})" \
+		--bind "alt-l:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \
+		--bind "alt-w:execute-silent($_gh_run_source_dir/gh_core.sh run watch {-1})"
 }
