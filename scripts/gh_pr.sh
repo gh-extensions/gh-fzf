@@ -40,11 +40,11 @@ source "$_gh_pr_source_dir/gh_core.sh"
 #   ctrl-o    - Open PR in web browser
 #   ctrl-w    - View PR checks in web browser
 #   alt-c     - Comment on PR using editor
+#   alt-a     - Approve PR with "LGTM" comment
 #   alt-e     - Edit PR details
+#   alt-r     - Mark PR as ready for review
 #   alt-x     - Close PR
-#   alt-r     - Reopen PR
 #   alt-m     - Merge PR (with review and delete branch)
-#   alt-y     - Approve PR with "LGTM" comment
 #   alt-enter - View PR details in terminal
 #   alt-w     - Watch PR checks in terminal
 #   alt-k     - View PR checks in terminal
@@ -81,11 +81,11 @@ _gh_pr_list() {
 		--bind "ctrl-r:reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
+		--bind "alt-a:execute(gh pr review {1} --approve -c 'LGTM')" \
 		--bind "alt-e:execute(gh pr edit {1})" \
+		--bind "alt-r:execute(gh pr ready {1})" \
 		--bind "alt-x:execute(gh pr close {1})" \
-		--bind "alt-r:execute(gh pr reopen {1})" \
 		--bind "alt-m:execute(gh pr merge -r -d {1})" \
-		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')" \
 		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_core.sh pr view {1})" \
 		--bind "alt-w:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
 		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})"
