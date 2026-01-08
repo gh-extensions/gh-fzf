@@ -64,21 +64,8 @@ _gh_run_list() {
 		return $?
 	fi
 
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
-
-	# Set up columns and template
-	local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
-	local run_template
 	local run_list
-
-	run_template=$(cat "$_gh_run_source_dir/../templates/gh_run_list.tmpl")
-
-	# Query GitHub for workflow runs with spinner feedback
-	# shellcheck disable=SC2086
-	run_list=$(gum spin --title "Loading GitHub Runs..." -- \
-		gh run list $_gh_fzf_filtered_args --json "$run_columns" --template "$run_template")
+	run_list=$("$_gh_run_source_dir/gh_run_cmd.sh" "$@")
 
 	# Check if we got any runs
 	if [ -z "$run_list" ]; then
@@ -91,6 +78,7 @@ _gh_run_list() {
 		--accept-nth -1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Runs" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
+		--bind "ctrl-r:reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
 		--bind "alt-x:execute(gh run cancel {-1})" \
 		--bind "alt-r:execute(gh run rerun {-1})" \
 		--bind "alt-d:execute(gh run download {-1})" \

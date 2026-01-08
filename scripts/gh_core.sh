@@ -32,7 +32,7 @@ _gh() {
 	else
 		local resource
 		resource=$(_gh_resource "$1")
-		tmux popup -T " $_fzf_icon GitHub $resource $3 " -w 80% -h 80% -d "$PWD" gh "$@"
+		tmux popup -T " $_fzf_icon GitHub $resource $3 " -S "fg=blue" -w 80% -h 80% -d "$PWD" gh "$@"
 	fi
 }
 
@@ -65,6 +65,66 @@ _gh_resource() {
 		;;
 	esac
 
+}
+
+# _gh_filter_list_args()
+#
+# Filter arguments to remove flags that gh-fzf controls internally
+#
+# DESCRIPTION:
+#   Filters out flags that conflict with gh-fzf's internal usage (--json,
+#   --template) while passing through all other flags to the gh CLI command.
+#   This allows users to pass additional filtering flags like --search,
+#   --state, --author, --label, etc. while preventing conflicts.
+#
+# PARAMETERS:
+#   $@ - Arguments to filter
+#
+# RETURNS:
+#   0 - Always returns success
+#
+# OUTPUT:
+#   Space-separated string of filtered arguments
+#
+# FILTERED FLAGS:
+#   --json, --jq, -q    - gh-fzf controls JSON output format
+#   --template, -t      - gh-fzf controls output template
+#
+# EXAMPLE:
+#   filtered=$(_gh_filter_list_args --state closed --json custom)
+#   # Returns: "--state closed" (--json filtered out)
+#
+_gh_filter_list_args() {
+	local filtered=""
+	local skip_next=false
+
+	for arg in "$@"; do
+		if [ "$skip_next" = true ]; then
+			skip_next=false
+			continue
+		fi
+
+		case "$arg" in
+		--json | --jq | --template)
+			skip_next=true
+			;;
+		-q | -t)
+			skip_next=true
+			;;
+		--json=* | --jq=* | --template=*)
+			# Skip flags with = syntax
+			;;
+		*)
+			if [ -n "$filtered" ]; then
+				filtered="$filtered $arg"
+			else
+				filtered="$arg"
+			fi
+			;;
+		esac
+	done
+
+	echo "$filtered"
 }
 
 # ------------------------------------------------------------------------------

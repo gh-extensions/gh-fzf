@@ -65,21 +65,8 @@ _gh_repo_list() {
 		return $?
 	fi
 
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
-
-	# Set up columns and template
-	local repo_columns="nameWithOwner,description,stargazerCount,primaryLanguage,visibility,isArchived,pushedAt"
-	local repo_template
 	local repo_list
-
-	repo_template=$(cat "$_gh_repo_source_dir/../templates/gh_repo_list.tmpl")
-
-	# Query GitHub for repositories with spinner feedback
-	# shellcheck disable=SC2086
-	repo_list=$(gum spin --title "Loading GitHub Repositories..." -- \
-		gh repo list $_gh_fzf_filtered_args --json "$repo_columns" --template "$repo_template")
+	repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")
 
 	# Check if we got any repositories
 	if [ -z "$repo_list" ]; then
@@ -92,6 +79,7 @@ _gh_repo_list() {
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Repositories" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
+		--bind "ctrl-r:reload($_gh_repo_source_dir/gh_repo_cmd.sh list $*)" \
 		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:execute-silent($_gh_repo_source_dir/gh_core.sh repo view {1})"

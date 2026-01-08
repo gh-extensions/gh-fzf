@@ -64,21 +64,8 @@ _gh_pr_list() {
 		return $?
 	fi
 
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
-
-	# Set up columns and template
-	local pr_columns="number,title,state,headRefName,milestone,updatedAt,labels,additions,deletions,changedFiles,isDraft"
-	local pr_template
 	local pr_list
-
-	pr_template=$(cat "$_gh_pr_source_dir/../templates/gh_pr_list.tmpl")
-
-	# Query GitHub for pull requests with spinner feedback
-	# shellcheck disable=SC2086
-	pr_list=$(gum spin --title "Loading GitHub Pull Requests..." -- \
-		gh pr list $_gh_fzf_filtered_args --json "$pr_columns" --template "$pr_template")
+	pr_list=$("$_gh_pr_source_dir/gh_pr_cmd.sh" "$@")
 
 	# Check if we got any pull requests
 	if [ -z "$pr_list" ]; then
@@ -91,6 +78,7 @@ _gh_pr_list() {
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
+		--bind "ctrl-r:reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
 		--bind "alt-e:execute(gh pr edit {1})" \
@@ -98,7 +86,7 @@ _gh_pr_list() {
 		--bind "alt-r:execute(gh pr reopen {1})" \
 		--bind "alt-m:execute(gh pr merge -r -d {1})" \
 		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')" \
-		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_cor.sh pr view {1})" \
+		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_core.sh pr view {1})" \
 		--bind "alt-w:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
 		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})"
 }

@@ -4,162 +4,163 @@
 
 set -eo pipefail
 
+_gh_repo_cmd_source_dir=$(dirname "${BASH_SOURCE[0]}")
+# shellcheck source=gh_core.sh
+source "$_gh_repo_cmd_source_dir/gh_core.sh"
+
 # gh_repo_cmd.sh - Repository command wrapper for gh-fzf
 #
-# This script provides clone and fork operations with support for custom
-# directories configured via `gh config set fzf.clone_base <path>`.
+# Provides clone and fork functionality, primarily for use with fzf bindings.
+# Handles optional cloning into base directories configured via `gh config set fzf.clone_base <path>`.
 #
-# Usage: gh_repo_cmd.sh <command> <owner/repo>
+# SUBCOMMANDS:
+#   clone [repo] - Clones the specified repository.
+#   fork [repo]  - Forks and clones the specified repository.
 #
-# Commands:
-#   clone - Clone a repository to custom directory
-#   fork  - Fork and clone a repository to custom directory
+# CONFIGURATION:
+#   - fzf.clone_base: Optional base directory for cloning.
+#     Example: gh config set fzf.clone_base ~/Projects
 #
-# Configuration:
-#   gh config set fzf.clone_base ~/Projects
-#
-# Examples:
-#   # Clone to custom directory
-#   gh_repo_cmd.sh clone cli/cli
-#   # With config set: Clones to ~/Projects/github.com/cli/cli
-#   # Without config: Clones to ./cli (current directory)
-#
-#   # Fork and clone to custom directory
-#   gh_repo_cmd.sh fork cli/cli
-#   # With config set: Forks and clones to ~/Projects/github.com/YOUR-USERNAME/cli
-#   # Without config: Forks only (no clone)
+# DIRECT EXECUTION:
+#   When run directly, dispatches to the specified subcommand.
+#   Example: ./gh_repo_cmd.sh clone owner/repo
 
-# Accept command (clone or fork) and repository
-cmd="$1"
-repo="$2"
-
-# Validate arguments
-if [ -z "$cmd" ]; then
-	echo "Error: Command required (clone or fork)" >&2
-	exit 1
-fi
-
-if [ -z "$repo" ]; then
-	echo "Error: Repository name required (e.g., owner/repo)" >&2
-	exit 1
-fi
-
-# _gh_repo_clone - Clone repository to custom directory
+# _gh_repo_clone()
 #
-# Clones a repository using gh CLI with optional custom directory support.
-# If fzf.clone_base is configured, clones to $base/github.com/owner/repo.
-# Otherwise uses default gh behavior (current directory).
+# Clones a GitHub repository, respecting fzf.clone_base if set.
 #
-# Arguments:
-#   $1 - Repository in owner/repo format
+# DESCRIPTION:
+#   Clones the specified repository using `gh repo clone`. If `fzf.clone_base`
+#   is configured in gh settings, it constructs a destination path of
+#   `$base/github.com/owner/repo`. Otherwise, it clones into the current directory.
 #
-# Returns:
-#   0 on success, 1 on error
+# PARAMETERS:
+#   $1 - The repository to clone (e.g., "owner/repo").
 #
-# Configuration:
-#   gh config set fzf.clone_base ~/Projects
+# BEHAVIOR:
+#   - Reads `fzf.clone_base` from gh config.
+#   - If fzf.clone_base is configured, clones to $base/github.com/owner/repo.
+#   - If not, clones to the current directory.
 #
-# Behavior:
-#   - If fzf.clone_base is set: Clone to $base/github.com/owner/repo
-#   - If not set: Clone to current directory (default gh behavior)
+# EXAMPLE:
+#   _gh_repo_clone "owner/repo"
+#   # With fzf.clone_base = ~/Projects -> gh repo clone owner/repo ~/Projects/github.com/owner/repo
+#
+#   _gh_repo_clone "owner/repo"
+#   # Without fzf.clone_base -> gh repo clone owner/repo
+#
 _gh_repo_clone() {
 	local repo="$1"
 	local clone_base
-	local target_dir
-
-	# Read config (suppress errors if not set)
 	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
 
-	# If config not set, use default clone behavior
-	if [ -z "$clone_base" ]; then
-		exec gh repo clone "$repo"
+	if [ -n "$clone_base" ]; then
+		local clone_dir="$clone_base/github.com/$repo"
+		mkdir -p "$(dirname "$clone_dir")"
+		gum log --level info "Cloning $repo to $clone_dir..."
+		gh repo clone "$repo" "$clone_dir"
+	else
+		gum log --level info "Cloning $repo..."
+		gh repo clone "$repo"
 	fi
-
-	# Expand tilde to home directory
-	clone_base="${clone_base/#\~/$HOME}"
-
-	# Construct full clone path
-	target_dir="$clone_base/github.com/$repo"
-
-	# Create parent directories
-	mkdir -p "$(dirname "$target_dir")" || {
-		echo "Error: Cannot create directory $(dirname "$target_dir")" >&2
-		exit 1
-	}
-
-	# Clone to target directory
-	exec gh repo clone "$repo" "$target_dir"
 }
 
-# _gh_repo_fork - Fork and clone repository to custom directory
+# _gh_repo_fork()
 #
-# Forks a repository using gh CLI with optional custom directory support.
-# If fzf.clone_base is configured, forks AND clones to $base/github.com/your-username/repo.
-# Otherwise uses default gh behavior (fork only, no clone).
+# Forks a GitHub repository and clones it, respecting fzf.clone_base.
 #
-# Arguments:
-#   $1 - Repository in owner/repo format
+# DESCRIPTION:
+#   Forks the specified repository using `gh repo fork --clone`.
+#   If fzf.clone_base is configured, it forks AND clones to a destination path of
+#   `$base/github.com/your-username/repo`. Otherwise, it clones to the current directory.
 #
-# Returns:
-#   0 on success, 1 on error
+# PARAMETERS:
+#   $1 - The repository to fork (e.g., "owner/repo").
 #
-# Configuration:
-#   gh config set fzf.clone_base ~/Projects
-#
-# Behavior:
+# BEHAVIOR:
+#   - Reads `fzf.clone_base` from gh config.
+#   - Forks the repository with the `--clone` flag.
 #   - If fzf.clone_base is set: Fork AND clone to $base/github.com/your-username/repo
-#   - If not set: Fork only (default gh behavior, no clone)
+#   - If not, fork and clone to the current directory.
+#
+# EXAMPLE:
+#   _gh_repo_fork "owner/repo"
+#   # With fzf.clone_base = ~/Projects -> gh repo fork owner/repo --clone --fork-name ...
+#
 _gh_repo_fork() {
 	local repo="$1"
+	local owner
+	owner=$(gh config get user)
+	local fork_name
+	fork_name=$(basename "$repo")
 	local clone_base
-	local username
-	local repo_name
-	local target_dir
-
-	# Read config (suppress errors if not set)
 	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
 
-	# If config not set, use default fork behavior (no clone)
-	if [ -z "$clone_base" ]; then
-		exec gh repo fork "$repo"
+	if [ -n "$clone_base" ]; then
+		local clone_dir="$clone_base/github.com/$owner/$fork_name"
+		mkdir -p "$(dirname "$clone_dir")"
+		gum log --level info "Forking and cloning $repo to $clone_dir..."
+		gh repo fork "$repo" --clone --fork-name "$fork_name"
+		# Move the cloned repo to the correct directory
+		mv "$fork_name" "$clone_dir"
+	else
+		gum log --level info "Forking and cloning $repo..."
+		gh repo fork "$repo" --clone
 	fi
-
-	# Get current GitHub username for fork path
-	username=$(gh api user -q .login 2>/dev/null)
-	if [ -z "$username" ]; then
-		echo "Error: Cannot determine GitHub username" >&2
-		exit 1
-	fi
-
-	# Extract repo name (without owner)
-	repo_name="${repo##*/}"
-
-	# Expand tilde to home directory
-	clone_base="${clone_base/#\~/$HOME}"
-
-	# Construct full clone path for the FORK (uses YOUR username)
-	target_dir="$clone_base/github.com/$username/$repo_name"
-
-	# Create parent directories
-	mkdir -p "$(dirname "$target_dir")" || {
-		echo "Error: Cannot create directory $(dirname "$target_dir")" >&2
-		exit 1
-	}
-
-	# Fork and clone to target directory
-	exec gh repo fork "$repo" --clone -- "$target_dir"
 }
 
-# Dispatch to appropriate function based on command
-case "$cmd" in
-clone)
-	_gh_repo_clone "$repo"
-	;;
-fork)
-	_gh_repo_fork "$repo"
-	;;
-*)
-	echo "Error: Unknown command '$cmd'. Use 'clone' or 'fork'" >&2
-	exit 1
-	;;
-esac
+# _gh_repo_list_cmd()
+#
+# List GitHub repositories
+#
+# DESCRIPTION:
+#   Fetches a list of GitHub repositories with detailed information.
+#
+# PARAMETERS:
+#   $@ - Optional flags to pass to gh repo list
+#
+# RETURNS:
+#   A formatted string of repositories, one per line.
+#
+_gh_repo_list_cmd() {
+    local _gh_fzf_filtered_args
+    # Filter out arguments that gh-fzf controls
+    _gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+
+    # Set up columns and template
+    local repo_columns="nameWithOwner,description,stargazerCount,primaryLanguage,visibility,isArchived,pushedAt"
+    local repo_template
+
+    repo_template=$(cat "$_gh_repo_cmd_source_dir/../templates/gh_repo_list.tmpl")
+
+    # Query GitHub for repositories with spinner feedback
+    # shellcheck disable=SC2086
+    gum spin --title "Loading GitHub Repositories..." -- \
+        gh repo list $_gh_fzf_filtered_args --json "$repo_columns" --template "$repo_template"
+}
+
+
+# Main dispatcher for direct execution
+main() {
+	local subcommand="$1"
+	shift
+	case "$subcommand" in
+	clone)
+		_gh_repo_clone "$@"
+		;;
+	fork)
+		_gh_repo_fork "$@"
+		;;
+	list)
+		_gh_repo_list_cmd "$@"
+		;;
+	*)
+		echo "Usage: $0 {clone|fork|list} [repo]"
+		exit 1
+		;;
+	esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	main "$@"
+fi

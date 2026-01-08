@@ -67,21 +67,8 @@ _gh_issue_list() {
 		return $?
 	fi
 
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
-
-	# Set up columns and template
-	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
-	local issue_template
 	local issue_list
-
-	issue_template=$(cat "$_gh_issue_source_dir/../templates/gh_issue_list.tmpl")
-
-	# Query GitHub for issues with spinner feedback
-	# shellcheck disable=SC2086
-	issue_list=$(gum spin --title "Loading GitHub Issues..." -- \
-		gh issue list $_gh_fzf_filtered_args --json "$issue_columns" --template "$issue_template")
+	issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
 
 	# Check if we got any issues
 	if [ -z "$issue_list" ]; then
@@ -94,6 +81,7 @@ _gh_issue_list() {
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
+		--bind "ctrl-r:reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})" \
 		--bind "alt-x:execute(gh issue close {1})" \
