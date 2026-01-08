@@ -39,7 +39,6 @@ source "$_gh_run_source_dir/gh_core.sh"
 # KEYBOARD SHORTCUTS:
 #   enter    - View run details in terminal
 #   ctrl-o   - Open run in web browser
-#   ctrl-w   - View run in web browser (same as ctrl-o)
 #   alt-x    - Cancel run
 #   alt-r    - Rerun workflow
 #   alt-l    - View run logs in terminal
@@ -93,7 +92,6 @@ _gh_run_list() {
 		--footer "$_fzf_icon GitHub Runs" \
 		--bind "enter:execute(gh run view {-1})+abort" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
-		--bind "ctrl-w:execute-silent(gh run view {-1} --web)" \
 		--bind "alt-x:execute(gh run cancel {-1})" \
 		--bind "alt-r:execute(gh run rerun {-1})" \
 		--bind "alt-l:execute(gh run view --log {-1})" \

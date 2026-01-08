@@ -94,7 +94,7 @@ _gh_issue_list() {
 		--with-nth 1.. \
 		--accept-nth 1 \
 		--footer "$_fzf_icon GitHub Issues" \
-		--bind "enter:execute(gh issue view {1})+abort" \
+		--bind "enter:execute(gh issue view {1})" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})" \

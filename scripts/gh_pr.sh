@@ -89,7 +89,7 @@ _gh_pr_list() {
 	echo "$pr_list" | fzf "${_fzf_options[@]}" \
 		--with-nth 1.. --accept-nth 1 \
 		--footer "$_fzf_icon GitHub Pull Requests" \
-		--bind "enter:execute(gh pr view {1})+abort" \
+		--bind "enter:execute(gh pr view {1})" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
@@ -98,5 +98,6 @@ _gh_pr_list() {
 		--bind "alt-r:execute(gh pr reopen {1})" \
 		--bind "alt-m:execute(gh pr merge -r -d {1})" \
 		--bind "alt-y:execute(gh pr review {1} --approve -c 'LGTM')" \
+		--bind "alt-k:execute(gh pr checks {1})" \
 		--bind "alt-w:execute(gh pr checks {1} --watch)"
 }
