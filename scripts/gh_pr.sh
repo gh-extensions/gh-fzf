@@ -81,11 +81,11 @@ _gh_pr_list() {
 		--bind "ctrl-r:reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
-		--bind "alt-a:execute(gh pr review {1} --approve -c 'LGTM')" \
-		--bind "alt-e:execute(gh pr edit {1})" \
-		--bind "alt-r:execute(gh pr ready {1})" \
-		--bind "alt-x:execute(gh pr close {1})" \
-		--bind "alt-m:execute(gh pr merge -r -d {1})" \
+		--bind "alt-a:execute-silent(gh pr review {1} --approve -c 'LGTM'),reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
+		--bind "alt-e:execute-silent(gh pr edit {1}),reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
+		--bind "alt-r:execute-silent(gh pr ready {1}),reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
+		--bind "alt-x:execute-silent(gh pr close {1}),reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
+		--bind "alt-m:execute-silent(gh pr merge -r -d {1}),reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_core.sh pr view {1})" \
 		--bind "alt-w:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
 		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})"

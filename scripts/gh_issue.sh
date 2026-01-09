@@ -84,11 +84,11 @@ _gh_issue_list() {
 		--bind "ctrl-r:reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})" \
-		--bind "alt-x:execute(gh issue close {1})" \
-		--bind "alt-r:execute(gh issue reopen {1})" \
-		--bind "alt-a:execute(gh issue edit {1} --add-assignee @me)" \
-		--bind "alt-l:execute(gh issue edit {1} --add-label)" \
-		--bind "alt-p:execute(gh issue pin {1})" \
-		--bind "alt-u:execute(gh issue unpin {1})" \
+		--bind "alt-x:execute-silent(gh issue close {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-r:execute-silent(gh issue reopen {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-l:execute-silent(gh issue edit {1} --add-label),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-p:execute-silent(gh issue pin {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-u:execute-silent(gh issue unpin {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})"
 }
