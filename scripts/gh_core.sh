@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+# Icon used in tmux popup titles
 _fzf_icon=" "
-
+# Separator used in fzf display templates
+_fzf_split="·"
+# Default fzf options for gh-fzf
 _fzf_options=(
 	--ansi
 	--border='none'
@@ -13,6 +16,22 @@ _fzf_options=(
 	--color='footer:blue'
 	--layout='reverse-list'
 )
+
+# _gh_get_repo: Get the current repository in owner/repo format.
+#
+# Returns the repository name in owner/repo format (e.g., gh-extensions/gh-fzf)
+# by querying the GitHub CLI. Returns an empty string if not in a repository
+# or if the command fails.
+#
+# Returns:
+#   The repository name in owner/repo format, or empty string on error.
+#
+# Example:
+#   repo=$(_gh_get_repo)
+#   # Returns: "gh-extensions/gh-fzf"
+_gh_get_repo() {
+	gh repo view --json nameWithOwner --template "{{.nameWithOwner}}" 2>/dev/null || echo ""
+}
 
 # _gh: A wrapper function for the `gh` CLI tool.
 #

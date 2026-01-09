@@ -65,6 +65,9 @@ _gh_run_list() {
 	fi
 
 	local run_list
+	local run_repo
+
+	run_repo=$(_gh_get_repo)
 	run_list=$("$_gh_run_source_dir/gh_run_cmd.sh" "$@")
 
 	# Check if we got any runs
@@ -76,11 +79,11 @@ _gh_run_list() {
 	# Transform and present in fzf
 	echo "$run_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth -1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Runs" \
+		--footer "$_fzf_icon GitHub Runs $_fzf_split $run_repo" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-r:reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
-		--bind "alt-x:execute-silent(gh run cancel {-1}),reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
-		--bind "alt-r:execute-silent(gh run rerun {-1}),reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
+		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
+		--bind "alt-r:execute-silent(gh run rerun {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
 		--bind "alt-d:execute-silent(gh run download {-1})" \
 		--bind "alt-enter:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1})" \
 		--bind "alt-l:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \

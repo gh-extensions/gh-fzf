@@ -68,6 +68,9 @@ _gh_issue_list() {
 	fi
 
 	local issue_list
+	local issue_repo
+
+	issue_repo=$(_gh_get_repo)
 	issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
 
 	# Check if we got any issues
@@ -79,16 +82,16 @@ _gh_issue_list() {
 	# Transform and present in fzf
 	echo "$issue_list" | fzf --ansi "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Issues" \
+		--footer "$_fzf_icon GitHub Issues $_fzf_split $issue_repo" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})" \
-		--bind "alt-x:execute-silent(gh issue close {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-r:execute-silent(gh issue reopen {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-l:execute-silent(gh issue edit {1} --add-label),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-p:execute-silent(gh issue pin {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-u:execute-silent(gh issue unpin {1}),reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-x:execute-silent(gh issue close {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-l:execute-silent(gh issue edit {1} --add-label)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-p:execute-silent(gh issue pin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})"
 }
