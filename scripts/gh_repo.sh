@@ -65,6 +65,9 @@ _gh_repo_list() {
 		return $?
 	fi
 
+	local repo
+	repo="$1"
+
 	local repo_list
 	repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")
 
@@ -77,7 +80,7 @@ _gh_repo_list() {
 	# Transform and present in fzf
 	echo "$repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Repositories" \
+		--footer "$_fzf_icon GitHub Repositories $_fzf_split $repo" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_repo_source_dir/gh_repo_cmd.sh list $*)" \
 		--bind "alt-c:execute-silent($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
