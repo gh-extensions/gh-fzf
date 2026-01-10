@@ -4,18 +4,42 @@
 _fzf_icon=" "
 # Separator used in fzf display templates
 _fzf_split="·"
-# Default fzf options for gh-fzf
-_fzf_options=(
-	--ansi
-	--border='none'
-	--header-lines='1'
-	--header-border='sharp'
-	--footer-border='sharp'
-	--input-border='sharp'
-	--color='header:blue'
-	--color='footer:blue'
-	--layout='reverse-list'
-)
+
+# _gh_fzf_options()
+#
+# Build fzf options array with user-provided flags
+#
+# DESCRIPTION:
+#   Constructs the fzf options array by combining default options with
+#   user-provided flags from GH_FZF_FLAGS environment variable. This function
+#   must be called at runtime (not at source time) to pick up flags set by main().
+#
+# PARAMETERS:
+#   None
+#
+# RETURNS:
+#   Sets _fzf_options array with merged options
+#
+_gh_fzf_options() {
+	# Default fzf options for gh-fzf
+	_fzf_options=(
+		--ansi
+		--header-lines='1'
+		--header-border='sharp'
+		--footer-border='sharp'
+		--input-border='sharp'
+		--color='header:blue'
+		--color='footer:blue'
+		--layout='reverse-list'
+	)
+
+	# Add user-provided fzf flags
+	if [[ -n "$GH_FZF_FLAGS" ]]; then
+		# Convert space-separated string back to array and append
+		read -ra user_flags <<<"$GH_FZF_FLAGS"
+		_fzf_options+=("${user_flags[@]}")
+	fi
+}
 
 # _gh_get_repo: Get the current repository in owner/repo format.
 #

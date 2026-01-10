@@ -39,6 +39,9 @@ source "$_gh_search_source_dir/gh_core.sh"
 _gh_search_repos_list() {
 	local search_query="${1:-}"
 
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
+
 	# Note: Using --disabled to disable fzf's fuzzy matching, allowing us to
 	# pass the query directly to GitHub's search API
 	echo "" | fzf "${_fzf_options[@]}" \
@@ -74,6 +77,9 @@ _gh_search_repos_list() {
 _gh_search_issues_list() {
 	local search_query="${1:-}"
 
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
+
 	echo "" | fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
@@ -106,6 +112,9 @@ _gh_search_issues_list() {
 #
 _gh_search_prs_list() {
 	local search_query="${1:-}"
+
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
 
 	echo "" | fzf "${_fzf_options[@]}" \
 		--disabled \

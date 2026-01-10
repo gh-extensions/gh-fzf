@@ -48,7 +48,21 @@ _show_root_help() {
 gh-fzf - Interactive fuzzy finder for GitHub CLI
 
 USAGE:
-    gh-fzf <command> [flags]
+    gh-fzf [fzf-flags] <command> [command-flags]
+
+FZF FLAGS (specify before command):
+    Any fzf flags can be passed before the command. These are passed directly
+    to fzf. Common examples:
+
+    --tmux [position]         Open in tmux popup (default: center,50%,50%)
+                              Position format: [position][,width[,height]]
+                              Examples: "80%,80%", "center,50%,50%", "bottom"
+    --height <n>              Set height (e.g., --height 50%)
+    --border <style>          Set border style (e.g., --border rounded)
+    --preview-window <opts>   Configure preview window
+    --reverse                 Reverse layout
+
+    See 'man fzf' for all available fzf options.
 
 COMMANDS:
     pr          Browse and interact with GitHub pull requests
@@ -57,7 +71,7 @@ COMMANDS:
     repo        Browse and interact with GitHub repositories
     search      Search across GitHub (repos, issues, prs)
 
-FLAGS:
+COMMAND FLAGS (specify after command):
     Most flags are passed through to the underlying gh command (gh pr list,
     gh issue list, gh run list). Common useful flags include:
 
@@ -76,6 +90,7 @@ FLAGS:
     --template, -t            Output template (gh-fzf manages this)
 
 EXAMPLES:
+    # Basic usage
     gh-fzf pr                           # Browse pull requests interactively
     gh-fzf pr --state closed            # Browse closed pull requests
     gh-fzf pr --author @me --state all  # Browse all your PRs
@@ -100,6 +115,17 @@ EXAMPLES:
     gh-fzf search repos                 # Interactive repository search
     gh-fzf search issues "bug"          # Search issues (with initial query)
     gh-fzf search prs "fix"             # Search pull requests
+
+    # With fzf flags (tmux popup)
+    gh-fzf --tmux pr                    # Open PRs in tmux popup (default size)
+    gh-fzf --tmux "80%,80%" pr          # Open PRs in tmux popup (80% size)
+    gh-fzf --tmux center,50% issue      # Center popup, 50% size
+    gh-fzf --tmux bottom search repos   # Bottom popup for search
+
+    # With other fzf flags
+    gh-fzf --height 20 --border rounded pr          # Custom height and border
+    gh-fzf --reverse --height 100% issue            # Reverse layout, full height
+    gh-fzf --preview-window right:50% run           # Custom preview window
 EOF
 }
 
@@ -108,24 +134,28 @@ EOF
 # Main entry point for gh-fzf
 #
 # DESCRIPTION:
-#   Processes command line arguments and dispatches to appropriate sub-commands.
-#   Handles command routing for pr, run, and issue commands, as well as help
-#   requests and error cases. This function serves as the central dispatcher
-#   for all gh-fzf functionality.
+#   Processes command line arguments including global flags, and dispatches to
+#   appropriate sub-commands. Handles global --tmux flag for opening fzf in tmux
+#   popups, as well as command routing for pr, run, issue, repo, and search commands.
+#
+# GLOBAL FLAGS (before command):
+#   --tmux <position>  - Open fzf in tmux popup with specified position
 #
 # PARAMETERS:
-#   $1 - Command to execute (pr|run|issue|help|--help|-h)
-#        Optional - if omitted, shows help
+#   $@ - Global flags, command, and command-specific flags
+#        Example: --tmux "80%,80%" pr --state closed
 #
 # RETURNS:
 #   0   - Success (command executed successfully)
-#   1   - Error (unknown command)
+#   1   - Error (unknown command or missing --tmux value)
 #   Exit code from sub-command if applicable
 #
 # COMMANDS:
 #   pr      - Launch interactive PR browser
 #   run     - Launch interactive workflow run browser
 #   issue   - Launch interactive issue browser
+#   repo    - Launch interactive repository browser
+#   search  - Launch interactive search (repos, issues, prs)
 #   help    - Show help information
 #   --help  - Show help information
 #   -h      - Show help information
@@ -133,38 +163,69 @@ EOF
 #
 # ERROR HANDLING:
 #   - Unknown commands trigger an error message with available commands
+#   - Missing --tmux value triggers an error
 #   - Suggests running 'gh fzf --help' for detailed usage
 #
 # DEPENDENCIES:
 #   - gum (for error logging)
-#   - Sub-command functions (_gh_pr_list, _gh_run_list, _gh_issue_list, _gh_repo_list)
+#   - Sub-command functions (_gh_pr_list, _gh_run_list, _gh_issue_list, _gh_repo_list, _gh_search_list)
 #
 # EXAMPLE:
-#   main "pr"     # Launch PR browser
-#   main "help"   # Show help
-#   main "foo"    # Error: unknown command
+#   main "pr"                          # Launch PR browser
+#   main "--tmux" "80%,80%" "pr"       # Launch PR browser in tmux popup
+#   main "--tmux=center" "issue"       # Launch issue browser in centered tmux popup
+#   main "help"                        # Show help
 #
 main() {
-	local command="$1"
-	shift # Remove command from arguments, leaving optional flags
+	local fzf_flags=()
+	local command=""
+	local command_args=()
 
+	# Parse arguments: everything before command = fzf flags, everything after = command args
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+		--help | -h | help)
+			_show_root_help
+			exit 0
+			;;
+		pr | run | issue | repo | search)
+			# Found the command, everything after this is command args
+			command="$1"
+			shift
+			command_args=("$@")
+			break
+			;;
+		*)
+			# Before command, collect as fzf flags
+			fzf_flags+=("$1")
+			shift
+			;;
+		esac
+	done
+
+	# Export fzf flags for gh_core.sh to use
+	if [[ ${#fzf_flags[@]} -gt 0 ]]; then
+		export GH_FZF_FLAGS="${fzf_flags[*]}"
+	fi
+
+	# Dispatch to command with remaining args
 	case $command in
 	pr)
-		_gh_pr_list "$@"
+		_gh_pr_list "${command_args[@]}"
 		;;
 	run)
-		_gh_run_list "$@"
+		_gh_run_list "${command_args[@]}"
 		;;
 	issue)
-		_gh_issue_list "$@"
+		_gh_issue_list "${command_args[@]}"
 		;;
 	repo)
-		_gh_repo_list "$@"
+		_gh_repo_list "${command_args[@]}"
 		;;
 	search)
-		_gh_search_list "$@"
+		_gh_search_list "${command_args[@]}"
 		;;
-	--help | -h | help | "")
+	"")
 		_show_root_help
 		;;
 	*)

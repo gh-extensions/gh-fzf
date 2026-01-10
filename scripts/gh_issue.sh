@@ -79,8 +79,11 @@ _gh_issue_list() {
 		return 1
 	fi
 
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
+
 	# Transform and present in fzf
-	echo "$issue_list" | fzf --ansi "${_fzf_options[@]}" \
+	echo "$issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $issue_repo" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \

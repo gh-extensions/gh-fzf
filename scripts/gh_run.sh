@@ -76,6 +76,9 @@ _gh_run_list() {
 		return 1
 	fi
 
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
+
 	# Transform and present in fzf
 	echo "$run_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth -1 --with-nth 1.. \

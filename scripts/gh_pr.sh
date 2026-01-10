@@ -76,6 +76,9 @@ _gh_pr_list() {
 		return 1
 	fi
 
+	# Build fzf options with user-provided flags
+	_gh_fzf_options
+
 	# Transform and present in fzf
 	echo "$pr_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
