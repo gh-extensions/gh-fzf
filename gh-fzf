@@ -11,6 +11,7 @@ source "$_gh_fzf_source_dir/scripts/gh_pr.sh"
 source "$_gh_fzf_source_dir/scripts/gh_issue.sh"
 source "$_gh_fzf_source_dir/scripts/gh_run.sh"
 source "$_gh_fzf_source_dir/scripts/gh_repo.sh"
+source "$_gh_fzf_source_dir/scripts/gh_search.sh"
 # _show_root_help()
 #
 # Display help information for gh-fzf
@@ -54,6 +55,7 @@ COMMANDS:
     run         Browse and interact with GitHub workflow runs
     issue       Browse and interact with GitHub issues
     repo        Browse and interact with GitHub repositories
+    search      Search across GitHub (repos, issues, prs)
 
 FLAGS:
     Most flags are passed through to the underlying gh command (gh pr list,
@@ -94,6 +96,10 @@ EXAMPLES:
     gh-fzf repo octocat                 # Browse octocat's repositories
     gh-fzf repo --language Go           # Browse Go repositories
     gh-fzf repo octocat --limit 50      # Browse octocat's repos (show 50)
+
+    gh-fzf search repos                 # Interactive repository search
+    gh-fzf search issues "bug"          # Search issues (with initial query)
+    gh-fzf search prs "fix"             # Search pull requests
 EOF
 }
 
@@ -155,12 +161,15 @@ main() {
 	repo)
 		_gh_repo_list "$@"
 		;;
+	search)
+		_gh_search_list "$@"
+		;;
 	--help | -h | help | "")
 		_show_root_help
 		;;
 	*)
 		gum log --level error "Unknown command '$command'"
-		gum log --level info "Available commands: pr, run, issue, repo"
+		gum log --level info "Available commands: pr, run, issue, repo, search"
 		gum log --level info "Run 'gh fzf --help' for detailed usage information"
 		exit 1
 		;;

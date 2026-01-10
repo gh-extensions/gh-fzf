@@ -1,0 +1,30 @@
+{{- $headerColor := "blue+b" -}}
+{{- tablerow
+    ("REPOSITORY" | autocolor $headerColor)
+    ("DESCRIPTION" | autocolor $headerColor)
+    ("STARS" | autocolor $headerColor)
+    ("LANGUAGE" | autocolor $headerColor)
+    ("UPDATED" | autocolor $headerColor)
+-}}
+
+{{- range . -}}
+    {{- $desc := "" -}}
+    {{- if ne .description nil -}}
+        {{- $desc = .description -}}
+    {{- end -}}
+
+    {{- $lang := "" -}}
+    {{- if ne .language nil -}}
+        {{- $lang = .language -}}
+    {{- end -}}
+
+    {{- $repoColor := "green" -}}
+
+    {{- tablerow
+        (.fullName | autocolor $repoColor)
+        (truncate 50 ($desc | autocolor "white+d"))
+        (printf "%7.0f" .stargazersCount | autocolor "white+h")
+        (printf "%-12s" $lang | autocolor "cyan")
+        ((timeago .updatedAt) | autocolor "white+d")
+    -}}
+{{- end -}}

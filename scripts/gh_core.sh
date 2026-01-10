@@ -82,6 +82,9 @@ _gh_resource() {
 	run)
 		echo "Run"
 		;;
+	search)
+		echo "Search"
+		;;
 	esac
 
 }

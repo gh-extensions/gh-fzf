@@ -1,0 +1,34 @@
+{{- $headerColor := "blue+b" -}}
+{{- tablerow
+    ("PR" | autocolor $headerColor)
+    ("REPOSITORY" | autocolor $headerColor)
+    ("TITLE" | autocolor $headerColor)
+    ("AUTHOR" | autocolor $headerColor)
+    ("STATE" | autocolor $headerColor)
+    ("CREATED" | autocolor $headerColor)
+-}}
+
+{{- range . -}}
+    {{- $stateColor := "green" -}}
+    {{- if eq .isDraft true -}}
+        {{- $stateColor = "white+dh" -}}
+    {{- else if eq .state "CLOSED" -}}
+        {{- $stateColor = "red" -}}
+    {{- else if eq .state "MERGED" -}}
+        {{- $stateColor = "magenta" -}}
+    {{- end -}}
+
+    {{- $stateDisplay := .state -}}
+    {{- if eq .isDraft true -}}
+        {{- $stateDisplay = "DRAFT" -}}
+    {{- end -}}
+
+    {{- tablerow
+        (printf "#%v" .number | autocolor $stateColor)
+        (.repository.nameWithOwner | autocolor "cyan")
+        (truncate 80 (.title | autocolor "white+h"))
+        (.author.login | autocolor "white+d")
+        ($stateDisplay | autocolor $stateColor)
+        ((timeago .createdAt) | autocolor "white+d")
+    -}}
+{{- end -}}

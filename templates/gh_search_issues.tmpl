@@ -1,0 +1,25 @@
+{{- $headerColor := "blue+b" -}}
+{{- tablerow
+    ("NUMBER" | autocolor $headerColor)
+    ("REPOSITORY" | autocolor $headerColor)
+    ("TITLE" | autocolor $headerColor)
+    ("AUTHOR" | autocolor $headerColor)
+    ("STATE" | autocolor $headerColor)
+    ("CREATED" | autocolor $headerColor)
+-}}
+
+{{- range . -}}
+    {{- $stateColor := "green" -}}
+    {{- if eq .state "CLOSED" -}}
+        {{- $stateColor = "red" -}}
+    {{- end -}}
+
+    {{- tablerow
+        (printf "#%v" .number | autocolor $stateColor)
+        (.repository.nameWithOwner | autocolor "cyan")
+        (truncate 80 (.title | autocolor "white+h"))
+        (.author.login | autocolor "white+d")
+        (.state | autocolor $stateColor)
+        ((timeago .createdAt) | autocolor "white+d")
+    -}}
+{{- end -}}
