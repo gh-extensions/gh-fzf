@@ -205,7 +205,8 @@ main() {
 
 	# Export fzf flags for gh_core.sh to use
 	if [[ ${#fzf_flags[@]} -gt 0 ]]; then
-		export GH_FZF_FLAGS="${fzf_flags[*]}"
+		# Use printf %q to properly quote each element for safe eval
+		export GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
 	fi
 
 	# Dispatch to command with remaining args
