@@ -80,7 +80,7 @@ _gh_issue_list() {
 	fi
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "ISSUE"
 
 	# Transform and present in fzf
 	echo "$issue_list" | fzf "${_fzf_options[@]}" \

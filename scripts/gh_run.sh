@@ -77,7 +77,7 @@ _gh_run_list() {
 	fi
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "RUN"
 
 	# Transform and present in fzf
 	echo "$run_list" | fzf "${_fzf_options[@]}" \

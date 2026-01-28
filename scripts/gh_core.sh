@@ -11,16 +11,35 @@ _fzf_split="·"
 #
 # DESCRIPTION:
 #   Constructs the fzf options array by combining default options with
-#   user-provided flags from GH_FZF_FLAGS environment variable. This function
-#   must be called at runtime (not at source time) to pick up flags set by main().
+#   user-provided flags from GH_FZF_FLAGS environment variable and per-command
+#   GH_FZF_<COMMAND>_OPTS environment variables. This function must be called
+#   at runtime (not at source time) to pick up flags set by main().
+#
+#   Precedence order (last wins):
+#   1. Default options (defined in code)
+#   2. GH_FZF_FLAGS (global, set via CLI)
+#   3. GH_FZF_<COMMAND>_OPTS (per-command, highest priority)
 #
 # PARAMETERS:
-#   None
+#   $1 - Optional command identifier (e.g., "PR", "ISSUE", "RUN", "REPO",
+#        "SEARCH_REPO", "SEARCH_ISSUE", "SEARCH_PR")
+#        Used to lookup per-command environment variable GH_FZF_${command_id}_OPTS
 #
 # RETURNS:
 #   Sets _fzf_options array with merged options
 #
+# ENVIRONMENT:
+#   GH_FZF_FLAGS - Space-separated string of user fzf flags (set by main entry point)
+#   GH_FZF_<COMMAND>_OPTS - Per-command fzf options (e.g., GH_FZF_PR_OPTS)
+#
+# EXAMPLE:
+#   # Call this before using fzf in any service function
+#   _gh_fzf_options "PR"
+#   echo "$data" | fzf "${_fzf_options[@]}" ...
+#
 _gh_fzf_options() {
+	local command_id="${1:-}"
+
 	# Default fzf options for gh-fzf
 	_fzf_options=(
 		--ansi
@@ -33,12 +52,31 @@ _gh_fzf_options() {
 		--layout='reverse-list'
 	)
 
-	# Add user-provided fzf flags
+	# Add user-provided fzf flags (global)
 	if [[ -n "$GH_FZF_FLAGS" ]]; then
 		# Safely parse quoted string back to array
+		# Use eval with proper quoting to handle complex flags
 		local user_flags=()
-		eval "user_flags=($GH_FZF_FLAGS)"
+		eval "user_flags=($GH_FZF_FLAGS)" 2>/dev/null || {
+			# Fallback to simple word splitting if eval fails
+			read -ra user_flags <<< "$GH_FZF_FLAGS"
+		}
 		_fzf_options+=("${user_flags[@]}")
+	fi
+
+	# Add per-command fzf options (highest precedence)
+	if [[ -n "$command_id" ]]; then
+		local var_name="GH_FZF_${command_id}_OPTS"
+		local cmd_flags="${!var_name}"
+		if [[ -n "$cmd_flags" ]]; then
+			local cmd_flags_array=()
+			# Use eval with proper quoting to handle complex flags
+			eval "cmd_flags_array=($cmd_flags)" 2>/dev/null || {
+				# Fallback to simple word splitting if eval fails
+				read -ra cmd_flags_array <<< "$cmd_flags"
+			}
+			_fzf_options+=("${cmd_flags_array[@]}")
+		fi
 	fi
 }
 

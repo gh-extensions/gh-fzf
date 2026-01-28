@@ -40,7 +40,7 @@ _gh_search_repos_list() {
 	local search_query="${1:-}"
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "SEARCH_REPO"
 
 	# Note: Using --disabled to disable fzf's fuzzy matching, allowing us to
 	# pass the query directly to GitHub's search API
@@ -78,7 +78,7 @@ _gh_search_issues_list() {
 	local search_query="${1:-}"
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "SEARCH_ISSUE"
 
 	echo "" | fzf "${_fzf_options[@]}" \
 		--disabled \
@@ -114,7 +114,7 @@ _gh_search_prs_list() {
 	local search_query="${1:-}"
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "SEARCH_PR"
 
 	echo "" | fzf "${_fzf_options[@]}" \
 		--disabled \

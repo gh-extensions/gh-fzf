@@ -64,6 +64,46 @@ FZF FLAGS (specify before command):
 
     See 'man fzf' for all available fzf options.
 
+ENVIRONMENT VARIABLES:
+    Per-command fzf configuration (highest precedence):
+
+    GH_FZF_<COMMAND>_OPTS
+        Override fzf options for specific commands.
+
+        Available variables:
+            GH_FZF_PR_OPTS              Pull requests
+            GH_FZF_ISSUE_OPTS           Issues
+            GH_FZF_RUN_OPTS             Workflow runs
+            GH_FZF_REPO_OPTS            Repositories
+            GH_FZF_SEARCH_REPO_OPTS     Search repositories
+            GH_FZF_SEARCH_ISSUE_OPTS    Search issues
+            GH_FZF_SEARCH_PR_OPTS       Search pull requests
+
+    Global fzf configuration (lower precedence):
+
+    GH_FZF_FLAGS
+        Global fzf flags (set automatically from CLI --flags)
+
+    Precedence: Defaults < GH_FZF_FLAGS < GH_FZF_<COMMAND>_OPTS
+
+    Examples:
+        # Different heights per command
+        export GH_FZF_PR_OPTS="--height 90%"
+        export GH_FZF_ISSUE_OPTS="--height 50%"
+
+        # Custom preview windows
+        export GH_FZF_PR_OPTS="--preview 'gh pr view {1}' --preview-window right:50%"
+
+        # Multi-select for batch operations
+        export GH_FZF_ISSUE_OPTS="--multi"
+
+        # Different layouts per command
+        export GH_FZF_RUN_OPTS="--layout=reverse"
+        export GH_FZF_REPO_OPTS="--layout=default --preview-window=bottom:40%"
+
+        # Custom search experience
+        export GH_FZF_SEARCH_REPO_OPTS="--height 80% --border rounded"
+
 COMMANDS:
     pr          Browse and interact with GitHub pull requests
     run         Browse and interact with GitHub workflow runs

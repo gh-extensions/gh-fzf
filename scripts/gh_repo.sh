@@ -78,7 +78,7 @@ _gh_repo_list() {
 	fi
 
 	# Build fzf options with user-provided flags
-	_gh_fzf_options
+	_gh_fzf_options "REPO"
 
 	# Transform and present in fzf
 	echo "$repo_list" | fzf "${_fzf_options[@]}" \
