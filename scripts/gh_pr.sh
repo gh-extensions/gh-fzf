@@ -38,6 +38,7 @@ source "$_gh_pr_source_dir/gh_core.sh"
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open PR in web browser
+#   ctrl-r    - Reload PR list with current filters
 #   ctrl-w    - View PR checks in web browser
 #   alt-c     - Comment on PR using editor
 #   alt-a     - Approve PR with "LGTM" comment

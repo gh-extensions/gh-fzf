@@ -38,6 +38,7 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open issue in web browser
+#   ctrl-r    - Reload issue list with current filters
 #   alt-c     - Comment on issue using editor
 #   alt-e     - Edit issue details
 #   alt-x     - Close issue

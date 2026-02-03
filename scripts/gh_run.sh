@@ -38,6 +38,7 @@ source "$_gh_run_source_dir/gh_core.sh"
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open run in web browser
+#   ctrl-r    - Reload run list with current filters
 #   alt-x     - Cancel run
 #   alt-r     - Rerun workflow
 #   alt-l     - View run logs in terminal

@@ -38,9 +38,9 @@ source "$_gh_repo_source_dir/gh_core.sh"
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open repository in web browser
+#   ctrl-r    - Reload repository list with current filters
 #   alt-c     - Clone repository to custom directory (if configured)
 #   alt-f     - Fork repository and clone to custom directory (if configured)
-#   alt-v     - View repository README
 #   alt-enter - View repository details in terminal
 #
 # DEPENDENCIES:
