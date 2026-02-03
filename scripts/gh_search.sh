@@ -33,8 +33,8 @@ source "$_gh_search_source_dir/gh_core.sh"
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open repository in web browser
-#   alt-c     - Clone repository
 #   ctrl-r    - Manual reload with current query
+#   alt-c     - Clone repository
 #
 _gh_search_repos_list() {
 	local search_query="${1:-}"
@@ -50,8 +50,8 @@ _gh_search_repos_list() {
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "alt-c:execute-silent(gh repo clone {1})" \
-		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})"
+		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
+		--bind "alt-c:execute-silent(gh repo clone {1})"
 }
 
 # _gh_search_issues_list()
@@ -71,8 +71,8 @@ _gh_search_repos_list() {
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open issue in web browser
-#   alt-c     - Comment on issue
 #   ctrl-r    - Manual reload with current query
+#   alt-c     - Comment on issue
 #
 _gh_search_issues_list() {
 	local search_query="${1:-}"
@@ -86,8 +86,8 @@ _gh_search_issues_list() {
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
-		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
-		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})"
+		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
+		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)"
 }
 
 # _gh_search_prs_list()
@@ -107,8 +107,8 @@ _gh_search_issues_list() {
 #
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open PR in web browser
-#   alt-c     - Comment on PR
 #   ctrl-r    - Manual reload with current query
+#   alt-c     - Comment on PR
 #
 _gh_search_prs_list() {
 	local search_query="${1:-}"
@@ -122,8 +122,8 @@ _gh_search_prs_list() {
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \
-		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
-		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})"
+		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
+		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)"
 }
 
 # _gh_search_list()
@@ -166,8 +166,8 @@ EXAMPLES:
 
 KEYBOARD SHORTCUTS:
     ctrl-o      Open in web browser
-    alt-c       Clone repo / Comment on issue or PR
     ctrl-r      Reload search results
+    alt-c       Clone repo / Comment on issue or PR
     ESC         Exit
 EOF
 		return 0
