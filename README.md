@@ -19,6 +19,7 @@ browsing and managing:
 - **GitHub Issues** - browse, comment, assign, label, and organize issues
 - **GitHub Pull Requests** - view, edit, merge, review, and manage to pull requests
 - **GitHub Workflow Runs** - monitor, rerun, cancel, and download artifacts
+- **GitHub Search** - searching repos, issues, prs
 
 ```bash
 # Show help
