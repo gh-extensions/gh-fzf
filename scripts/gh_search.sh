@@ -51,7 +51,7 @@ _gh_search_repos_list() {
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
-		--bind "alt-c:execute-silent(gh repo clone {1})"
+		--bind "alt-c:execute-silent($_gh_search_source_dir/gh_repo_cmd.sh clone {1})"
 }
 
 # _gh_search_issues_list()
