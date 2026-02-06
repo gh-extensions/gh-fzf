@@ -59,11 +59,12 @@ _gh_repo_clone() {
 	if [ -n "$clone_base" ]; then
 		local clone_dir="$clone_base/github.com/$repo"
 		mkdir -p "$(dirname "$clone_dir")"
-		gum log --level info "Cloning $repo to $clone_dir..."
-		gh repo clone "$repo" "$clone_dir"
+		# process substitution to show spinner while cloning
+		gum spin --title "Cloning $repo to $clone_dir..." -- \
+			gh repo clone "$repo" "$clone_dir"
 	else
-		gum log --level info "Cloning $repo..."
-		gh repo clone "$repo"
+		gum spin --title "Cloning $repo..." -- \
+			gh repo clone "$repo"
 	fi
 }
 
@@ -103,13 +104,14 @@ _gh_repo_fork() {
 	if [ -n "$clone_base" ]; then
 		local clone_dir="$clone_base/github.com/$owner/$fork_name"
 		mkdir -p "$(dirname "$clone_dir")"
-		gum log --level info "Forking and cloning $repo to $clone_dir..."
-		gh repo fork "$repo" --clone --fork-name "$fork_name"
+		# process substitution to show spinner while forking and cloning
+		gum spin --title "Forking and cloning $repo to $clone_dir..." -- \
+			gh repo fork "$repo" --clone --fork-name "$fork_name"
 		# Move the cloned repo to the correct directory
 		mv "$fork_name" "$clone_dir"
 	else
-		gum log --level info "Forking and cloning $repo..."
-		gh repo fork "$repo" --clone
+		gum spin --title "Forking and cloning $repo..." --show-stderr -- \
+			gh repo fork "$repo" --clone
 	fi
 }
 
