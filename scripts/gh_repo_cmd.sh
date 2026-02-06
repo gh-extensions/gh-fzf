@@ -53,6 +53,8 @@ _gh_repo_clone() {
 	local repo="$1"
 	local clone_base
 	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
+	# Expand tilde to home directory
+	clone_base="${clone_base/#\~/$HOME}"
 
 	if [ -n "$clone_base" ]; then
 		local clone_dir="$clone_base/github.com/$repo"
@@ -95,6 +97,8 @@ _gh_repo_fork() {
 	fork_name=$(basename "$repo")
 	local clone_base
 	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
+	# Expand tilde to home directory
+	clone_base="${clone_base/#\~/$HOME}"
 
 	if [ -n "$clone_base" ]; then
 		local clone_dir="$clone_base/github.com/$owner/$fork_name"

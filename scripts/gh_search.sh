@@ -44,14 +44,14 @@ _gh_search_repos_list() {
 
 	# Note: Using --disabled to disable fzf's fuzzy matching, allowing us to
 	# pass the query directly to GitHub's search API
-	echo "" | fzf "${_fzf_options[@]}" \
+	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Repositories" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
-		--bind "alt-c:execute-silent($_gh_search_source_dir/gh_repo_cmd.sh clone {1})"
+		--bind "alt-c:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})"
 }
 
 # _gh_search_issues_list()
@@ -80,7 +80,7 @@ _gh_search_issues_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_ISSUE"
 
-	echo "" | fzf "${_fzf_options[@]}" \
+	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues '$search_query'" \
@@ -116,7 +116,7 @@ _gh_search_prs_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"
 
-	echo "" | fzf "${_fzf_options[@]}" \
+	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs '$search_query'" \
