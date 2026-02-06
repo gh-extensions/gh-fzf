@@ -84,6 +84,7 @@ _gh_run_list() {
 	echo "$run_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth -1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Runs $_fzf_split $run_repo" \
+		--preview "$_gh_run_source_dir/gh_run_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-r:reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
 		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
@@ -91,5 +92,6 @@ _gh_run_list() {
 		--bind "alt-d:execute-silent(gh run download {-1})" \
 		--bind "alt-enter:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1})" \
 		--bind "alt-l:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \
-		--bind "alt-w:execute-silent($_gh_run_source_dir/gh_core.sh run watch {-1})"
+		--bind "alt-w:execute-silent($_gh_run_source_dir/gh_core.sh run watch {-1})" \
+		--bind "alt-h:toggle-preview"
 }

@@ -47,11 +47,56 @@ _gh_run_list_cmd() {
         gh run list $_gh_fzf_filtered_args --json "$run_columns" --template "$run_template"
 }
 
+# _gh_run_help()
+#
+# Display keyboard shortcuts for workflow run list
+#
+# DESCRIPTION:
+#   Outputs formatted help text showing available keyboard shortcuts
+#   for the workflow run list. Designed to be displayed in fzf preview window.
+#
+# RETURNS:
+#   Formatted help text with shortcuts and tips
+#
+_gh_run_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload list |
+| **`alt-x`** | Cancel run |
+| **`alt-r`** | Rerun workflow |
+| **`alt-l`** | View logs |
+| **`alt-d`** | Download artifacts |
+| **`alt-enter`** | View details |
+| **`alt-w`** | Watch progress |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+EOF
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
-# When run directly (not sourced), pass all arguments to the function.
+# When run directly (not sourced), dispatch to the appropriate function.
 # ------------------------------------------------------------------------------
+main() {
+	local subcommand="$1"
+
+	case "$subcommand" in
+	help)
+		_gh_run_help
+		;;
+	*)
+		_gh_run_list_cmd "$@"
+		;;
+	esac
+}
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    _gh_run_list_cmd "$@"
+	main "$@"
 fi

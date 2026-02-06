@@ -84,9 +84,11 @@ _gh_repo_list() {
 	echo "$repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Repositories $_fzf_split $repo" \
+		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_repo_source_dir/gh_repo_cmd.sh list $*)" \
 		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
-		--bind "alt-enter:execute-silent($_gh_repo_source_dir/gh_core.sh repo view {1})"
+		--bind "alt-enter:execute-silent($_gh_repo_source_dir/gh_core.sh repo view {1})" \
+		--bind "alt-h:toggle-preview"
 }

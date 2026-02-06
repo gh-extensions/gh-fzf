@@ -87,6 +87,7 @@ _gh_issue_list() {
 	echo "$issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $issue_repo" \
+		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
@@ -97,5 +98,6 @@ _gh_issue_list() {
 		--bind "alt-l:execute-silent(gh issue edit {1} --add-label)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-p:execute-silent(gh issue pin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})"
+		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})" \
+		--bind "alt-h:toggle-preview"
 }

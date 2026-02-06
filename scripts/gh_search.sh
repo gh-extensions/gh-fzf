@@ -47,11 +47,13 @@ _gh_search_repos_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Repositories" \
+		--preview "$_gh_search_source_dir/gh_search_cmd.sh help repos" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
-		--bind "alt-c:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})"
+		--bind "alt-c:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
+		--bind "alt-h:toggle-preview"
 }
 
 # _gh_search_issues_list()
@@ -83,11 +85,13 @@ _gh_search_issues_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
+		--preview "$_gh_search_source_dir/gh_search_cmd.sh help issues" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
-		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)"
+		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
+		--bind "alt-h:toggle-preview"
 }
 
 # _gh_search_prs_list()
@@ -119,11 +123,13 @@ _gh_search_prs_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
+		--preview "$_gh_search_source_dir/gh_search_cmd.sh help prs" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs '$search_query'" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
-		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)"
+		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
+		--bind "alt-h:toggle-preview"
 }
 
 # _gh_search_list()

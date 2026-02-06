@@ -50,6 +50,7 @@ _gh_fzf_options() {
 		--color='header:blue'
 		--color='footer:blue'
 		--layout='reverse-list'
+		--preview-window='right:40:wrap:hidden'
 	)
 
 	# Add user-provided fzf flags (global)
@@ -59,7 +60,7 @@ _gh_fzf_options() {
 		local user_flags=()
 		eval "user_flags=($GH_FZF_FLAGS)" 2>/dev/null || {
 			# Fallback to simple word splitting if eval fails
-			read -ra user_flags <<< "$GH_FZF_FLAGS"
+			read -ra user_flags <<<"$GH_FZF_FLAGS"
 		}
 		_fzf_options+=("${user_flags[@]}")
 	fi
@@ -73,7 +74,7 @@ _gh_fzf_options() {
 			# Use eval with proper quoting to handle complex flags
 			eval "cmd_flags_array=($cmd_flags)" 2>/dev/null || {
 				# Fallback to simple word splitting if eval fails
-				read -ra cmd_flags_array <<< "$cmd_flags"
+				read -ra cmd_flags_array <<<"$cmd_flags"
 			}
 			_fzf_options+=("${cmd_flags_array[@]}")
 		fi

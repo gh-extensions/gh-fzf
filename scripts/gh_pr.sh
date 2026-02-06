@@ -84,6 +84,7 @@ _gh_pr_list() {
 	echo "$pr_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Pull Requests $_fzf_split $pr_repo" \
+		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
@@ -95,5 +96,6 @@ _gh_pr_list() {
 		--bind "alt-m:execute-silent(gh pr merge -r -d {1})+reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_core.sh pr view {1})" \
 		--bind "alt-w:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
-		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})"
+		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})" \
+		--bind "alt-h:toggle-preview"
 }

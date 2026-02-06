@@ -145,6 +145,35 @@ _gh_repo_list_cmd() {
 		gh repo list $_gh_fzf_filtered_args --json "$repo_columns" --template "$repo_template"
 }
 
+# _gh_repo_help()
+#
+# Display keyboard shortcuts for repository list
+#
+# DESCRIPTION:
+#   Outputs formatted help text showing available keyboard shortcuts
+#   for the repository list. Designed to be displayed in fzf preview window.
+#
+# RETURNS:
+#   Formatted help text with shortcuts and tips
+#
+_gh_repo_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload list |
+| **`alt-c`** | Clone repository |
+| **`alt-f`** | Fork and clone |
+| **`alt-enter`** | View details |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+EOF
+}
+
 # Main dispatcher for direct execution
 main() {
 	local subcommand="$1"
@@ -162,8 +191,11 @@ main() {
 		shift
 		_gh_repo_list_cmd "$@"
 		;;
+	help)
+		_gh_repo_help
+		;;
 	*)
-		echo "Usage: $0 {clone|fork|list} [repo]"
+		echo "Usage: $0 {clone|fork|list|help} [repo]"
 		exit 1
 		;;
 	esac

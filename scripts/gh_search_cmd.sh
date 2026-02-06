@@ -130,6 +130,96 @@ _gh_search_prs_cmd() {
 	}
 }
 
+# _gh_search_help()
+#
+# Display keyboard shortcuts for search commands
+#
+# DESCRIPTION:
+#   Outputs formatted help text showing available keyboard shortcuts for
+#   the specified search type. Designed to be displayed in fzf preview window.
+#
+# PARAMETERS:
+#   $1 - Search type (repos, issues, prs)
+#
+# RETURNS:
+#   Formatted help text with shortcuts and search tips
+#
+_gh_search_help() {
+	local search_type="$1"
+
+	case "$search_type" in
+	repos | repositories)
+		gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Clone repository |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public repositories
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+		;;
+	issues)
+		gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on issue |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public issues
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+		;;
+	prs | pull-requests)
+		gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on PR |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public PRs
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+		;;
+	*)
+		echo "Unknown search type: $search_type"
+		;;
+	esac
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
@@ -149,6 +239,9 @@ main() {
 		;;
 	prs | pull-requests)
 		_gh_search_prs_cmd "$@"
+		;;
+	help)
+		_gh_search_help "$@"
 		;;
 	*)
 		gum log --level error "Unknown search type '$search_type'"

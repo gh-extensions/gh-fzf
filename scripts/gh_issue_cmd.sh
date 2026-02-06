@@ -49,11 +49,59 @@ _gh_issue_list_cmd() {
         gh issue list $_gh_fzf_filtered_args --json "$issue_columns" --template "$issue_template"
 }
 
+# _gh_issue_help()
+#
+# Display keyboard shortcuts for issue list
+#
+# DESCRIPTION:
+#   Outputs formatted help text showing available keyboard shortcuts
+#   for the issue list. Designed to be displayed in fzf preview window.
+#
+# RETURNS:
+#   Formatted help text with shortcuts and tips
+#
+_gh_issue_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload list |
+| **`alt-c`** | Comment on issue |
+| **`alt-e`** | Edit issue |
+| **`alt-x`** | Close issue |
+| **`alt-r`** | Reopen issue |
+| **`alt-a`** | Assign to me |
+| **`alt-l`** | Add label |
+| **`alt-p`** | Pin issue |
+| **`alt-u`** | Unpin issue |
+| **`alt-enter`** | View details |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+EOF
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
-# When run directly (not sourced), pass all arguments to the function.
+# When run directly (not sourced), dispatch to the appropriate function.
 # ------------------------------------------------------------------------------
+main() {
+	local subcommand="$1"
+
+	case "$subcommand" in
+	help)
+		_gh_issue_help
+		;;
+	*)
+		_gh_issue_list_cmd "$@"
+		;;
+	esac
+}
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    _gh_issue_list_cmd "$@"
+	main "$@"
 fi

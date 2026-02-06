@@ -49,11 +49,60 @@ _gh_pr_list_cmd() {
 		gh pr list $_gh_fzf_filtered_args --json "$pr_columns" --template "$pr_template"
 }
 
+# _gh_pr_help()
+#
+# Display keyboard shortcuts for PR list
+#
+# DESCRIPTION:
+#   Outputs formatted help text showing available keyboard shortcuts
+#   for the PR list. Designed to be displayed in fzf preview window.
+#
+# RETURNS:
+#   Formatted help text with shortcuts and tips
+#
+_gh_pr_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload list |
+| **`ctrl-w`** | View checks (web) |
+| **`alt-c`** | Comment on PR |
+| **`alt-a`** | Approve PR |
+| **`alt-e`** | Edit PR |
+| **`alt-r`** | Mark as ready |
+| **`alt-x`** | Close PR |
+| **`alt-m`** | Merge PR |
+| **`alt-enter`** | View details |
+| **`alt-w`** | Watch checks |
+| **`alt-k`** | View checks |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+EOF
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
-# When run directly (not sourced), pass all arguments to the function.
+# When run directly (not sourced), dispatch to the appropriate function.
 # ------------------------------------------------------------------------------
+main() {
+	local subcommand="$1"
+
+	case "$subcommand" in
+	help)
+		_gh_pr_help
+		;;
+	*)
+		_gh_pr_list_cmd "$@"
+		;;
+	esac
+}
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	_gh_pr_list_cmd "$@"
+	main "$@"
 fi
