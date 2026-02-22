@@ -39,7 +39,7 @@ source "$_gh_repo_source_dir/gh_core.sh"
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open repository in web browser
 #   ctrl-r    - Reload repository list with current filters
-#   alt-c     - Clone repository to custom directory (if configured)
+#   alt-g     - Clone repository to custom directory (if configured)
 #   alt-f     - Fork repository and clone to custom directory (if configured)
 #   alt-enter - View repository details in terminal
 #
@@ -87,7 +87,7 @@ _gh_repo_list() {
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_repo_source_dir/gh_repo_cmd.sh list $*)" \
-		--bind "alt-c:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
+		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \
 		--bind "alt-h:toggle-preview"

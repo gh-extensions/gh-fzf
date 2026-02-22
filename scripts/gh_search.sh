@@ -34,7 +34,8 @@ source "$_gh_search_source_dir/gh_core.sh"
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open repository in web browser
 #   ctrl-r    - Manual reload with current query
-#   alt-c     - Clone repository
+#   alt-g     - Clone repository
+#   alt-enter - View repository details in terminal
 #
 _gh_search_repos_list() {
 	local search_query="${1:-}"
@@ -52,7 +53,8 @@ _gh_search_repos_list() {
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
-		--bind "alt-c:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
+		--bind "alt-g:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
+		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh repo view {1})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -75,6 +77,7 @@ _gh_search_repos_list() {
 #   ctrl-o    - Open issue in web browser
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Comment on issue
+#   alt-enter - View issue details in terminal
 #
 _gh_search_issues_list() {
 	local search_query="${1:-}"
@@ -91,6 +94,7 @@ _gh_search_issues_list() {
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
 		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
+		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh issue view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -113,6 +117,7 @@ _gh_search_issues_list() {
 #   ctrl-o    - Open PR in web browser
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Comment on PR
+#   alt-enter - View PR details in terminal
 #
 _gh_search_prs_list() {
 	local search_query="${1:-}"
@@ -129,6 +134,7 @@ _gh_search_prs_list() {
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
 		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
+		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh pr view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -173,7 +179,9 @@ EXAMPLES:
 KEYBOARD SHORTCUTS:
     ctrl-o      Open in web browser
     ctrl-r      Reload search results
-    alt-c       Clone repo / Comment on issue or PR
+    alt-g       Clone repo (repos only)
+    alt-c       Comment on issue or PR
+    alt-enter   View details in terminal
     ESC         Exit
 EOF
 		return 0

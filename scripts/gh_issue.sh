@@ -44,7 +44,7 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   alt-x     - Close issue
 #   alt-r     - Reopen issue
 #   alt-a     - Assign issue to self (@me)
-#   alt-l     - Add label to issue
+#   alt-t     - Add label to issue
 #   alt-p     - Pin issue
 #   alt-u     - Unpin issue
 #   alt-enter - View issue details in terminal
@@ -95,7 +95,7 @@ _gh_issue_list() {
 		--bind "alt-x:execute-silent(gh issue close {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-l:execute-silent(gh issue edit {1} --add-label)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
+		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-p:execute-silent(gh issue pin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-enter:execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
