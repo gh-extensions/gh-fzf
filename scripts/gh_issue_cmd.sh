@@ -126,6 +126,7 @@ _gh_issue_help() {
 | **`alt-u`** | Unpin issue |
 | **`alt-enter`** | View details |
 | **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
 EOF
 }
 

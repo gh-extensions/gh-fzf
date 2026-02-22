@@ -158,7 +158,8 @@ _gh_search_help() {
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
-| **`alt-c`** | Clone repository |
+| **`alt-g`** | Clone repository |
+| **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -181,6 +182,7 @@ EOF
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on issue |
+| **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -203,6 +205,7 @@ EOF
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on PR |
+| **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 

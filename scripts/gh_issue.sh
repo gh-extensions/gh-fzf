@@ -91,7 +91,7 @@ _gh_issue_list() {
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
-		--bind "alt-e:execute(gh issue edit {1})" \
+		--bind "alt-e:execute(gh issue edit {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-x:execute-silent(gh issue close {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
