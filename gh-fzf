@@ -4,6 +4,13 @@
 
 set -eo pipefail
 
+for _cmd in gh fzf gum; do
+    if ! command -v "$_cmd" &>/dev/null; then
+        echo "gh-fzf: required command '$_cmd' not found" >&2
+        exit 1
+    fi
+done
+
 _gh_fzf_source_dir=$(dirname "${BASH_SOURCE[0]}")
 
 # Source command implementations

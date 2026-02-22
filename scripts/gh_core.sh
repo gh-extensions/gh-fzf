@@ -219,8 +219,7 @@ _gh_filter_list_args() {
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
-# When run directly (not sourced), pass all arguments to hsdk-env.
-# This enables tmux integration and scripted usage.
+# When run directly (not sourced), pass all arguments to _gh.
 # ------------------------------------------------------------------------------
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	_gh "$@"

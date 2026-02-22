@@ -76,6 +76,11 @@ _gh_issue_list_cmd() {
 _gh_issue_add_label_cmd() {
 	local issue_number="$1"
 
+	if [ -z "$issue_number" ]; then
+		gum log --level error "GitHub Issue number required"
+		return 1
+	fi
+
 	local label_list
 	# Load the label list.
 	label_list=$(gum spin --title "Loading GitHub Labels..." --show-output -- gh label list --json name -q '.[].name')
