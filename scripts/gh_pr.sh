@@ -94,8 +94,8 @@ _gh_pr_list() {
 		--bind "alt-r:execute-silent(gh pr ready {1})+reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "alt-x:execute-silent(gh pr close {1})+reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
 		--bind "alt-m:execute-silent(gh pr merge -r -d {1})+reload($_gh_pr_source_dir/gh_pr_cmd.sh $*)" \
-		--bind "alt-enter:execute-silent($_gh_pr_source_dir/gh_core.sh pr view {1})" \
-		--bind "alt-w:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
-		--bind "alt-k:execute-silent($_gh_pr_source_dir/gh_core.sh pr checks {1})" \
+		--bind "alt-enter:execute($_gh_pr_source_dir/gh_core.sh pr view {1})" \
+		--bind "alt-w:execute($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
+		--bind "alt-k:execute($_gh_pr_source_dir/gh_core.sh pr checks {1})" \
 		--bind "alt-h:toggle-preview"
 }

@@ -99,24 +99,27 @@ _gh_get_repo() {
 
 # _gh: A wrapper function for the `gh` CLI tool.
 #
-# This function conditionally calls the `gh` command-line tool, either directly
-# or within a `tmux popup` window, depending on the `TMUX` environment variable.
+# Executes a `gh` command and pauses afterward so the user can read the output
+# before fzf restores its UI. The pause is required because fzf's `execute`
+# action hides the UI, runs the command, then immediately restores it — giving
+# no time to read output from commands that exit quickly (e.g. `gh run view`
+# or `gh run watch` on a finished run).
 #
 # Arguments:
 #   $@: All arguments are passed directly to the `gh` command.
 #
 # Behavior:
-#   - If `TMUX` is set, it opens a `tmux popup` with the `gh` command output.
-#     The popup title includes the GitHub resource type (e.g., "Pull Request").
-#   - If `TMUX` is not set, it executes `gh` directly in the current shell.
+#   Runs `gh "$@"`, then waits for a single keypress on /dev/tty before
+#   returning. Reading from /dev/tty is necessary because fzf's `execute`
+#   context does not provide an interactive stdin.
 _gh() {
-	if [[ -z "$TMUX" ]]; then
-		gh "$@"
-	else
-		local resource
-		resource=$(_gh_resource "$1")
-		tmux popup -T " $_fzf_icon GitHub $resource $3 " -S "fg=blue" -w 80% -h 80% -d "$PWD" gh "$@"
-	fi
+	gh "$@"
+	echo
+
+	local message
+	message="$(gum style --faint "Press any key to return...")"
+	read -n1 -rsp "$message" </dev/tty
+	echo
 }
 
 # _gh_resource: Maps a short resource type to its full descriptive name.

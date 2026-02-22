@@ -90,8 +90,8 @@ _gh_run_list() {
 		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
 		--bind "alt-r:execute-silent(gh run rerun {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
 		--bind "alt-d:execute-silent(gh run download {-1})" \
-		--bind "alt-enter:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1})" \
-		--bind "alt-l:execute-silent($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \
-		--bind "alt-w:execute-silent($_gh_run_source_dir/gh_core.sh run watch {-1})" \
+		--bind "alt-enter:execute($_gh_run_source_dir/gh_core.sh run view {-1})" \
+		--bind "alt-l:execute($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \
+		--bind "alt-w:execute($_gh_run_source_dir/gh_core.sh run watch {-1})" \
 		--bind "alt-h:toggle-preview"
 }
