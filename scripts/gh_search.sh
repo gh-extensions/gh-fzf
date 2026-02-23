@@ -54,7 +54,7 @@ _gh_search_repos_list() {
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
 		--bind "alt-g:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
-		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh repo view {1})" \
+		--bind "alt-enter:execute-silent($_gh_search_source_dir/gh_core.sh repo view {1})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -94,7 +94,7 @@ _gh_search_issues_list() {
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
 		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
-		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh issue view {1} --repo {2})" \
+		--bind "alt-enter:execute-silent($_gh_search_source_dir/gh_core.sh issue view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -134,7 +134,7 @@ _gh_search_prs_list() {
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
 		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
-		--bind "alt-enter:execute($_gh_search_source_dir/gh_core.sh pr view {1} --repo {2})" \
+		--bind "alt-enter:execute-silent($_gh_search_source_dir/gh_core.sh pr view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 
