@@ -5,6 +5,13 @@ _fzf_icon=" "
 # Separator used in fzf display templates
 _fzf_split="·"
 
+# fzf execute action: silent (keeps fzf alive) in tmux, blocking otherwise
+if [[ -n "$TMUX" ]]; then
+	_fzf_execute="execute-silent"
+else
+	_fzf_execute="execute"
+fi
+
 # _gh_fzf_options()
 #
 # Build fzf options array with user-provided flags
@@ -110,13 +117,13 @@ _gh_get_repo() {
 #     The popup title includes the GitHub resource type (e.g., "Pull Request").
 #   - If `TMUX` is not set, it executes `gh` directly in the current shell.
 _gh() {
-    if [[ -z "$TMUX" ]]; then
-        gh "$@"
-    else
-        local resource
-        resource=$(_gh_resource "$1")
-        tmux popup -T " $_fzf_icon GitHub $resource $3 " -S "fg=blue" -w 80% -h 80% -d "$PWD" gh "$@"
-    fi
+	if [[ -z "$TMUX" ]]; then
+		gh "$@"
+	else
+		local resource
+		resource=$(_gh_resource "$1")
+		tmux popup -T " $_fzf_icon GitHub $resource $3 " -S "fg=blue" -w 80% -h 80% -d "$PWD" gh "$@"
+	fi
 }
 
 # _gh_resource: Maps a short resource type to its full descriptive name.

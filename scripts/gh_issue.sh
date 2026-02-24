@@ -98,6 +98,6 @@ _gh_issue_list() {
 		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-p:execute-silent(gh issue pin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
 		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($_gh_issue_source_dir/gh_issue_cmd.sh $*)" \
-		--bind "alt-enter:execute-silent($_gh_issue_source_dir/gh_core.sh issue view {1})" \
+		--bind "alt-enter:$_fzf_execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
 		--bind "alt-h:toggle-preview"
 }
