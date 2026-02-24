@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/gh-extensions/gh-fzf/compare/v0.2.0...v0.3.0) (2026-02-24)
+
+
+### Features
+
+* **fzf:** add tmux-aware fzf execute action ([4623628](https://github.com/gh-extensions/gh-fzf/commit/4623628c384edc09a3fc54bf4f1e3129c145eda5))
+
+
+### Bug Fixes
+
+* use execute-silent for view commands in fzf bindings ([458eefb](https://github.com/gh-extensions/gh-fzf/commit/458eefb5b88cadf8dd48b737d50e1c1d761b2da8))
+
 ## [0.2.0](https://github.com/gh-extensions/gh-fzf/compare/v0.1.0...v0.2.0) (2026-02-22)
 
 
