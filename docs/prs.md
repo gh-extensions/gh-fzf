@@ -36,3 +36,12 @@ gh fzf pr --help
 | `alt-w` | Watch checks in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+
+## AI shortcuts
+
+> Requires `gh config set gh-fzf.ai enabled` and the [gh-ai](https://github.com/gh-extensions/gh-ai) extension.
+
+| Key | Action |
+|-----|--------|
+| `alt-E` | Explain PR |
+| `alt-R` | Review PR |

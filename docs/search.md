@@ -42,3 +42,12 @@ gh fzf search repos "cli"        # start with an initial query
 | `alt-c` | Comment on PR |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+
+## AI shortcuts
+
+> Requires `gh config set gh-fzf.ai enabled` and the [gh-ai](https://github.com/gh-extensions/gh-ai) extension.
+
+| Key | Action |
+|-----|--------|
+| `alt-E` | Explain PR |
+| `alt-R` | Review PR |

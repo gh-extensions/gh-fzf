@@ -33,6 +33,17 @@ export GH_FZF_PR_OPTS="--height 90% --border rounded"
 export GH_FZF_ISSUE_OPTS="--height 50%"
 ```
 
+## gh-ai integration
+
+Enable AI-powered shortcuts (explain, review, develop) across PR, issue, and run views:
+
+```bash
+gh config set gh-fzf.ai enabled
+```
+
+Requires the [gh-ai](https://github.com/gh-extensions/gh-ai) extension to be installed.
+When enabled, an **AI Shortcuts** section appears in each view's `alt-h` help panel.
+
 ## Debug mode
 
 ```bash

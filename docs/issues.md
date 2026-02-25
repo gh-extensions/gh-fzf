@@ -35,3 +35,11 @@ gh fzf issue --help
 | `alt-u` | Unpin issue |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+
+## AI shortcuts
+
+> Requires `gh config set gh-fzf.ai enabled` and the [gh-ai](https://github.com/gh-extensions/gh-ai) extension.
+
+| Key | Action |
+|-----|--------|
+| `alt-D` | Develop issue |
