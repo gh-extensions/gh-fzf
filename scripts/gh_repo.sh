@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -60,16 +60,20 @@ source "$_gh_repo_source_dir/gh_core.sh"
 #
 _gh_repo_list() {
 	# Show help if requested
-	if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+	if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 		gh repo list --help
 		return $?
 	fi
 
-	local repo
-	repo="$1"
+	# Extract repo owner for footer (first non-flag arg, if any)
+	local repo_owner
+	repo_owner="$1"
 
 	local repo_list
 	repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")
+
+	local repo_list_reload
+	repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list$(printf ' %q' "$@")"
 
 	# Check if we got any repositories
 	if [ -z "$repo_list" ]; then
@@ -83,10 +87,10 @@ _gh_repo_list() {
 	# Transform and present in fzf
 	echo "$repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Repositories $_fzf_split $repo" \
+		--footer "$_fzf_icon GitHub Repositories $_fzf_split $repo_owner" \
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:reload($_gh_repo_source_dir/gh_repo_cmd.sh list $*)" \
+		--bind "ctrl-r:reload($repo_list_reload)" \
 		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \

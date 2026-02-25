@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -91,7 +91,7 @@ EOF
 # When run directly (not sourced), dispatch to the appropriate function.
 # ------------------------------------------------------------------------------
 main() {
-	local subcommand="$1"
+	local subcommand="${1:-}"
 
 	case "$subcommand" in
 	help)

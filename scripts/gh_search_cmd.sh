@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -48,7 +48,7 @@ _gh_search_repos_cmd() {
 	gh search repos "$query" \
 		--limit 30 \
 		--json "fullName,description,stargazersCount,language,updatedAt" \
-		--template "$search_template" 2>&1 || {
+		--template "$search_template" 2>/dev/null || {
 		echo "Search failed. Try a different query or check your network connection."
 		return 0
 	}
@@ -86,7 +86,7 @@ _gh_search_issues_cmd() {
 	gh search issues "$query" \
 		--limit 30 \
 		--json "number,title,repository,state,author,createdAt" \
-		--template "$search_template" 2>&1 || {
+		--template "$search_template" 2>/dev/null || {
 		echo "Search failed. Try a different query or check your network connection."
 		return 0
 	}
@@ -124,7 +124,7 @@ _gh_search_prs_cmd() {
 	gh search prs "$query" \
 		--limit 30 \
 		--json "number,title,repository,state,author,isDraft,createdAt" \
-		--template "$search_template" 2>&1 || {
+		--template "$search_template" 2>/dev/null || {
 		echo "Search failed. Try a different query or check your network connection."
 		return 0
 	}
@@ -230,8 +230,8 @@ EOF
 # based on the first argument (search type).
 # ------------------------------------------------------------------------------
 main() {
-	local search_type="$1"
-	shift
+	local search_type="${1:-}"
+	shift || true
 
 	case "$search_type" in
 	repos | repositories)

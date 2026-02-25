@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -38,7 +38,8 @@ source "$_gh_search_source_dir/gh_core.sh"
 #   alt-enter - View repository details in terminal
 #
 _gh_search_repos_list() {
-	local search_query="${1:-}"
+	local search_query
+	search_query=$(printf '%q' "${1:-}")
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_REPO"
@@ -49,7 +50,7 @@ _gh_search_repos_list() {
 		--disabled \
 		--footer "$_fzf_icon GitHub Repositories" \
 		--preview "$_gh_search_source_dir/gh_search_cmd.sh help repos" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos '$search_query'" \
+		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
@@ -80,7 +81,8 @@ _gh_search_repos_list() {
 #   alt-enter - View issue details in terminal
 #
 _gh_search_issues_list() {
-	local search_query="${1:-}"
+	local search_query
+	search_query=$(printf '%q' "${1:-}")
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_ISSUE"
@@ -89,7 +91,7 @@ _gh_search_issues_list() {
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
 		--preview "$_gh_search_source_dir/gh_search_cmd.sh help issues" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues '$search_query'" \
+		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
@@ -120,7 +122,8 @@ _gh_search_issues_list() {
 #   alt-enter - View PR details in terminal
 #
 _gh_search_prs_list() {
-	local search_query="${1:-}"
+	local search_query
+	search_query=$(printf '%q' "$search_query")
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"
@@ -129,7 +132,7 @@ _gh_search_prs_list() {
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--preview "$_gh_search_source_dir/gh_search_cmd.sh help prs" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs '$search_query'" \
+		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \
 		--bind "ctrl-r:reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
@@ -155,8 +158,8 @@ _gh_search_prs_list() {
 #   1 - Error (unknown search type)
 #
 _gh_search_list() {
-	local search_type="$1"
-	shift
+	local search_type="${1:-}"
+	shift || true
 
 	# Show help if requested
 	if [[ "$search_type" == "--help" || "$search_type" == "-h" ]]; then

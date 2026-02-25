@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -93,7 +93,12 @@ _gh_repo_clone() {
 _gh_repo_fork() {
 	local repo="$1"
 	local owner
-	owner=$(gh config get user)
+	owner=$(gh api user -q '.login' 2>/dev/null || true)
+	if [[ -z "$owner" ]]; then
+		gum log --level error "Failed to detect GitHub username"
+		return 1
+	fi
+
 	local fork_name
 	fork_name=$(basename "$repo")
 	local clone_base
@@ -104,11 +109,11 @@ _gh_repo_fork() {
 	if [ -n "$clone_base" ]; then
 		local clone_dir="$clone_base/github.com/$owner/$fork_name"
 		mkdir -p "$(dirname "$clone_dir")"
-		# process substitution to show spinner while forking and cloning
-		gum spin --title "Forking and cloning $repo to $clone_dir..." -- \
-			gh repo fork "$repo" --clone --fork-name "$fork_name"
-		# Move the cloned repo to the correct directory
-		mv "$fork_name" "$clone_dir"
+		# Fork without cloning, then clone to the target directory
+		gum spin --title "Forking $repo..." -- \
+			gh repo fork "$repo" --clone=false --fork-name "$fork_name"
+		gum spin --title "Cloning $owner/$fork_name to $clone_dir..." -- \
+			gh repo clone "$owner/$fork_name" "$clone_dir"
 	else
 		gum spin --title "Forking and cloning $repo..." --show-stderr -- \
 			gh repo fork "$repo" --clone
@@ -176,7 +181,7 @@ EOF
 
 # Main dispatcher for direct execution
 main() {
-	local subcommand="$1"
+	local subcommand="${1:-}"
 	# Execute the appropriate function based on the subcommand
 	case "$subcommand" in
 	clone)

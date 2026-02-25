@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -145,7 +145,7 @@ EOF
 #   ./gh_issue_cmd.sh help
 # ------------------------------------------------------------------------------
 main() {
-	local subcommand="$1"
+	local subcommand="${1:-}"
 
 	case "$subcommand" in
 	add-label)

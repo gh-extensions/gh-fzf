@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
@@ -60,16 +60,19 @@ source "$_gh_run_source_dir/gh_core.sh"
 #
 _gh_run_list() {
 	# Show help if requested
-	if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+	if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 		gh run list --help
 		return $?
 	fi
 
-	local run_list
 	local run_repo
-
 	run_repo=$(_gh_get_repo)
+
+	local run_list
 	run_list=$("$_gh_run_source_dir/gh_run_cmd.sh" "$@")
+
+	local run_list_reload
+	run_list_reload="$_gh_run_source_dir/gh_run_cmd.sh$(printf ' %q' "$@")"
 
 	# Check if we got any runs
 	if [ -z "$run_list" ]; then
@@ -86,9 +89,9 @@ _gh_run_list() {
 		--footer "$_fzf_icon GitHub Runs $_fzf_split $run_repo" \
 		--preview "$_gh_run_source_dir/gh_run_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
-		--bind "ctrl-r:reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
-		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
-		--bind "alt-r:execute-silent(gh run rerun {-1})+reload($_gh_run_source_dir/gh_run_cmd.sh $*)" \
+		--bind "ctrl-r:reload($run_list_reload)" \
+		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($run_list_reload)" \
+		--bind "alt-r:execute-silent(gh run rerun {-1})+reload($run_list_reload)" \
 		--bind "alt-d:execute-silent(gh run download {-1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_run_source_dir/gh_core.sh run view {-1})" \
 		--bind "alt-l:$_fzf_execute($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \

@@ -1,15 +1,32 @@
 #!/usr/bin/env bash
 
-[ -z "$DEBUG" ] || set -x
+[ -z "${DEBUG:-}" ] || set -x
 
 set -eo pipefail
 
-for _cmd in gh fzf gum; do
-    if ! command -v "$_cmd" &>/dev/null; then
-        echo "gh-fzf: required command '$_cmd' not found" >&2
-        exit 1
-    fi
-done
+_check_dependencies() {
+	local missing=()
+
+	if ! command -v gh &>/dev/null; then
+		missing+=("gh      — https://cli.github.com")
+	fi
+	if ! command -v fzf &>/dev/null; then
+		missing+=("fzf     — https://github.com/junegunn/fzf")
+	fi
+	if ! command -v gum &>/dev/null; then
+		missing+=("gum     — https://github.com/charmbracelet/gum")
+	fi
+
+	if [[ ${#missing[@]} -gt 0 ]]; then
+		echo "gh-fzf: missing required dependencies:" >&2
+		for dep in "${missing[@]}"; do
+			echo "  $dep" >&2
+		done
+		exit 1
+	fi
+}
+
+_check_dependencies
 
 _gh_fzf_source_dir=$(dirname "${BASH_SOURCE[0]}")
 

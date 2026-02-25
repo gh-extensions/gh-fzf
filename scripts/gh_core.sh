@@ -28,8 +28,7 @@ fi
 #   3. GH_FZF_<COMMAND>_OPTS (per-command, highest priority)
 #
 # PARAMETERS:
-#   $1 - Optional command identifier (e.g., "PR", "ISSUE", "RUN", "REPO",
-#        "SEARCH_REPO", "SEARCH_ISSUE", "SEARCH_PR")
+#   $1 - Optional command identifier
 #        Used to lookup per-command environment variable GH_FZF_${command_id}_OPTS
 #
 # RETURNS:
@@ -61,28 +60,19 @@ _gh_fzf_options() {
 	)
 
 	# Add user-provided fzf flags (global)
-	if [[ -n "$GH_FZF_FLAGS" ]]; then
-		# Safely parse quoted string back to array
-		# Use eval with proper quoting to handle complex flags
+	if [[ -n "${GH_FZF_FLAGS:-}" ]]; then
 		local user_flags=()
-		eval "user_flags=($GH_FZF_FLAGS)" 2>/dev/null || {
-			# Fallback to simple word splitting if eval fails
-			read -ra user_flags <<<"$GH_FZF_FLAGS"
-		}
+		read -ra user_flags <<<"$GH_FZF_FLAGS"
 		_fzf_options+=("${user_flags[@]}")
 	fi
 
 	# Add per-command fzf options (highest precedence)
 	if [[ -n "$command_id" ]]; then
 		local var_name="GH_FZF_${command_id}_OPTS"
-		local cmd_flags="${!var_name}"
+		local cmd_flags="${!var_name:-}"
 		if [[ -n "$cmd_flags" ]]; then
 			local cmd_flags_array=()
-			# Use eval with proper quoting to handle complex flags
-			eval "cmd_flags_array=($cmd_flags)" 2>/dev/null || {
-				# Fallback to simple word splitting if eval fails
-				read -ra cmd_flags_array <<<"$cmd_flags"
-			}
+			read -ra cmd_flags_array <<<"$cmd_flags"
 			_fzf_options+=("${cmd_flags_array[@]}")
 		fi
 	fi
@@ -188,8 +178,9 @@ _gh_resource() {
 #   # Returns: "--state closed" (--json filtered out)
 #
 _gh_filter_list_args() {
-	local filtered=""
+	local filtered=()
 	local skip_next=false
+	local arg
 
 	for arg in "$@"; do
 		if [ "$skip_next" = true ]; then
@@ -208,16 +199,12 @@ _gh_filter_list_args() {
 			# Skip flags with = syntax
 			;;
 		*)
-			if [ -n "$filtered" ]; then
-				filtered="$filtered $arg"
-			else
-				filtered="$arg"
-			fi
+			filtered+=("$arg")
 			;;
 		esac
 	done
 
-	echo "$filtered"
+	[[ ${#filtered[@]} -gt 0 ]] && echo "${filtered[*]}" || true
 }
 
 # ------------------------------------------------------------------------------
