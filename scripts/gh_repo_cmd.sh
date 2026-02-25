@@ -11,15 +11,15 @@ source "$_gh_repo_cmd_source_dir/gh_core.sh"
 # gh_repo_cmd.sh - Repository command wrapper for gh-fzf
 #
 # Provides clone and fork functionality, primarily for use with fzf bindings.
-# Handles optional cloning into base directories configured via `gh config set fzf.clone_base <path>`.
+# Handles optional cloning into base directories configured via `gh config set gh-fzf.clone_base <path>`.
 #
 # SUBCOMMANDS:
 #   clone [repo] - Clones the specified repository.
 #   fork [repo]  - Forks and clones the specified repository.
 #
 # CONFIGURATION:
-#   - fzf.clone_base: Optional base directory for cloning.
-#     Example: gh config set fzf.clone_base ~/Projects
+#   - gh-fzf.clone_base: Optional base directory for cloning.
+#     Example: gh config set gh-fzf.clone_base ~/Projects
 #
 # DIRECT EXECUTION:
 #   When run directly, dispatches to the specified subcommand.
@@ -27,10 +27,10 @@ source "$_gh_repo_cmd_source_dir/gh_core.sh"
 
 # _gh_repo_clone()
 #
-# Clones a GitHub repository, respecting fzf.clone_base if set.
+# Clones a GitHub repository, respecting gh-fzf.clone_base if set.
 #
 # DESCRIPTION:
-#   Clones the specified repository using `gh repo clone`. If `fzf.clone_base`
+#   Clones the specified repository using `gh repo clone`. If `gh-fzf.clone_base`
 #   is configured in gh settings, it constructs a destination path of
 #   `$base/github.com/owner/repo`. Otherwise, it clones into the current directory.
 #
@@ -38,21 +38,21 @@ source "$_gh_repo_cmd_source_dir/gh_core.sh"
 #   $1 - The repository to clone (e.g., "owner/repo").
 #
 # BEHAVIOR:
-#   - Reads `fzf.clone_base` from gh config.
-#   - If fzf.clone_base is configured, clones to $base/github.com/owner/repo.
+#   - Reads `gh-fzf.clone_base` from gh config.
+#   - If gh-fzf.clone_base is configured, clones to $base/github.com/owner/repo.
 #   - If not, clones to the current directory.
 #
 # EXAMPLE:
 #   _gh_repo_clone "owner/repo"
-#   # With fzf.clone_base = ~/Projects -> gh repo clone owner/repo ~/Projects/github.com/owner/repo
+#   # With gh-fzf.clone_base = ~/Projects -> gh repo clone owner/repo ~/Projects/github.com/owner/repo
 #
 #   _gh_repo_clone "owner/repo"
-#   # Without fzf.clone_base -> gh repo clone owner/repo
+#   # Without gh-fzf.clone_base -> gh repo clone owner/repo
 #
 _gh_repo_clone() {
 	local repo="$1"
 	local clone_base
-	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
+	clone_base=$(gh config get gh-fzf.clone_base 2>/dev/null)
 	# Expand tilde to home directory
 	clone_base="${clone_base/#\~/$HOME}"
 
@@ -70,25 +70,25 @@ _gh_repo_clone() {
 
 # _gh_repo_fork()
 #
-# Forks a GitHub repository and clones it, respecting fzf.clone_base.
+# Forks a GitHub repository and clones it, respecting gh-fzf.clone_base.
 #
 # DESCRIPTION:
 #   Forks the specified repository using `gh repo fork --clone`.
-#   If fzf.clone_base is configured, it forks AND clones to a destination path of
+#   If gh-fzf.clone_base is configured, it forks AND clones to a destination path of
 #   `$base/github.com/your-username/repo`. Otherwise, it clones to the current directory.
 #
 # PARAMETERS:
 #   $1 - The repository to fork (e.g., "owner/repo").
 #
 # BEHAVIOR:
-#   - Reads `fzf.clone_base` from gh config.
+#   - Reads `gh-fzf.clone_base` from gh config.
 #   - Forks the repository with the `--clone` flag.
-#   - If fzf.clone_base is set: Fork AND clone to $base/github.com/your-username/repo
+#   - If gh-fzf.clone_base is set: Fork AND clone to $base/github.com/your-username/repo
 #   - If not, fork and clone to the current directory.
 #
 # EXAMPLE:
 #   _gh_repo_fork "owner/repo"
-#   # With fzf.clone_base = ~/Projects -> gh repo fork owner/repo --clone --fork-name ...
+#   # With gh-fzf.clone_base = ~/Projects -> gh repo fork owner/repo --clone --fork-name ...
 #
 _gh_repo_fork() {
 	local repo="$1"
@@ -102,7 +102,7 @@ _gh_repo_fork() {
 	local fork_name
 	fork_name=$(basename "$repo")
 	local clone_base
-	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
+	clone_base=$(gh config get gh-fzf.clone_base 2>/dev/null)
 	# Expand tilde to home directory
 	clone_base="${clone_base/#\~/$HOME}"
 

@@ -29,5 +29,5 @@ gh fzf repo --help
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> `alt-g` and `alt-f` respect the `fzf.clone_base` config setting.
+> `alt-g` and `alt-f` respect the `gh-fzf.clone_base` config setting.
 > See [configuration](config.md) for details.

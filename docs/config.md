@@ -6,7 +6,7 @@ By default `alt-g` (clone) and `alt-f` (fork) clone into the current directory.
 Set a base directory to have gh-fzf organise clones automatically:
 
 ```bash
-gh config set fzf.clone_base ~/Projects
+gh config set gh-fzf.clone_base ~/Projects
 ```
 
 With this set, cloning `owner/repo` places it at `~/Projects/github.com/owner/repo`.
