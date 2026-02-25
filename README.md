@@ -1,17 +1,18 @@
-<!-- markdownlint-disable-file MD013 -->
-
 # gh-fzf
 
-Interactive fuzzy finder for searching GitHub resources.
+A GitHub CLI extension that provides an interactive fuzzy finder for browsing
+and managing repositories, issues, pull requests, workflow runs, and GitHub
+search — all from the terminal.
 
 ![License](https://img.shields.io/github/license/gh-extensions/gh-fzf)
 ![Version](https://img.shields.io/github/v/release/gh-extensions/gh-fzf)
 
 ## Prerequisites
 
-- [fzf](https://github.com/junegunn/fzf) — fuzzy finder
+- [Gum](https://github.com/charmbracelet/gum)
+- [Bash](https://www.gnu.org/software/bash/) 4.4+ (`bash`) — macOS: `brew install bash`
 - [GitHub CLI](https://cli.github.com/) (`gh`)
-- [gum](https://github.com/charmbracelet/gum)
+- [Fzf](https://github.com/junegunn/fzf) (`fzf`) — macOS: `brew install fzf`
 
 ## Installation
 
@@ -19,7 +20,7 @@ Interactive fuzzy finder for searching GitHub resources.
 gh extension install gh-extensions/gh-fzf
 ```
 
-## Quick start
+## Usage
 
 ```bash
 gh fzf repo      # browse your repositories
@@ -46,3 +47,5 @@ In every view, press `alt-h` to toggle the keyboard shortcut reference.
 ## License
 
 [MIT](LICENSE) — Copyright (c) 2025 gh-extensions
+
+<!-- markdownlint-disable-file MD013 -->
