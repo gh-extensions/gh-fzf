@@ -68,7 +68,7 @@ _gh_run_help() {
 | **`ctrl-r`** | Reload list |
 | **`alt-x`** | Cancel run |
 | **`alt-r`** | Rerun workflow |
-| **`alt-l`** | View logs |
+| **`alt-l`** | View logs in pager |
 | **`alt-d`** | Download artifacts |
 | **`alt-enter`** | View details |
 | **`alt-w`** | Watch progress |

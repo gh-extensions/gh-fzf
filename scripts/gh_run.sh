@@ -41,7 +41,7 @@ source "$_gh_run_source_dir/gh_core.sh"
 #   ctrl-r    - Reload run list with current filters
 #   alt-x     - Cancel run
 #   alt-r     - Rerun workflow
-#   alt-l     - View run logs in terminal
+#   alt-l     - View run logs in gum pager
 #   alt-d     - Download run artifacts
 #   alt-enter - View run details in terminal
 #   alt-w     - Watch run progress in terminal
@@ -94,7 +94,7 @@ _gh_run_list() {
 		--bind "alt-r:execute-silent(gh run rerun {-1})+reload($run_list_reload)" \
 		--bind "alt-d:execute-silent(gh run download {-1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_run_source_dir/gh_core.sh run view {-1})" \
-		--bind "alt-l:$_fzf_execute($_gh_run_source_dir/gh_core.sh run view {-1} --log)" \
+		--bind "alt-l:execute(gh run view {-1} --log | gum pager)" \
 		--bind "alt-w:$_fzf_execute($_gh_run_source_dir/gh_core.sh run watch {-1})" \
 		--bind "alt-h:toggle-preview"
 }
