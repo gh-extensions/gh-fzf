@@ -87,13 +87,12 @@ _gh_issue_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "ISSUE"
 
-	local _ai_issue_binds=()
 	if _gh_ai_enabled; then
-		_ai_issue_binds+=(--bind "alt-D:execute(gh ai issue develop {1})")
+		_fzf_options+=(--bind "alt-D:execute(gh ai issue develop {1})")
 	fi
 
 	# Transform and present in fzf
-	echo "$issue_list" | fzf "${_fzf_options[@]}" "${_ai_issue_binds[@]}" \
+	echo "$issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $issue_repo" \
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh help" \

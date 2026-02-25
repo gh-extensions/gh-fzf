@@ -130,13 +130,12 @@ _gh_search_prs_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"
 
-	local _ai_search_pr_binds=()
 	if _gh_ai_enabled; then
-		_ai_search_pr_binds+=(--bind "alt-E:execute(gh ai pr explain {1} --repo {2} | gum pager)")
-		_ai_search_pr_binds+=(--bind "alt-R:execute(gh ai pr review {1} --repo {2})")
+		_fzf_options+=(--bind "alt-E:execute(gh ai pr explain {1} --repo {2} | gum pager)")
+		_fzf_options+=(--bind "alt-R:execute(gh ai pr review {1} --repo {2})")
 	fi
 
-	fzf "${_fzf_options[@]}" "${_ai_search_pr_binds[@]}" \
+	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--preview "$_gh_search_source_dir/gh_search_cmd.sh help prs" \
