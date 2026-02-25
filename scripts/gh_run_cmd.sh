@@ -75,15 +75,6 @@ _gh_run_help() {
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
-	if _gh_ai_enabled; then
-		gum format <<'EOF'
-## AI Shortcuts
-
-| Key | Action |
-|-----|--------|
-| **`alt-E`** | Explain run |
-EOF
-	fi
 }
 
 # ------------------------------------------------------------------------------

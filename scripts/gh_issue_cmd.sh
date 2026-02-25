@@ -126,15 +126,6 @@ _gh_issue_help() {
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
-	if _gh_ai_enabled; then
-		gum format <<'EOF'
-## AI Shortcuts
-
-| Key | Action |
-|-----|--------|
-| **`alt-D`** | Develop issue |
-EOF
-	fi
 }
 
 # ------------------------------------------------------------------------------
