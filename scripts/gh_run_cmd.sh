@@ -31,18 +31,18 @@ source "$_gh_run_cmd_source_dir/gh_core.sh"
 #   A formatted string of workflow runs, one per line.
 #
 _gh_run_list_cmd() {
-    local -a _gh_fzf_filtered_args=()
-    _gh_parse_list_args _gh_fzf_filtered_args "$@"
+	local -a _gh_fzf_filtered_args=()
+	_gh_parse_list_args _gh_fzf_filtered_args "$@"
 
-    # Set up columns and template
-    local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
-    local run_template
+	# Set up columns and template
+	local run_columns="updatedAt,event,displayTitle,headBranch,databaseId,conclusion,status,name"
+	local run_template
 
-    run_template=$(cat "$_gh_run_cmd_source_dir/../templates/gh_run_list.tmpl")
+	run_template=$(cat "$_gh_run_cmd_source_dir/../templates/gh_run_list.tmpl")
 
-    # Query GitHub for workflow runs with spinner feedback
-    gum spin --title "Loading GitHub Runs..." -- \
-        gh run list "${_gh_fzf_filtered_args[@]}" --json "$run_columns" --template "$run_template"
+	# Query GitHub for workflow runs with spinner feedback
+	gum spin --title "Loading GitHub Runs..." -- \
+		gh run list "${_gh_fzf_filtered_args[@]}" --json "$run_columns" --template "$run_template"
 }
 
 # _gh_run_help()

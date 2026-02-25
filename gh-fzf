@@ -73,6 +73,8 @@ gh-fzf - Interactive fuzzy finder for GitHub CLI
 
 USAGE:
     gh-fzf [fzf-flags] <command> [command-flags]
+    gh-fzf --version
+    gh-fzf --help
 
 FZF FLAGS (specify before command):
     Any fzf flags can be passed before the command. These are passed directly
@@ -248,6 +250,10 @@ main() {
 	# Parse arguments: everything before command = fzf flags, everything after = command args
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
+		--version)
+			cat "$_gh_fzf_source_dir/version.txt"
+			exit 0
+			;;
 		--help | -h | help)
 			_show_root_help
 			exit 0
@@ -267,11 +273,8 @@ main() {
 		esac
 	done
 
-	# Export fzf flags for gh_core.sh to use
-	if [[ ${#fzf_flags[@]} -gt 0 ]]; then
-		# Use printf %q to properly quote each element for safe eval
-		export GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
-	fi
+	# Export fzf flags for gh_core.sh to use (always export to clear any stale env value)
+	export GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
 
 	# Dispatch to command with remaining args
 	case $command in

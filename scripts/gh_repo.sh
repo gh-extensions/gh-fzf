@@ -15,7 +15,7 @@ source "$_gh_repo_source_dir/gh_core.sh"
 #
 # Dependencies from main gh-fzf:
 #   - $_gh_fzf_source_dir (source directory path)
-#   - _gh_filter_list_args() (argument filtering function)
+#   - _gh_parse_list_args() (argument parsing function)
 
 # _gh_repo_list()
 #
@@ -66,8 +66,10 @@ _gh_repo_list() {
 	fi
 
 	# Extract repo owner for footer (first non-flag arg, if any)
-	local repo_owner
-	repo_owner="$1"
+	local repo_owner=""
+	if [[ -n "${1:-}" && "${1:-}" != -* ]]; then
+		repo_owner="$1"
+	fi
 
 	local repo_list
 	repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")

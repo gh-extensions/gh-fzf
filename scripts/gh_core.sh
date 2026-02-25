@@ -146,6 +146,9 @@ _gh_resource() {
 	search)
 		echo "Search"
 		;;
+	*)
+		echo "GitHub"
+		;;
 	esac
 
 }
