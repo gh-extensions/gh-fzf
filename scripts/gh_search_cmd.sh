@@ -205,7 +205,18 @@ EOF
 | **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
+EOF
+		if _gh_ai_enabled; then
+			gum format <<'EOF'
+## AI Shortcuts
 
+| Key | Action |
+|-----|--------|
+| **`alt-E`** | Explain PR |
+| **`alt-R`** | Review PR |
+EOF
+		fi
+		gum format <<'EOF'
 ## Search Tips
 
 - Search all public PRs

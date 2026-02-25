@@ -120,6 +120,8 @@ _gh_search_issues_list() {
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Comment on PR
 #   alt-enter - View PR details in terminal
+#   alt-E     - AI: explain PR (requires gh-fzf.ai=enabled)
+#   alt-R     - AI: review PR (requires gh-fzf.ai=enabled)
 #
 _gh_search_prs_list() {
 	local search_query
@@ -128,7 +130,13 @@ _gh_search_prs_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"
 
-	fzf "${_fzf_options[@]}" \
+	local _ai_search_pr_binds=()
+	if _gh_ai_enabled; then
+		_ai_search_pr_binds+=(--bind "alt-E:execute(gh ai pr explain {1} --repo {2} | gum pager)")
+		_ai_search_pr_binds+=(--bind "alt-R:execute(gh ai pr review {1} --repo {2})")
+	fi
+
+	fzf "${_fzf_options[@]}" "${_ai_search_pr_binds[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--preview "$_gh_search_source_dir/gh_search_cmd.sh help prs" \

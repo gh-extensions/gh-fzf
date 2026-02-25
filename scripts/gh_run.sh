@@ -45,6 +45,7 @@ source "$_gh_run_source_dir/gh_core.sh"
 #   alt-d     - Download run artifacts
 #   alt-enter - View run details in terminal
 #   alt-w     - Watch run progress in terminal
+#   alt-E     - AI: explain run (requires gh-fzf.ai=enabled)
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -83,8 +84,13 @@ _gh_run_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "RUN"
 
+	local _ai_run_binds=()
+	if _gh_ai_enabled; then
+		_ai_run_binds+=(--bind "alt-E:execute(gh ai run explain {-1} | gum pager)")
+	fi
+
 	# Transform and present in fzf
-	echo "$run_list" | fzf "${_fzf_options[@]}" \
+	echo "$run_list" | fzf "${_fzf_options[@]}" "${_ai_run_binds[@]}" \
 		--accept-nth -1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Runs $_fzf_split $run_repo" \
 		--preview "$_gh_run_source_dir/gh_run_cmd.sh help" \

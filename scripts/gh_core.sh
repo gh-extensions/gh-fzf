@@ -12,6 +12,23 @@ else
 	_fzf_execute="execute"
 fi
 
+# _gh_ai_enabled()
+#
+# Returns true if gh-ai integration is enabled via gh config.
+#
+# DESCRIPTION:
+#   Checks whether the user has opted into gh-ai integration by setting
+#   `gh config set gh-fzf.ai enabled`. Does not check if gh-ai is installed —
+#   bindings will fail gracefully if it is not.
+#
+# RETURNS:
+#   0 - Integration is enabled
+#   1 - Integration is disabled or config key is not set
+#
+_gh_ai_enabled() {
+	[[ $(gh config get gh-fzf.ai 2>/dev/null) == "enabled" ]]
+}
+
 # _gh_fzf_options()
 #
 # Build fzf options array with user-provided flags
