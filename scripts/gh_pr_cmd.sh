@@ -15,7 +15,7 @@ source "$_gh_pr_cmd_source_dir/gh_core.sh"
 #
 # Dependencies from main gh-fzf:
 #   - $_gh_fzf_source_dir (source directory path)
-#   - _gh_filter_list_args() (argument filtering function)
+#   - _gh_parse_list_args() (argument parsing function)
 
 # _gh_pr_list_cmd()
 #
@@ -33,9 +33,8 @@ source "$_gh_pr_cmd_source_dir/gh_core.sh"
 #   A formatted string of pull requests, one per line.
 #
 _gh_pr_list_cmd() {
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+	local -a _gh_fzf_filtered_args=()
+	_gh_parse_list_args _gh_fzf_filtered_args "$@"
 
 	# Set up columns and template
 	local pr_columns="number,title,state,headRefName,milestone,updatedAt,labels,additions,deletions,changedFiles,isDraft"
@@ -44,9 +43,8 @@ _gh_pr_list_cmd() {
 	pr_template=$(cat "$_gh_pr_cmd_source_dir/../templates/gh_pr_list.tmpl")
 
 	# Query GitHub for pull requests with spinner feedback
-	# shellcheck disable=SC2086
 	gum spin --title "Loading GitHub Pull Requests..." -- \
-		gh pr list $_gh_fzf_filtered_args --json "$pr_columns" --template "$pr_template"
+		gh pr list "${_gh_fzf_filtered_args[@]}" --json "$pr_columns" --template "$pr_template"
 }
 
 # _gh_pr_help()

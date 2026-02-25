@@ -150,61 +150,50 @@ _gh_resource() {
 
 }
 
-# _gh_filter_list_args()
+# _gh_parse_list_args()
 #
-# Filter arguments to remove flags that gh-fzf controls internally
+# Parse arguments, accumulating passthrough flags into a named array
 #
 # DESCRIPTION:
-#   Filters out flags that conflict with gh-fzf's internal usage (--json,
-#   --template) while passing through all other flags to the gh CLI command.
-#   This allows users to pass additional filtering flags like --search,
-#   --state, --author, --label, etc. while preventing conflicts.
+#   Single-pass parser that strips flags gh-fzf controls internally
+#   (--json, --jq, --template and their short forms) and accumulates
+#   everything else directly into a caller-supplied array via nameref.
+#   Handles both --flag value and --flag=value forms.
 #
 # PARAMETERS:
-#   $@ - Arguments to filter
+#   $1 - Name of caller's array variable to populate (nameref)
+#   $@ - Arguments to parse
 #
-# RETURNS:
-#   0 - Always returns success
-#
-# OUTPUT:
-#   Space-separated string of filtered arguments
-#
-# FILTERED FLAGS:
+# STRIPPED FLAGS:
 #   --json, --jq, -q    - gh-fzf controls JSON output format
 #   --template, -t      - gh-fzf controls output template
 #
 # EXAMPLE:
-#   filtered=$(_gh_filter_list_args --state closed --json custom)
-#   # Returns: "--state closed" (--json filtered out)
+#   local -a passthrough=()
+#   _gh_parse_list_args passthrough --state closed --json custom
+#   # passthrough=("--state" "closed")
 #
-_gh_filter_list_args() {
-	local filtered=()
-	local skip_next=false
-	local arg
+_gh_parse_list_args() {
+	local -n _gh_parse_out_ref="$1"
+	shift
 
-	for arg in "$@"; do
-		if [ "$skip_next" = true ]; then
-			skip_next=false
+	local args=("$@")
+	local i=0
+
+	while [[ $i -lt ${#args[@]} ]]; do
+		case "${args[$i]}" in
+		--json | --jq | --template | -q | -t)
+			((i += 2))
 			continue
-		fi
-
-		case "$arg" in
-		--json | --jq | --template)
-			skip_next=true
-			;;
-		-q | -t)
-			skip_next=true
 			;;
 		--json=* | --jq=* | --template=*)
-			# Skip flags with = syntax
 			;;
 		*)
-			filtered+=("$arg")
+			_gh_parse_out_ref+=("${args[$i]}")
 			;;
 		esac
+		((++i))
 	done
-
-	[[ ${#filtered[@]} -gt 0 ]] && echo "${filtered[*]}" || true
 }
 
 # ------------------------------------------------------------------------------

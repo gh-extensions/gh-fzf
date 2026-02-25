@@ -44,13 +44,12 @@ _gh_search_repos_cmd() {
 	search_template=$(cat "$_gh_search_cmd_source_dir/../templates/gh_search_repos.tmpl")
 
 	# Execute search (without spinner - would interfere with live updates)
-	# shellcheck disable=SC2086
 	gh search repos "$query" \
 		--limit 30 \
 		--json "fullName,description,stargazersCount,language,updatedAt" \
-		--template "$search_template" 2>/dev/null || {
-		echo "Search failed. Try a different query or check your network connection."
-		return 0
+		--template "$search_template" || {
+		echo "Search failed. Try a different query or check your network connection." >&2
+		return 1
 	}
 }
 
@@ -82,13 +81,12 @@ _gh_search_issues_cmd() {
 	search_template=$(cat "$_gh_search_cmd_source_dir/../templates/gh_search_issues.tmpl")
 
 	# Execute search
-	# shellcheck disable=SC2086
 	gh search issues "$query" \
 		--limit 30 \
 		--json "number,title,repository,state,author,createdAt" \
-		--template "$search_template" 2>/dev/null || {
-		echo "Search failed. Try a different query or check your network connection."
-		return 0
+		--template "$search_template" || {
+		echo "Search failed. Try a different query or check your network connection." >&2
+		return 1
 	}
 }
 
@@ -120,13 +118,12 @@ _gh_search_prs_cmd() {
 	search_template=$(cat "$_gh_search_cmd_source_dir/../templates/gh_search_prs.tmpl")
 
 	# Execute search
-	# shellcheck disable=SC2086
 	gh search prs "$query" \
 		--limit 30 \
 		--json "number,title,repository,state,author,isDraft,createdAt" \
-		--template "$search_template" 2>/dev/null || {
-		echo "Search failed. Try a different query or check your network connection."
-		return 0
+		--template "$search_template" || {
+		echo "Search failed. Try a different query or check your network connection." >&2
+		return 1
 	}
 }
 

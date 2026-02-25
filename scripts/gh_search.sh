@@ -123,7 +123,7 @@ _gh_search_issues_list() {
 #
 _gh_search_prs_list() {
 	local search_query
-	search_query=$(printf '%q' "$search_query")
+	search_query=$(printf '%q' "${1:-}")
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"

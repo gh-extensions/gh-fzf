@@ -134,9 +134,8 @@ _gh_repo_fork() {
 #   A formatted string of repositories, one per line.
 #
 _gh_repo_list_cmd() {
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+	local -a _gh_fzf_filtered_args=()
+	_gh_parse_list_args _gh_fzf_filtered_args "$@"
 
 	# Set up columns and template
 	local repo_columns="nameWithOwner,description,stargazerCount,primaryLanguage,visibility,isArchived,pushedAt"
@@ -145,9 +144,8 @@ _gh_repo_list_cmd() {
 	repo_template=$(cat "$_gh_repo_cmd_source_dir/../templates/gh_repo_list.tmpl")
 
 	# Query GitHub for repositories with spinner feedback
-	# shellcheck disable=SC2086
 	gum spin --title "Loading GitHub Repositories..." -- \
-		gh repo list $_gh_fzf_filtered_args --json "$repo_columns" --template "$repo_template"
+		gh repo list "${_gh_fzf_filtered_args[@]}" --json "$repo_columns" --template "$repo_template"
 }
 
 # _gh_repo_help()

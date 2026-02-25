@@ -20,7 +20,7 @@ source "$_gh_issue_cmd_source_dir/gh_core.sh"
 #
 # Dependencies from main gh-fzf:
 #   - $_gh_fzf_source_dir (source directory path)
-#   - _gh_filter_list_args() (argument filtering function)
+#   - _gh_parse_list_args() (argument parsing function)
 
 # _gh_issue_list_cmd()
 #
@@ -38,9 +38,8 @@ source "$_gh_issue_cmd_source_dir/gh_core.sh"
 #   A formatted string of issues, one per line.
 #
 _gh_issue_list_cmd() {
-	local _gh_fzf_filtered_args
-	# Filter out arguments that gh-fzf controls
-	_gh_fzf_filtered_args=$(_gh_filter_list_args "$@")
+	local -a _gh_fzf_filtered_args=()
+	_gh_parse_list_args _gh_fzf_filtered_args "$@"
 
 	# Set up columns and template
 	local issue_columns="number,title,author,assignees,state,milestone,labels,updatedAt"
@@ -49,9 +48,8 @@ _gh_issue_list_cmd() {
 	issue_template=$(cat "$_gh_issue_cmd_source_dir/../templates/gh_issue_list.tmpl")
 
 	# Query GitHub for issues with spinner feedback
-	# shellcheck disable=SC2086
 	gum spin --title "Loading GitHub Issues..." -- \
-		gh issue list $_gh_fzf_filtered_args --json "$issue_columns" --template "$issue_template"
+		gh issue list "${_gh_fzf_filtered_args[@]}" --json "$issue_columns" --template "$issue_template"
 }
 
 # _gh_issue_add_label_cmd()

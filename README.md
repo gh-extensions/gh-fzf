@@ -9,6 +9,7 @@ Interactive fuzzy finder for searching GitHub resources.
 
 ## Prerequisites
 
+- [fzf](https://github.com/junegunn/fzf) — fuzzy finder
 - [GitHub CLI](https://cli.github.com/) (`gh`)
 - [gum](https://github.com/charmbracelet/gum)
 
