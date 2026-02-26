@@ -14,7 +14,6 @@ source "$_gh_repo_source_dir/gh_core.sh"
 # repository listing and interactive functionality.
 #
 # Dependencies from main gh-fzf:
-#   - $_gh_fzf_source_dir (source directory path)
 #   - _gh_parse_list_args() (argument parsing function)
 
 # _gh_repo_list()

@@ -13,8 +13,6 @@ source "$_gh_search_cmd_source_dir/gh_core.sh"
 # This file provides search functionality across GitHub (repositories, issues, PRs)
 # using the `gh search` command with live/dynamic updates in fzf.
 #
-# Dependencies from main gh-fzf:
-#   - $_gh_fzf_source_dir (source directory path)
 
 # _gh_search_repos_cmd()
 #
@@ -205,8 +203,7 @@ EOF
 | **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
-EOF
-		gum format <<'EOF'
+
 ## Search Tips
 
 - Search all public PRs

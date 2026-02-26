@@ -13,9 +13,6 @@ source "$_gh_issue_source_dir/gh_core.sh"
 # This file is sourced by the main gh-fzf script and provides
 # issue listing and interactive functionality.
 #
-# Dependencies from main gh-fzf:
-#   - $_gh_fzf_source_dir (source directory path)
-#   - _gh_filter_list_args() (argument filtering function)
 
 # _gh_issue_list()
 #

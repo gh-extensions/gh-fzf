@@ -48,7 +48,7 @@ setup() {
 # _gh_repo_clone: without clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "clones into the current directory when clone_base is not configured" {
+@test "_gh_repo_clone: clones into current directory when clone_base is not configured" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
@@ -57,7 +57,7 @@ setup() {
 	grep -q "repo clone owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
-@test "passes no destination argument to gh repo clone when clone_base is unset" {
+@test "_gh_repo_clone: passes no destination argument when clone_base is unset" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
@@ -72,7 +72,7 @@ setup() {
 # _gh_repo_clone: with clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "clones to <clone_base>/github.com/owner/repo when clone_base is configured" {
+@test "_gh_repo_clone: clones to <clone_base>/github.com/owner/repo when clone_base is configured" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 
@@ -81,7 +81,7 @@ setup() {
 	grep -q "repo clone owner/repo /tmp/projects/github.com/owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
-@test "creates the parent directory before cloning" {
+@test "_gh_repo_clone: creates parent directory before cloning" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 
@@ -90,7 +90,7 @@ setup() {
 	grep -q "mkdir -p /tmp/projects/github.com/owner" "$BATS_TEST_TMPDIR/mkdir.log"
 }
 
-@test "constructs the clone path as <clone_base>/github.com/<owner>/<repo>" {
+@test "_gh_repo_clone: constructs clone path as <clone_base>/github.com/<owner>/<repo>" {
 	_mock_clone_base="/opt/code"
 	export _mock_clone_base
 
@@ -103,7 +103,7 @@ setup() {
 # _gh_repo_fork: error handling
 # ---------------------------------------------------------------------------
 
-@test "fails when the authenticated GitHub user cannot be detected" {
+@test "_gh_repo_fork: fails when the authenticated GitHub user cannot be detected" {
 	_mock_gh_user=""
 	export _mock_gh_user
 
@@ -115,7 +115,7 @@ setup() {
 # _gh_repo_fork: without clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "forks and clones in a single step when clone_base is not configured" {
+@test "_gh_repo_fork: forks and clones in a single step when clone_base is not configured" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
@@ -128,7 +128,7 @@ setup() {
 # _gh_repo_fork: with clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "forks first then clones separately to <clone_base>/github.com/<user>/<repo>" {
+@test "_gh_repo_fork: forks then clones separately to <clone_base>/github.com/<user>/<repo>" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 

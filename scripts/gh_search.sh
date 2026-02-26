@@ -13,9 +13,6 @@ source "$_gh_search_source_dir/gh_core.sh"
 # This file provides interactive search functionality for GitHub using fzf's
 # dynamic reload pattern. Searches update live as the user types.
 #
-# Dependencies from main gh-fzf:
-#   - $_gh_fzf_source_dir (source directory path)
-#   - $_fzf_options (fzf configuration array)
 
 # _gh_search_repos_list()
 #

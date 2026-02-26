@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+[ -z "${DEBUG:-}" ] || set -x
+
+set -eo pipefail
+
 # Icon used in tmux popup titles
 _fzf_icon=" "
 # Separator used in fzf display templates
