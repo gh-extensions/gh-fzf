@@ -85,7 +85,7 @@ _gh_run_list() {
 	_gh_fzf_options "RUN"
 
 	if _gh_ai_enabled; then
-		_fzf_options+=(--bind "alt-E:execute(gh ai run explain {-1} | gum pager)")
+		_fzf_options+=(--bind "alt-E:execute(gh ai run explain {-1} | gum format | gum pager)")
 	fi
 
 	# Transform and present in fzf
