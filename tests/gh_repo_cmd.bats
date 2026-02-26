@@ -48,7 +48,7 @@ setup() {
 # _gh_repo_clone: without clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_clone: without clone_base calls gh repo clone without target dir" {
+@test "clones into the current directory when clone_base is not configured" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
@@ -57,13 +57,12 @@ setup() {
 	grep -q "repo clone owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
-@test "_gh_repo_clone: without clone_base does not pass a destination path" {
+@test "passes no destination argument to gh repo clone when clone_base is unset" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
 	_gh_repo_clone "owner/repo"
 
-	# The log line should be exactly "repo clone owner/repo" with no extra path arg
 	local logged
 	logged=$(cat "$BATS_TEST_TMPDIR/gh.log")
 	[[ "$logged" == "repo clone owner/repo" ]]
@@ -73,7 +72,7 @@ setup() {
 # _gh_repo_clone: with clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_clone: with clone_base calls gh repo clone with constructed path" {
+@test "clones to <clone_base>/github.com/owner/repo when clone_base is configured" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 
@@ -82,7 +81,7 @@ setup() {
 	grep -q "repo clone owner/repo /tmp/projects/github.com/owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
-@test "_gh_repo_clone: with clone_base creates parent directory" {
+@test "creates the parent directory before cloning" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 
@@ -91,7 +90,7 @@ setup() {
 	grep -q "mkdir -p /tmp/projects/github.com/owner" "$BATS_TEST_TMPDIR/mkdir.log"
 }
 
-@test "_gh_repo_clone: clone_base path includes github.com owner and repo name" {
+@test "constructs the clone path as <clone_base>/github.com/<owner>/<repo>" {
 	_mock_clone_base="/opt/code"
 	export _mock_clone_base
 
@@ -104,7 +103,7 @@ setup() {
 # _gh_repo_fork: error handling
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_fork: returns 1 when gh api user returns empty owner" {
+@test "fails when the authenticated GitHub user cannot be detected" {
 	_mock_gh_user=""
 	export _mock_gh_user
 
@@ -116,7 +115,7 @@ setup() {
 # _gh_repo_fork: without clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_fork: without clone_base uses gh repo fork --clone" {
+@test "forks and clones in a single step when clone_base is not configured" {
 	_mock_clone_base=""
 	export _mock_clone_base
 
@@ -129,14 +128,12 @@ setup() {
 # _gh_repo_fork: with clone_base configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_fork: with clone_base forks without cloning then clones to path" {
+@test "forks first then clones separately to <clone_base>/github.com/<user>/<repo>" {
 	_mock_clone_base="/tmp/projects"
 	export _mock_clone_base
 
 	_gh_repo_fork "owner/repo"
 
-	# Should fork without clone first
 	grep -q "repo fork owner/repo --clone=false" "$BATS_TEST_TMPDIR/gh.log"
-	# Then clone to the constructed path
 	grep -q "repo clone testuser/repo /tmp/projects/github.com/testuser/repo" "$BATS_TEST_TMPDIR/gh.log"
 }

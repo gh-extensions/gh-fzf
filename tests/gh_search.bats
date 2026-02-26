@@ -42,19 +42,19 @@ setup() {
 # _gh_search_list: help
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_list: --help returns 0 and prints usage" {
+@test "prints usage and exits cleanly for --help" {
 	run _gh_search_list --help
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"gh-fzf search"* ]]
 }
 
-@test "_gh_search_list: -h returns 0 and prints usage" {
+@test "prints usage and exits cleanly for -h" {
 	run _gh_search_list -h
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"gh-fzf search"* ]]
 }
 
-@test "_gh_search_list: help shows available search types" {
+@test "usage output lists all available search types" {
 	run _gh_search_list --help
 	[[ "$output" == *"repos"* ]]
 	[[ "$output" == *"issues"* ]]
@@ -65,49 +65,49 @@ setup() {
 # _gh_search_list: dispatch to sub-commands
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_list: repos dispatches to _gh_search_repos_list" {
+@test 'routes "repos" to the repository search handler' {
 	run _gh_search_list repos
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == "repos_called:"* ]]
 }
 
-@test "_gh_search_list: repositories dispatches to _gh_search_repos_list" {
+@test 'routes "repositories" to the repository search handler' {
 	run _gh_search_list repositories
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == "repos_called:"* ]]
 }
 
-@test "_gh_search_list: issues dispatches to _gh_search_issues_list" {
+@test 'routes "issues" to the issue search handler' {
 	run _gh_search_list issues
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == "issues_called:"* ]]
 }
 
-@test "_gh_search_list: prs dispatches to _gh_search_prs_list" {
+@test 'routes "prs" to the pull request search handler' {
 	run _gh_search_list prs
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == "prs_called:"* ]]
 }
 
-@test "_gh_search_list: pull-requests dispatches to _gh_search_prs_list" {
+@test 'routes "pull-requests" to the pull request search handler' {
 	run _gh_search_list pull-requests
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == "prs_called:"* ]]
 }
 
-@test "_gh_search_list: initial query is forwarded to repos list" {
+@test "forwards the initial query to the repository search handler" {
 	run _gh_search_list repos "my query"
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"my query"* ]]
 }
 
-@test "_gh_search_list: initial query is forwarded to issues list" {
+@test "forwards the initial query to the issue search handler" {
 	run _gh_search_list issues "bug fix"
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"bug fix"* ]]
 }
 
-@test "_gh_search_list: initial query is forwarded to prs list" {
+@test "forwards the initial query to the pull request search handler" {
 	run _gh_search_list prs "feature"
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"feature"* ]]
@@ -117,12 +117,12 @@ setup() {
 # _gh_search_list: error cases
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_list: empty type returns 1" {
+@test "fails with an error when no search type is provided" {
 	run _gh_search_list
 	[[ "$status" -eq 1 ]]
 }
 
-@test "_gh_search_list: unknown type returns 1" {
+@test "fails with an error for an unrecognised search type" {
 	run _gh_search_list unknown-type
 	[[ "$status" -eq 1 ]]
 }
@@ -131,13 +131,13 @@ setup() {
 # _gh_search_repos_cmd: empty query handling
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_repos_cmd: empty query returns 0 with prompt message" {
+@test "repos: returns a typing prompt instead of searching when query is empty" {
 	run _gh_search_repos_cmd ""
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"Type to search"* ]]
 }
 
-@test "_gh_search_repos_cmd: empty query message mentions repositories" {
+@test "repos: prompt message refers to repositories" {
 	run _gh_search_repos_cmd ""
 	[[ "$output" == *"repositor"* ]]
 }
@@ -146,13 +146,13 @@ setup() {
 # _gh_search_issues_cmd: empty query handling
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_issues_cmd: empty query returns 0 with prompt message" {
+@test "issues: returns a typing prompt instead of searching when query is empty" {
 	run _gh_search_issues_cmd ""
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"Type to search"* ]]
 }
 
-@test "_gh_search_issues_cmd: empty query message mentions issues" {
+@test "issues: prompt message refers to issues" {
 	run _gh_search_issues_cmd ""
 	[[ "$output" == *"issues"* ]]
 }
@@ -161,13 +161,13 @@ setup() {
 # _gh_search_prs_cmd: empty query handling
 # ---------------------------------------------------------------------------
 
-@test "_gh_search_prs_cmd: empty query returns 0 with prompt message" {
+@test "prs: returns a typing prompt instead of searching when query is empty" {
 	run _gh_search_prs_cmd ""
 	[[ "$status" -eq 0 ]]
 	[[ "$output" == *"Type to search"* ]]
 }
 
-@test "_gh_search_prs_cmd: empty query message mentions pull requests" {
+@test "prs: prompt message refers to pull requests" {
 	run _gh_search_prs_cmd ""
 	[[ "$output" == *"pull request"* ]]
 }

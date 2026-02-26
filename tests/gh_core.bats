@@ -37,31 +37,31 @@ setup() {
 # _gh_resource: resource type name mapping
 # ---------------------------------------------------------------------------
 
-@test "_gh_resource: pr maps to Pull Request" {
+@test 'maps "pr" to "Pull Request"' {
 	[[ "$(_gh_resource pr)" == "Pull Request" ]]
 }
 
-@test "_gh_resource: repo maps to Repository" {
+@test 'maps "repo" to "Repository"' {
 	[[ "$(_gh_resource repo)" == "Repository" ]]
 }
 
-@test "_gh_resource: issue maps to Issue" {
+@test 'maps "issue" to "Issue"' {
 	[[ "$(_gh_resource issue)" == "Issue" ]]
 }
 
-@test "_gh_resource: run maps to Run" {
+@test 'maps "run" to "Run"' {
 	[[ "$(_gh_resource run)" == "Run" ]]
 }
 
-@test "_gh_resource: search maps to Search" {
+@test 'maps "search" to "Search"' {
 	[[ "$(_gh_resource search)" == "Search" ]]
 }
 
-@test "_gh_resource: unknown type maps to GitHub" {
+@test 'maps any unknown type to "GitHub"' {
 	[[ "$(_gh_resource unknown)" == "GitHub" ]]
 }
 
-@test "_gh_resource: empty string maps to GitHub" {
+@test 'maps empty input to "GitHub"' {
 	[[ "$(_gh_resource "")" == "GitHub" ]]
 }
 
@@ -69,7 +69,7 @@ setup() {
 # _gh_parse_list_args: controlled flag filtering
 # ---------------------------------------------------------------------------
 
-@test "_gh_parse_list_args: passes through non-controlled flags" {
+@test "passes through all uncontrolled flags and their values" {
 	local -a result=()
 	_gh_parse_list_args result --state open --author @me
 
@@ -80,7 +80,7 @@ setup() {
 	[[ "${result[3]}" == "@me" ]]
 }
 
-@test "_gh_parse_list_args: strips --json and its value" {
+@test "strips --json flag and its argument" {
 	local -a result=()
 	_gh_parse_list_args result --state open --json fields
 
@@ -89,7 +89,7 @@ setup() {
 	[[ "${result[1]}" == "open" ]]
 }
 
-@test "_gh_parse_list_args: strips --jq and its value" {
+@test "strips --jq flag and its argument" {
 	local -a result=()
 	_gh_parse_list_args result --jq '.[]' --label bug
 
@@ -98,7 +98,7 @@ setup() {
 	[[ "${result[1]}" == "bug" ]]
 }
 
-@test "_gh_parse_list_args: strips --template and its value" {
+@test "strips --template flag and its argument" {
 	local -a result=()
 	_gh_parse_list_args result --template '{{.}}' --limit 50
 
@@ -107,7 +107,7 @@ setup() {
 	[[ "${result[1]}" == "50" ]]
 }
 
-@test "_gh_parse_list_args: strips -q and its value" {
+@test "strips -q flag and its argument" {
 	local -a result=()
 	_gh_parse_list_args result -q '.[]' --assignee @me
 
@@ -116,7 +116,7 @@ setup() {
 	[[ "${result[1]}" == "@me" ]]
 }
 
-@test "_gh_parse_list_args: strips -t and its value" {
+@test "strips -t flag and its argument" {
 	local -a result=()
 	_gh_parse_list_args result -t '{{.}}' --search "bug"
 
@@ -125,7 +125,7 @@ setup() {
 	[[ "${result[1]}" == "bug" ]]
 }
 
-@test "_gh_parse_list_args: strips --json=value form" {
+@test "strips inline --json=value form" {
 	local -a result=()
 	_gh_parse_list_args result --json=fields --state closed
 
@@ -134,7 +134,7 @@ setup() {
 	[[ "${result[1]}" == "closed" ]]
 }
 
-@test "_gh_parse_list_args: strips --jq=value form" {
+@test "strips inline --jq=value form" {
 	local -a result=()
 	_gh_parse_list_args result --jq='.[]' --limit 10
 
@@ -143,7 +143,7 @@ setup() {
 	[[ "${result[1]}" == "10" ]]
 }
 
-@test "_gh_parse_list_args: strips --template=value form" {
+@test "strips inline --template=value form" {
 	local -a result=()
 	_gh_parse_list_args result --template='{{.}}' --limit 10
 
@@ -152,14 +152,14 @@ setup() {
 	[[ "${result[1]}" == "10" ]]
 }
 
-@test "_gh_parse_list_args: empty input produces empty output" {
+@test "produces an empty result when given no arguments" {
 	local -a result=()
 	_gh_parse_list_args result
 
 	[[ ${#result[@]} -eq 0 ]]
 }
 
-@test "_gh_parse_list_args: positional args pass through" {
+@test "passes through positional arguments unchanged" {
 	local -a result=()
 	_gh_parse_list_args result octocat --limit 50
 
@@ -169,7 +169,7 @@ setup() {
 	[[ "${result[2]}" == "50" ]]
 }
 
-@test "_gh_parse_list_args: multiple controlled flags are all stripped" {
+@test "strips all controlled flags when multiple are present" {
 	local -a result=()
 	_gh_parse_list_args result --json fields --jq '.[]' --template '{{.}}' --state open
 
@@ -178,7 +178,7 @@ setup() {
 	[[ "${result[1]}" == "open" ]]
 }
 
-@test "_gh_parse_list_args: controlled flags at end are stripped leaving empty result" {
+@test "produces an empty result when only controlled flags are given" {
 	local -a result=()
 	_gh_parse_list_args result --json fields
 
@@ -189,70 +189,70 @@ setup() {
 # _gh_fzf_options: fzf option building
 # ---------------------------------------------------------------------------
 
-@test "_gh_fzf_options: default options include --ansi" {
+@test "includes --ansi in the default option set" {
 	_gh_fzf_options
 	[[ "${_fzf_options[*]}" == *"--ansi"* ]]
 }
 
-@test "_gh_fzf_options: default options include --header-lines" {
+@test "includes --header-lines in the default option set" {
 	_gh_fzf_options
 	[[ "${_fzf_options[*]}" == *"--header-lines"* ]]
 }
 
-@test "_gh_fzf_options: default options array is non-empty" {
+@test "produces a non-empty options array by default" {
 	_gh_fzf_options
 	[[ ${#_fzf_options[@]} -gt 0 ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_FLAGS are appended to options" {
+@test "appends GH_FZF_FLAGS to the options array when set" {
 	export GH_FZF_FLAGS="--multi"
 	_gh_fzf_options
 	[[ "${_fzf_options[*]}" == *"--multi"* ]]
 }
 
-@test "_gh_fzf_options: empty GH_FZF_FLAGS does not affect default options" {
+@test "leaves default options unchanged when GH_FZF_FLAGS is empty" {
 	export GH_FZF_FLAGS=""
 	_gh_fzf_options
 	[[ "${_fzf_options[*]}" == *"--ansi"* ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_PR_OPTS appended when command is PR" {
+@test "appends GH_FZF_PR_OPTS for the PR command" {
 	export GH_FZF_PR_OPTS="--multi"
 	_gh_fzf_options "PR"
 	[[ "${_fzf_options[*]}" == *"--multi"* ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_ISSUE_OPTS appended when command is ISSUE" {
+@test "appends GH_FZF_ISSUE_OPTS for the ISSUE command" {
 	export GH_FZF_ISSUE_OPTS="--reverse"
 	_gh_fzf_options "ISSUE"
 	[[ "${_fzf_options[*]}" == *"--reverse"* ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_RUN_OPTS appended when command is RUN" {
+@test "appends GH_FZF_RUN_OPTS for the RUN command" {
 	export GH_FZF_RUN_OPTS="--border"
 	_gh_fzf_options "RUN"
 	[[ "${_fzf_options[*]}" == *"--border"* ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_REPO_OPTS appended when command is REPO" {
+@test "appends GH_FZF_REPO_OPTS for the REPO command" {
 	export GH_FZF_REPO_OPTS="--height=80%"
 	_gh_fzf_options "REPO"
 	[[ "${_fzf_options[*]}" == *"--height=80%"* ]]
 }
 
-@test "_gh_fzf_options: per-command opts not appended for different command" {
+@test "does not apply per-command opts to a different command" {
 	export GH_FZF_PR_OPTS="--multi"
 	_gh_fzf_options "ISSUE"
 	[[ "${_fzf_options[*]}" != *"--multi"* ]]
 }
 
-@test "_gh_fzf_options: no command ID skips per-command opts" {
+@test "ignores per-command opts when no command ID is given" {
 	export GH_FZF_PR_OPTS="--multi"
 	_gh_fzf_options
 	[[ "${_fzf_options[*]}" != *"--multi"* ]]
 }
 
-@test "_gh_fzf_options: GH_FZF_FLAGS and per-command opts both appended" {
+@test "merges both GH_FZF_FLAGS and per-command opts" {
 	export GH_FZF_FLAGS="--multi"
 	export GH_FZF_PR_OPTS="--reverse"
 	_gh_fzf_options "PR"
@@ -264,27 +264,27 @@ setup() {
 # _gh_ai_enabled: gh-ai integration check
 # ---------------------------------------------------------------------------
 
-@test "_gh_ai_enabled: returns 0 when gh-fzf.ai is enabled" {
+@test 'returns true when gh-fzf.ai config is "enabled"' {
 	gh() { echo "enabled"; }
 	export -f gh
 	_gh_ai_enabled
 }
 
-@test "_gh_ai_enabled: returns 1 when gh-fzf.ai is disabled" {
+@test 'returns false when gh-fzf.ai config is not "enabled"' {
 	gh() { echo "disabled"; }
 	export -f gh
 	run _gh_ai_enabled
 	[[ "$status" -eq 1 ]]
 }
 
-@test "_gh_ai_enabled: returns 1 when gh-fzf.ai is not set" {
+@test "returns false when gh-fzf.ai config is unset" {
 	gh() { echo ""; }
 	export -f gh
 	run _gh_ai_enabled
 	[[ "$status" -eq 1 ]]
 }
 
-@test "_gh_ai_enabled: returns 1 when gh config command fails" {
+@test "returns false when the gh config command fails" {
 	gh() { return 1; }
 	export -f gh
 	run _gh_ai_enabled
