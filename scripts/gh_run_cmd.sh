@@ -2,7 +2,7 @@
 
 [ -z "${DEBUG:-}" ] || set -x
 
-set -eo pipefail
+set -euo pipefail
 
 _gh_run_cmd_source_dir=$(dirname "${BASH_SOURCE[0]}")
 # shellcheck source=gh_core.sh

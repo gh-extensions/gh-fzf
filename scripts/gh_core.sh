@@ -2,7 +2,7 @@
 
 [ -z "${DEBUG:-}" ] || set -x
 
-set -eo pipefail
+set -euo pipefail
 
 # Icon used in tmux popup titles
 _fzf_icon=" "
