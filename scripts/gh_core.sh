@@ -16,30 +16,6 @@ else
 	_fzf_execute="execute"
 fi
 
-# _gh_fzf_source_ai()
-#
-# Source gh-ai fzf bindings for a given command if gh-ai is installed.
-#
-# DESCRIPTION:
-#   Looks for a binding file in the gh-ai extension's fzf integration
-#   directory and sources it in the caller's scope if present. The
-#   binding file may append entries to the caller's _fzf_options array.
-#   The lookup path can be overridden via GH_AI_FZF_DIR.
-#
-# PARAMETERS:
-#   $1 - Binding file name without extension (e.g. "gh_pr", "gh_issue")
-#
-# ENVIRONMENT:
-#   GH_AI_FZF_DIR - Override the default gh-ai fzf extensions directory
-#
-_gh_fzf_source_ai() {
-	local name="$1"
-	local dir="${GH_AI_FZF_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/gh/extensions/gh-ai/extensions/gh-fzf}"
-	local f="$dir/${name}.sh"
-	# shellcheck disable=SC1090
-	[[ -f "$f" ]] && source "$f"
-}
-
 # _gh_fzf_options()
 #
 # Build fzf options array with user-provided flags
