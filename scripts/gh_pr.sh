@@ -48,6 +48,7 @@ source "$_gh_pr_source_dir/gh_core.sh"
 #   alt-k     - View PR checks in terminal
 #   alt-A     - AI: review and approve PR (requires gh-fzf.ai=enabled)
 #   alt-E     - AI: explain PR (requires gh-fzf.ai=enabled)
+#   alt-N     - AI: review and request changes (requires gh-fzf.ai=enabled)
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -86,6 +87,7 @@ _gh_pr_list() {
 	if _gh_ai_enabled; then
 		_fzf_options+=(--bind "alt-A:execute(gh ai pr review {1} -- --approve)+reload($gh_pr_list_reload)")
 		_fzf_options+=(--bind "alt-E:execute(gh ai pr explain {1} | gum pager)")
+		_fzf_options+=(--bind "alt-N:execute(gh ai pr review {1} -- --request-changes)+reload($gh_pr_list_reload)")
 	fi
 
 	# Transform and present in fzf
