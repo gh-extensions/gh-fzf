@@ -260,6 +260,16 @@ setup() {
 	[[ "${_fzf_options[*]}" == *"--reverse"* ]]
 }
 
+@test "_gh_fzf_options: preserves quoted bind value with spaces as a single token" {
+	export GH_FZF_ISSUE_OPTS="--bind 'alt-I:execute(gh ai issue plan {1} | claude)'"
+	_gh_fzf_options "ISSUE"
+	local found=0
+	for opt in "${_fzf_options[@]}"; do
+		[[ "$opt" == "alt-I:execute(gh ai issue plan {1} | claude)" ]] && found=1
+	done
+	[[ "$found" -eq 1 ]]
+}
+
 # ---------------------------------------------------------------------------
 # _gh_ai_enabled
 # ---------------------------------------------------------------------------
