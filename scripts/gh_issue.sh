@@ -87,7 +87,6 @@ _gh_issue_list() {
 	_gh_fzf_options "ISSUE"
 
 	if _gh_ai_enabled; then
-		_fzf_options+=(--bind "alt-D:execute(gh ai issue develop {1})")
 		_fzf_options+=(--bind "alt-P:execute(gh ai issue plan {1} | gum format | gum pager)")
 	fi
 
