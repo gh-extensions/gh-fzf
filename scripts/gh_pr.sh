@@ -77,7 +77,8 @@ _gh_pr_list() {
 	fi
 
 	local gh_pr_list_reload
-	gh_pr_list_reload="$_gh_pr_source_dir/gh_pr_cmd.sh$(printf ' %q' "$@")"
+	gh_pr_list_reload="$_gh_pr_source_dir/gh_pr_cmd.sh"
+	[ $# -gt 0 ] && gh_pr_list_reload+="$(printf ' %q' "$@")"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "PR"

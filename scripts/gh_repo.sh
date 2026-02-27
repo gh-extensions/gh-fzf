@@ -80,7 +80,8 @@ _gh_repo_list() {
 	fi
 
 	local gh_repo_list_reload
-	gh_repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list$(printf ' %q' "$@")"
+	gh_repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list"
+	[ $# -gt 0 ] && gh_repo_list_reload+="$(printf ' %q' "$@")"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "REPO"

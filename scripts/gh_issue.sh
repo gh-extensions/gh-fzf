@@ -73,7 +73,8 @@ _gh_issue_list() {
 	gh_issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
 
 	local gh_issue_list_reload
-	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh$(printf ' %q' "$@")"
+	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh"
+	[ $# -gt 0 ] && gh_issue_list_reload+="$(printf ' %q' "$@")"
 
 	# Check if we got any issues
 	if [ -z "$gh_issue_list" ]; then

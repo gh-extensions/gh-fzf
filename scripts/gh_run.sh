@@ -76,7 +76,8 @@ _gh_run_list() {
 	fi
 
 	local gh_run_list_reload
-	gh_run_list_reload="$_gh_run_source_dir/gh_run_cmd.sh$(printf ' %q' "$@")"
+	gh_run_list_reload="$_gh_run_source_dir/gh_run_cmd.sh"
+	[ $# -gt 0 ] && gh_run_list_reload+="$(printf ' %q' "$@")"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "RUN"

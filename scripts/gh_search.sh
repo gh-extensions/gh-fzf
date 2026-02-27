@@ -204,8 +204,7 @@ _gh_search_prs_list() {
 		_fzf_options+=(--bind "alt-R:execute(gh ai pr review {1} --repo {2})")
 	fi
 
-	fzf "${_fzf_options[@]}" \
-		--disabled \
+	fzf "${_fzf_options[@]}" --disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
 		--preview "$(declare -f _gh_search_prs_preview_help); _gh_search_prs_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
