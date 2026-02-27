@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/gh-extensions/gh-fzf/compare/v0.4.0...v0.5.0) (2026-02-27)
+
+
+### Features
+
+* add request changes AI shortcut (alt-N) to PR reviews ([66f466e](https://github.com/gh-extensions/gh-fzf/commit/66f466ecc958d5ae0c49109a6026ba0ff342ded9))
+
+
+### Bug Fixes
+
+* reorder AI PR review keybindings for consistency ([6e57310](https://github.com/gh-extensions/gh-fzf/commit/6e573102d977911f325b0556731f6d6392941cec))
+
 ## [0.4.0](https://github.com/gh-extensions/gh-fzf/compare/v0.3.0...v0.4.0) (2026-02-27)
 
 
