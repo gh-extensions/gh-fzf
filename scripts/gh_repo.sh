@@ -65,33 +65,33 @@ _gh_repo_list() {
 	fi
 
 	# Extract repo owner for footer (first non-flag arg, if any)
-	local repo_owner=""
+	local gh_repo_owner=""
 	if [[ -n "${1:-}" && "${1:-}" != -* ]]; then
-		repo_owner="$1"
+		gh_repo_owner="$1"
 	fi
 
-	local repo_list
-	repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")
-
-	local repo_list_reload
-	repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list$(printf ' %q' "$@")"
+	local gh_repo_list
+	gh_repo_list=$("$_gh_repo_source_dir/gh_repo_cmd.sh" list "$@")
 
 	# Check if we got any repositories
-	if [ -z "$repo_list" ]; then
+	if [ -z "$gh_repo_list" ]; then
 		gum log --level warn "No GitHub Repositories found. Make sure you're authenticated with GitHub CLI."
 		return 1
 	fi
+
+	local gh_repo_list_reload
+	gh_repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list$(printf ' %q' "$@")"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "REPO"
 
 	# Transform and present in fzf
-	echo "$repo_list" | fzf "${_fzf_options[@]}" \
+	echo "$gh_repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Repositories $_fzf_split $repo_owner" \
+		--footer "$_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner" \
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:reload($repo_list_reload)" \
+		--bind "ctrl-r:reload($gh_repo_list_reload)" \
 		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \

@@ -64,19 +64,20 @@ _gh_pr_list() {
 		return $?
 	fi
 
-	local pr_list
-	local pr_list_reload
-	local pr_repo
+	local gh_pr_repo
+	gh_pr_repo=$(_gh_get_repo)
 
-	pr_repo=$(_gh_get_repo)
-	pr_list=$("$_gh_pr_source_dir/gh_pr_cmd.sh" "$@")
-	pr_list_reload="$_gh_pr_source_dir/gh_pr_cmd.sh$(printf ' %q' "$@")"
+	local gh_pr_list
+	gh_pr_list=$("$_gh_pr_source_dir/gh_pr_cmd.sh" "$@")
 
 	# Check if we got any pull requests
-	if [ -z "$pr_list" ]; then
+	if [ -z "$gh_pr_list" ]; then
 		gum log --level warn "No GitHub Pull Requests found. Make sure you're in a GitHub repository and have pull requests available."
 		return 1
 	fi
+
+	local gh_pr_list_reload
+	gh_pr_list_reload="$_gh_pr_source_dir/gh_pr_cmd.sh$(printf ' %q' "$@")"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "PR"
@@ -87,19 +88,19 @@ _gh_pr_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$pr_list" | fzf "${_fzf_options[@]}" \
+	echo "$gh_pr_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Pull Requests $_fzf_split $pr_repo" \
+		--footer "$_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo" \
 		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
-		--bind "ctrl-r:reload($pr_list_reload)" \
+		--bind "ctrl-r:reload($gh_pr_list_reload)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
-		--bind "alt-a:execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($pr_list_reload)" \
-		--bind "alt-e:execute-silent(gh pr edit {1})+reload($pr_list_reload)" \
-		--bind "alt-r:execute-silent(gh pr ready {1})+reload($pr_list_reload)" \
-		--bind "alt-x:execute-silent(gh pr close {1})+reload($pr_list_reload)" \
-		--bind "alt-m:execute-silent(gh pr merge -r -d {1})+reload($pr_list_reload)" \
+		--bind "alt-a:execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($gh_pr_list_reload)" \
+		--bind "alt-e:execute-silent(gh pr edit {1})+reload($gh_pr_list_reload)" \
+		--bind "alt-r:execute-silent(gh pr ready {1})+reload($gh_pr_list_reload)" \
+		--bind "alt-x:execute-silent(gh pr close {1})+reload($gh_pr_list_reload)" \
+		--bind "alt-m:execute-silent(gh pr merge -r -d {1})+reload($gh_pr_list_reload)" \
 		--bind "alt-enter:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr view {1})" \
 		--bind "alt-w:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
 		--bind "alt-k:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr checks {1})" \

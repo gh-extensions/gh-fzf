@@ -66,17 +66,17 @@ _gh_issue_list() {
 		return $?
 	fi
 
-	local issue_repo
-	issue_repo=$(_gh_get_repo)
+	local gh_issue_repo
+	gh_issue_repo=$(_gh_get_repo)
 
-	local issue_list
-	issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
+	local gh_issue_list
+	gh_issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
 
-	local issue_list_reload
-	issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh$(printf ' %q' "$@")"
+	local gh_issue_list_reload
+	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh$(printf ' %q' "$@")"
 
 	# Check if we got any issues
-	if [ -z "$issue_list" ]; then
+	if [ -z "$gh_issue_list" ]; then
 		gum log --level warn "No GitHub Issues found. Make sure you're in a GitHub repository and have issues available."
 		return 1
 	fi
@@ -89,20 +89,20 @@ _gh_issue_list() {
 	fi
 
 	# Transform and present in fzf
-	echo "$issue_list" | fzf "${_fzf_options[@]}" \
+	echo "$gh_issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Issues $_fzf_split $issue_repo" \
+		--footer "$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo" \
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh help" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
-		--bind "ctrl-r:reload($issue_list_reload)" \
+		--bind "ctrl-r:reload($gh_issue_list_reload)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
-		--bind "alt-e:execute(gh issue edit {1})+reload($issue_list_reload)" \
-		--bind "alt-x:execute-silent(gh issue close {1})+reload($issue_list_reload)" \
-		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($issue_list_reload)" \
-		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($issue_list_reload)" \
-		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($issue_list_reload)" \
-		--bind "alt-p:execute-silent(gh issue pin {1})+reload($issue_list_reload)" \
-		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($issue_list_reload)" \
+		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-x:execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
+		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-p:execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-enter:$_fzf_execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
 		--bind "alt-h:toggle-preview"
 }
