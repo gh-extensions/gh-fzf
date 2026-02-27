@@ -10,7 +10,7 @@ _fzf_icon=" "
 _fzf_split="·"
 
 # fzf execute action: silent (keeps fzf alive) in tmux, blocking otherwise
-if [[ -n "$TMUX" ]]; then
+if [[ -n "${TMUX:-}" ]]; then
 	_fzf_execute="execute-silent"
 else
 	_fzf_execute="execute"
