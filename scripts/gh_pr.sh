@@ -91,7 +91,7 @@ _gh_pr_list() {
 	echo "$gh_pr_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo" \
-		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh help" \
+		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh preview-help" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-r:reload($gh_pr_list_reload)" \
 		--bind "ctrl-w:execute-silent(gh pr checks {1} --web)" \

@@ -148,7 +148,7 @@ _gh_repo_list_cmd() {
 		gh repo list "${_gh_fzf_filtered_args[@]}" --json "$repo_columns" --template "$repo_template"
 }
 
-# _gh_repo_help()
+# _gh_repo_preview_help()
 #
 # Display keyboard shortcuts for repository list
 #
@@ -159,7 +159,7 @@ _gh_repo_list_cmd() {
 # RETURNS:
 #   Formatted help text with shortcuts and tips
 #
-_gh_repo_help() {
+_gh_repo_preview_help() {
 	gum format <<'EOF'
 # Help
 
@@ -194,11 +194,11 @@ main() {
 		shift
 		_gh_repo_list_cmd "$@"
 		;;
-	help)
-		_gh_repo_help
+	preview-help)
+		_gh_repo_preview_help
 		;;
 	*)
-		echo "Usage: $0 {clone|fork|list|help} [repo]"
+		echo "Usage: $0 {clone|fork|list|preview-help} [repo]"
 		exit 1
 		;;
 	esac

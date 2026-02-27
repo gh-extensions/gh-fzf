@@ -92,7 +92,7 @@ _gh_issue_list() {
 	echo "$gh_issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo" \
-		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh help" \
+		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh preview-help" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:reload($gh_issue_list_reload)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \

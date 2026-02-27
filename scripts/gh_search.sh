@@ -34,6 +34,30 @@ source "$_gh_search_source_dir/gh_core.sh"
 #   alt-g     - Clone repository
 #   alt-enter - View repository details in terminal
 #
+_gh_search_repos_preview_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-g`** | Clone repository |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public repositories
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
 _gh_search_repos_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
@@ -46,7 +70,7 @@ _gh_search_repos_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Repositories" \
-		--preview "$_gh_search_source_dir/gh_search_cmd.sh help repos" \
+		--preview "$(declare -f _gh_search_repos_preview_help); _gh_search_repos_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
@@ -77,6 +101,30 @@ _gh_search_repos_list() {
 #   alt-c     - Comment on issue
 #   alt-enter - View issue details in terminal
 #
+_gh_search_issues_preview_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on issue |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public issues
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
 _gh_search_issues_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
@@ -87,7 +135,7 @@ _gh_search_issues_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
-		--preview "$_gh_search_source_dir/gh_search_cmd.sh help issues" \
+		--preview "$(declare -f _gh_search_issues_preview_help); _gh_search_issues_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
 		--bind "ctrl-o:execute-silent(gh issue view {1} --repo {2} --web)" \
@@ -120,6 +168,30 @@ _gh_search_issues_list() {
 #   alt-E     - AI: explain PR (requires gh-fzf.ai=enabled)
 #   alt-R     - AI: review PR (requires gh-fzf.ai=enabled)
 #
+_gh_search_prs_preview_help() {
+	gum format <<'EOF'
+# Help
+
+## Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on PR |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public PRs
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
 _gh_search_prs_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
@@ -135,7 +207,7 @@ _gh_search_prs_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
-		--preview "$_gh_search_source_dir/gh_search_cmd.sh help prs" \
+		--preview "$(declare -f _gh_search_prs_preview_help); _gh_search_prs_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
 		--bind "ctrl-o:execute-silent(gh pr view {1} --repo {2} --web)" \

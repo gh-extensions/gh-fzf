@@ -89,7 +89,7 @@ _gh_run_list() {
 	echo "$gh_run_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth -1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Runs $_fzf_split $gh_run_repo" \
-		--preview "$_gh_run_source_dir/gh_run_cmd.sh help" \
+		--preview "$_gh_run_source_dir/gh_run_cmd.sh preview-help" \
 		--bind "ctrl-o:execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-r:reload($gh_run_list_reload)" \
 		--bind "alt-x:execute-silent(gh run cancel {-1})+reload($gh_run_list_reload)" \

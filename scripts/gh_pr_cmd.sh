@@ -46,7 +46,7 @@ _gh_pr_list_cmd() {
 		gh pr list "${_gh_fzf_filtered_args[@]}" --json "$pr_columns" --template "$pr_template"
 }
 
-# _gh_pr_help()
+# _gh_pr_preview_help()
 #
 # Display keyboard shortcuts for PR list
 #
@@ -57,7 +57,7 @@ _gh_pr_list_cmd() {
 # RETURNS:
 #   Formatted help text with shortcuts and tips
 #
-_gh_pr_help() {
+_gh_pr_preview_help() {
 	gum format <<'EOF'
 # Help
 
@@ -91,8 +91,8 @@ main() {
 	local subcommand="${1:-}"
 
 	case "$subcommand" in
-	help)
-		_gh_pr_help
+	preview-help)
+		_gh_pr_preview_help
 		;;
 	*)
 		_gh_pr_list_cmd "$@"

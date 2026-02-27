@@ -44,7 +44,7 @@ _gh_run_list_cmd() {
 		gh run list "${_gh_fzf_filtered_args[@]}" --json "$run_columns" --template "$run_template"
 }
 
-# _gh_run_help()
+# _gh_run_preview_help()
 #
 # Display keyboard shortcuts for workflow run list
 #
@@ -55,7 +55,7 @@ _gh_run_list_cmd() {
 # RETURNS:
 #   Formatted help text with shortcuts and tips
 #
-_gh_run_help() {
+_gh_run_preview_help() {
 	gum format <<'EOF'
 # Help
 
@@ -85,8 +85,8 @@ main() {
 	local subcommand="${1:-}"
 
 	case "$subcommand" in
-	help)
-		_gh_run_help
+	preview-help)
+		_gh_run_preview_help
 		;;
 	*)
 		_gh_run_list_cmd "$@"

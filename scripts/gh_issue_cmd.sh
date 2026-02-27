@@ -92,7 +92,7 @@ _gh_issue_add_label_cmd() {
 	gh issue edit "$issue_number" --add-label "$label"
 }
 
-# _gh_issue_help()
+# _gh_issue_preview_help()
 #
 # Display keyboard shortcuts for issue list
 #
@@ -103,7 +103,7 @@ _gh_issue_add_label_cmd() {
 # RETURNS:
 #   Formatted help text with shortcuts and tips
 #
-_gh_issue_help() {
+_gh_issue_preview_help() {
 	gum format <<'EOF'
 # Help
 
@@ -139,7 +139,7 @@ EOF
 #
 # EXAMPLE:
 #   ./gh_issue_cmd.sh add-label 42
-#   ./gh_issue_cmd.sh help
+#   ./gh_issue_cmd.sh preview-help
 # ------------------------------------------------------------------------------
 main() {
 	local subcommand="${1:-}"
@@ -149,8 +149,8 @@ main() {
 		shift
 		_gh_issue_add_label_cmd "$@"
 		;;
-	help)
-		_gh_issue_help
+	preview-help)
+		_gh_issue_preview_help
 		;;
 	*)
 		_gh_issue_list_cmd "$@"
