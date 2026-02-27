@@ -230,7 +230,6 @@ gh config set gh-fzf.ai enabled
 ```
 
 Requires the [gh-ai](https://github.com/gh-extensions/gh-ai) extension to be installed.
-When enabled, an **AI Shortcuts** section appears in each view's `alt-h` help panel.
 
 ### Debug mode
 
