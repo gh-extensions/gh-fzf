@@ -58,11 +58,6 @@ gh fzf pr --limit 50
 | `alt-w` | Watch checks in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
-| `alt-A` | AI: Approve PR ⁺ |
-| `alt-E` | AI: Explain PR ⁺ |
-| `alt-N` | AI: Request changes ⁺ |
-
-> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Issues
 
@@ -89,9 +84,6 @@ gh fzf issue --limit 50
 | `alt-u` | Unpin issue |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
-| `alt-P` | AI: Plan issue ⁺ |
-
-> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Workflow Runs
 
@@ -114,9 +106,6 @@ gh fzf run --limit 50
 | `alt-w` | Watch run progress in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
-| `alt-E` | AI: Explain run ⁺ |
-
-> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Repositories
 
@@ -180,11 +169,6 @@ gh fzf search repos "cli"        # start with an initial query
 | `alt-c` | Comment on PR |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
-| `alt-A` | AI: Approve PR ⁺ |
-| `alt-E` | AI: Explain PR ⁺ |
-| `alt-N` | AI: Request changes ⁺ |
-
-> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Configuration
 
@@ -220,16 +204,6 @@ precedence over the global one.
 export GH_FZF_PR_OPTS="--height 90% --border rounded"
 export GH_FZF_ISSUE_OPTS="--height 50%"
 ```
-
-### gh-ai integration
-
-Enable AI-powered shortcuts (approve, explain, plan, request changes) across PR, issue, and run views:
-
-```bash
-gh config set gh-fzf.ai enabled
-```
-
-Requires the [gh-ai](https://github.com/gh-extensions/gh-ai) extension to be installed.
 
 ### Debug mode
 

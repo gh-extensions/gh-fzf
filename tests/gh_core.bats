@@ -19,7 +19,7 @@ setup() {
 	eval "$(
 		# shellcheck source=../scripts/gh_core.sh
 		source "$REPO_ROOT/scripts/gh_core.sh"
-		declare -f _gh_resource _gh_parse_list_args _gh_fzf_options _gh_ai_enabled
+		declare -f _gh_resource _gh_parse_list_args _gh_fzf_options
 	)"
 
 	# Reset fzf environment to avoid test pollution
@@ -270,33 +270,3 @@ setup() {
 	[[ "$found" -eq 1 ]]
 }
 
-# ---------------------------------------------------------------------------
-# _gh_ai_enabled
-# ---------------------------------------------------------------------------
-
-@test "_gh_ai_enabled: returns true when gh-fzf.ai is enabled" {
-	gh() { echo "enabled"; }
-	export -f gh
-	_gh_ai_enabled
-}
-
-@test "_gh_ai_enabled: returns false when gh-fzf.ai is not enabled" {
-	gh() { echo "disabled"; }
-	export -f gh
-	run _gh_ai_enabled
-	[[ "$status" -eq 1 ]]
-}
-
-@test "_gh_ai_enabled: returns false when gh-fzf.ai is unset" {
-	gh() { echo ""; }
-	export -f gh
-	run _gh_ai_enabled
-	[[ "$status" -eq 1 ]]
-}
-
-@test "_gh_ai_enabled: returns false when gh config command fails" {
-	gh() { return 1; }
-	export -f gh
-	run _gh_ai_enabled
-	[[ "$status" -eq 1 ]]
-}

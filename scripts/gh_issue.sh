@@ -45,7 +45,6 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   alt-p     - Pin issue
 #   alt-u     - Unpin issue
 #   alt-enter - View issue details in terminal
-#   alt-P     - AI: plan issue (requires gh-fzf.ai=enabled)
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -84,10 +83,6 @@ _gh_issue_list() {
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "ISSUE"
-
-	if _gh_ai_enabled; then
-		_fzf_options+=(--bind "alt-P:execute(gh ai issue plan {1} | gum format | gum pager)")
-	fi
 
 	# Transform and present in fzf
 	echo "$gh_issue_list" | fzf "${_fzf_options[@]}" \
