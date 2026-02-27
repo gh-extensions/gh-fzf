@@ -58,10 +58,11 @@ gh fzf pr --limit 50
 | `alt-w` | Watch checks in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+| `alt-A` | AI: Approve PR ⁺ |
+| `alt-E` | AI: Explain PR ⁺ |
+| `alt-N` | AI: Request changes ⁺ |
 
-> **AI shortcuts** (`alt-A` approve, `alt-E` explain, `alt-N` request changes)
-> are available when `gh config set gh-fzf.ai enabled` and
-> [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
+> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Issues
 
@@ -88,10 +89,9 @@ gh fzf issue --limit 50
 | `alt-u` | Unpin issue |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+| `alt-P` | AI: Plan issue ⁺ |
 
-> **AI shortcut** (`alt-P` plan) is available when
-> `gh config set gh-fzf.ai enabled` and
-> [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
+> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Workflow Runs
 
@@ -114,10 +114,9 @@ gh fzf run --limit 50
 | `alt-w` | Watch run progress in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+| `alt-E` | AI: Explain run ⁺ |
 
-> **AI shortcut** (`alt-E` explain) is available when
-> `gh config set gh-fzf.ai enabled` and
-> [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
+> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Repositories
 
@@ -181,10 +180,11 @@ gh fzf search repos "cli"        # start with an initial query
 | `alt-c` | Comment on PR |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
+| `alt-A` | AI: Approve PR ⁺ |
+| `alt-E` | AI: Explain PR ⁺ |
+| `alt-N` | AI: Request changes ⁺ |
 
-> **AI shortcuts** (`alt-A` approve, `alt-E` explain, `alt-N` request changes)
-> are available on pull request results when `gh config set gh-fzf.ai enabled`
-> and [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
+> ⁺ Requires `gh config set gh-fzf.ai enabled` and [gh-ai](https://github.com/gh-extensions/gh-ai).
 
 ## Configuration
 
