@@ -59,7 +59,7 @@ gh fzf pr --limit 50
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> **AI shortcuts** (`alt-E` explain, `alt-R` review) are available when
+> **AI shortcuts** (`alt-A` approve, `alt-E` explain) are available when
 > `gh config set gh-fzf.ai enabled` and
 > [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
 
@@ -89,7 +89,7 @@ gh fzf issue --limit 50
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> **AI shortcut** (`alt-D` develop) is available when
+> **AI shortcut** (`alt-P` plan) is available when
 > `gh config set gh-fzf.ai enabled` and
 > [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
 
@@ -182,7 +182,7 @@ gh fzf search repos "cli"        # start with an initial query
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> **AI shortcuts** (`alt-E` explain, `alt-R` review) are available on pull
+> **AI shortcuts** (`alt-A` approve, `alt-E` explain) are available on pull
 > request results when `gh config set gh-fzf.ai enabled` and
 > [gh-ai](https://github.com/gh-extensions/gh-ai) is installed.
 
@@ -223,7 +223,7 @@ export GH_FZF_ISSUE_OPTS="--height 50%"
 
 ### gh-ai integration
 
-Enable AI-powered shortcuts (explain, review, develop) across PR, issue, and run views:
+Enable AI-powered shortcuts (approve, explain, plan) across PR, issue, and run views:
 
 ```bash
 gh config set gh-fzf.ai enabled

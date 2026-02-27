@@ -45,7 +45,6 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   alt-p     - Pin issue
 #   alt-u     - Unpin issue
 #   alt-enter - View issue details in terminal
-#   alt-D     - AI: develop issue (requires gh-fzf.ai=enabled)
 #   alt-P     - AI: plan issue (requires gh-fzf.ai=enabled)
 #
 # DEPENDENCIES:
