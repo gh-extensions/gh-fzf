@@ -85,8 +85,8 @@ _gh_pr_list() {
 	_gh_fzf_options "PR"
 
 	if _gh_ai_enabled; then
-		_fzf_options+=(--bind "alt-A:execute(gh ai pr review {1} -- --approve)+reload($gh_pr_list_reload)")
 		_fzf_options+=(--bind "alt-E:execute(gh ai pr explain {1} | gum pager)")
+		_fzf_options+=(--bind "alt-A:execute(gh ai pr review {1} -- --approve)+reload($gh_pr_list_reload)")
 		_fzf_options+=(--bind "alt-N:execute(gh ai pr review {1} -- --request-changes)+reload($gh_pr_list_reload)")
 	fi
 
