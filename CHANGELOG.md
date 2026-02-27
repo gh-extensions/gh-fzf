@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.0](https://github.com/gh-extensions/gh-fzf/compare/v0.3.0...v0.4.0) (2026-02-27)
+
+
+### Features
+
+* add AI plan issue keybinding to gh_issue script ([91bb669](https://github.com/gh-extensions/gh-fzf/commit/91bb669c95c72af0a765ae47268d619f86f2721c))
+* add gh-ai integration with conditional keybindings ([954ccc2](https://github.com/gh-extensions/gh-fzf/commit/954ccc2a4175a965efc7ccc3341ada7f19d89b9d))
+
+
+### Bug Fixes
+
+* add gum format to ai run explain output pipeline ([377a0c4](https://github.com/gh-extensions/gh-fzf/commit/377a0c4605990c44c80f091f639100df55ffe917))
+* correct PR search query, search error propagation, and arg parsing ([1d46c71](https://github.com/gh-extensions/gh-fzf/commit/1d46c711e7a01a41a5470ee9f2c64cb00da28f36))
+* handle empty fzf flags array when exporting ([b02b020](https://github.com/gh-extensions/gh-fzf/commit/b02b0202d82a9e6c2f0e4609670f5829d4400e7e))
+* parse per-command fzf opts with eval to support quoted bind values ([4acf40c](https://github.com/gh-extensions/gh-fzf/commit/4acf40ccfab8f839788940feed91aae2e915af31))
+* polish remaining tech debt items ([4809167](https://github.com/gh-extensions/gh-fzf/commit/4809167f74b95a9f432ccfc619e03aab3d91c6c4))
+* remove unused AI develop issue keybinding ([f997f0f](https://github.com/gh-extensions/gh-fzf/commit/f997f0f6c43616c48e7e0744155a3356612794aa))
+* replace read builtin with eval for fzf flags parsing ([2b2115c](https://github.com/gh-extensions/gh-fzf/commit/2b2115c8819c47ac9d31a28adea4667b423e6e6d))
+* update config key from fzf.clone_base to gh-fzf.clone_base ([321dae0](https://github.com/gh-extensions/gh-fzf/commit/321dae0df665ed001d16d21903845f1035ea3264))
+* update run logs viewing to use gum pager ([c56a63c](https://github.com/gh-extensions/gh-fzf/commit/c56a63c2c183aedbf59d28aff32c6331dc5f2a0e))
+* use parameter expansion for TMUX variable check ([cb97a0b](https://github.com/gh-extensions/gh-fzf/commit/cb97a0bfd2ddc55a91dad1f11840a5e289d89685))
+
 ## [0.3.0](https://github.com/gh-extensions/gh-fzf/compare/v0.2.0...v0.3.0) (2026-02-24)
 
 
