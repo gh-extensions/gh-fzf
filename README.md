@@ -126,7 +126,7 @@ gh fzf repo --limit 50
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> `alt-g` and `alt-f` respect the `gh-fzf.clone_base` config setting.
+> `alt-g` and `alt-f` respect the `fzf.clone_base` config setting.
 > See [Configuration](#configuration) for details.
 
 ## Search
@@ -178,7 +178,7 @@ By default `alt-g` (clone) and `alt-f` (fork) clone into the current directory.
 Set a base directory to have gh-fzf organise clones automatically:
 
 ```bash
-gh config set gh-fzf.clone_base ~/Projects
+gh config set fzf.clone_base ~/Projects
 ```
 
 With this set, cloning `owner/repo` places it at `~/Projects/github.com/owner/repo`.
