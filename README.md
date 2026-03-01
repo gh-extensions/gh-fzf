@@ -7,8 +7,6 @@ your terminal.
 No more copy-pasting PR numbers or clicking through the GitHub UI. `gh fzf`
 gives you a fast, keyboard-driven interface to everything in your repo.
 
-If you find this useful, [give it a star](https://github.com/gh-extensions/gh-fzf) — it helps others discover the project.
-
 ## Prerequisites
 
 - [Gum](https://github.com/charmbracelet/gum) (`gum`) — macOS: `brew install gum`
