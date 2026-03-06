@@ -92,7 +92,8 @@ _gh_repo_list() {
 		--footer "$_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner" \
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh preview-help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:reload($gh_repo_list_reload)" \
+		--bind "ctrl-r:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner $_fzf_split Reloading...)+reload($gh_repo_list_reload)" \
+		--bind "load:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner)" \
 		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \
