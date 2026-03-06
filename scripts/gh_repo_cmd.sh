@@ -161,8 +161,6 @@ _gh_repo_list_cmd() {
 #
 _gh_repo_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |

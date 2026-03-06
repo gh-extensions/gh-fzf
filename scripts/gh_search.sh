@@ -36,8 +36,6 @@ source "$_gh_search_source_dir/gh_core.sh"
 #
 _gh_search_repos_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -68,7 +66,7 @@ _gh_search_repos_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Repositories" \
-		--preview-label " Help " \
+		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_repos_preview_help); _gh_search_repos_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
@@ -103,8 +101,6 @@ _gh_search_repos_list() {
 #
 _gh_search_issues_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -133,7 +129,7 @@ _gh_search_issues_list() {
 	fzf "${_fzf_options[@]}" \
 		--disabled \
 		--footer "$_fzf_icon GitHub Issues" \
-		--preview-label " Help " \
+		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_issues_preview_help); _gh_search_issues_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
@@ -168,8 +164,6 @@ _gh_search_issues_list() {
 #
 _gh_search_prs_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -197,7 +191,7 @@ _gh_search_prs_list() {
 
 	fzf "${_fzf_options[@]}" --disabled \
 		--footer "$_fzf_icon GitHub Pull Requests" \
-		--preview-label " Help " \
+		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_prs_preview_help); _gh_search_prs_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \

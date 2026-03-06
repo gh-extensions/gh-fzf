@@ -60,7 +60,7 @@ _gh_fzf_options() {
 		--color='header:blue'
 		--color='footer:blue'
 		--layout='reverse-list'
-		--preview-window='right:40:wrap:hidden'
+		--preview-window='right:40:wrap:hidden:border-top'
 	)
 
 	# Add user-provided fzf flags (global)

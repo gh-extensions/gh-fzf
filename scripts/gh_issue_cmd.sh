@@ -105,8 +105,6 @@ _gh_issue_add_label_cmd() {
 #
 _gh_issue_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |

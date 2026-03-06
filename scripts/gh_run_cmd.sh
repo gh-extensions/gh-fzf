@@ -57,8 +57,6 @@ _gh_run_list_cmd() {
 #
 _gh_run_preview_help() {
 	gum format <<'EOF'
-## Keyboard Shortcuts
-
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
