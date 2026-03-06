@@ -90,6 +90,7 @@ _gh_repo_list() {
 	echo "$gh_repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
 		--footer "$_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner" \
+		--preview-label " Help " \
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh preview-help" \
 		--bind "ctrl-o:execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner $_fzf_split Reloading...)+reload($gh_repo_list_reload)" \

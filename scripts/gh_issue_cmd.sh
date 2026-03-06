@@ -105,8 +105,6 @@ _gh_issue_add_label_cmd() {
 #
 _gh_issue_preview_help() {
 	gum format <<'EOF'
-# Help
-
 ## Keyboard Shortcuts
 
 | Key | Action |

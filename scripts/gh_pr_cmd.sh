@@ -59,8 +59,6 @@ _gh_pr_list_cmd() {
 #
 _gh_pr_preview_help() {
 	gum format <<'EOF'
-# Help
-
 ## Keyboard Shortcuts
 
 | Key | Action |

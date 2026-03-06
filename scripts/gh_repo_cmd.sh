@@ -161,8 +161,6 @@ _gh_repo_list_cmd() {
 #
 _gh_repo_preview_help() {
 	gum format <<'EOF'
-# Help
-
 ## Keyboard Shortcuts
 
 | Key | Action |
