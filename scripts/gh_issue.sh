@@ -90,17 +90,17 @@ _gh_issue_list() {
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh preview-help" \
-		--bind "ctrl-o:execute-silent(gh issue view {1} --web)" \
+		--bind "ctrl-o:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Reloading...)+reload($gh_issue_list_reload)" \
 		--bind "load:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-x:execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-r:execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-a:execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
+		--bind "alt-x:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-r:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-a:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
 		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-p:execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-u:execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-p:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-u:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-enter:$_fzf_execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
 		--bind "alt-h:toggle-preview"
 }
