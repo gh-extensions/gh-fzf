@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.0](https://github.com/gh-extensions/gh-fzf/compare/v0.5.0...v0.6.0) (2026-03-06)
+
+
+### Features
+
+* add change-footer feedback to ctrl-r reload bindings ([7ddb3e3](https://github.com/gh-extensions/gh-fzf/commit/7ddb3e3b3b546bc1f38e37d90ea1c28711d29cc8))
+* replace Keyboard Shortcuts heading with preview-label border title ([a8ad0a4](https://github.com/gh-extensions/gh-fzf/commit/a8ad0a4aa7d6aaa48682315078e282c399707513))
+* use preview-label for help panel instead of markdown heading ([ddeb15e](https://github.com/gh-extensions/gh-fzf/commit/ddeb15ef7a4dfe2f804a49904591dbf1d25b639b))
+
 ## [0.5.0](https://github.com/gh-extensions/gh-fzf/compare/v0.4.0...v0.5.0) (2026-02-27)
 
 
