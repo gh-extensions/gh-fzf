@@ -17,7 +17,8 @@ gives you a fast, keyboard-driven interface to everything in your repo.
 ## Installation
 
 ```bash
-gh extension install gh-extensions/gh-fzf
+gh extension install gh-extensions/gh-fzf --pin v0.6.0  # recommended: pin to a stable release
+gh extension install gh-extensions/gh-fzf                # installs from main (unstable)
 ```
 
 ## Usage
