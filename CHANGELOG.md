@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/gh-extensions/gh-fzf/compare/v0.6.0...v0.7.0) (2026-03-07)
+
+
+### Features
+
+* add status feedback to fzf keybindings ([aa49cee](https://github.com/gh-extensions/gh-fzf/commit/aa49cee8b5b30045243b8df6cc90f9c9d7729a3d))
+* force ANSI color output in gh_core script ([252a00c](https://github.com/gh-extensions/gh-fzf/commit/252a00c426afc8eb76a95c685d9a30275ffddb56))
+
 ## [0.6.0](https://github.com/gh-extensions/gh-fzf/compare/v0.5.0...v0.6.0) (2026-03-06)
 
 
