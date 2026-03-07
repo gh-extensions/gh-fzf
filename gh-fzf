@@ -281,11 +281,12 @@ main() {
 
 	# Export fzf flags for gh_core.sh to use (always export to clear any stale env value)
 	if [[ ${#fzf_flags[@]} -gt 0 ]]; then
-		export GH_FZF_FLAGS
 		GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
 	else
-		export GH_FZF_FLAGS=""
+		GH_FZF_FLAGS=""
 	fi
+	# Export the flags
+	export GH_FZF_FLAGS
 
 	# Dispatch to command with remaining args
 	case $cmd in
