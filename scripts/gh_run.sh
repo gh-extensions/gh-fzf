@@ -87,9 +87,9 @@ _gh_run_list() {
 		--footer "$_fzf_icon GitHub Runs $_fzf_split $gh_run_repo" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_run_source_dir/gh_run_cmd.sh preview-help" \
+		--bind "load:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo)" \
 		--bind "ctrl-o:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo $_fzf_split Opening in browser...)+execute-silent(gh run view {-1} --web)" \
 		--bind "ctrl-r:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo $_fzf_split Reloading...)+reload($gh_run_list_reload)" \
-		--bind "load:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo)" \
 		--bind "alt-x:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo $_fzf_split Cancelling run...)+execute-silent(gh run cancel {-1})+reload($gh_run_list_reload)" \
 		--bind "alt-r:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo $_fzf_split Rerunning...)+execute-silent(gh run rerun {-1})+reload($gh_run_list_reload)" \
 		--bind "alt-d:change-footer($_fzf_icon GitHub Runs $_fzf_split $gh_run_repo $_fzf_split Downloading artifacts...)+execute-silent(gh run download {-1})" \

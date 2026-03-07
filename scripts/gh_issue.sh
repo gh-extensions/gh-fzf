@@ -90,9 +90,9 @@ _gh_issue_list() {
 		--footer "$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh preview-help" \
+		--bind "load:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo)" \
 		--bind "ctrl-o:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --web)" \
 		--bind "ctrl-r:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Reloading...)+reload($gh_issue_list_reload)" \
-		--bind "load:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-x:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \

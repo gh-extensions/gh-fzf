@@ -87,9 +87,9 @@ _gh_pr_list() {
 		--footer "$_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh preview-help" \
+		--bind "load:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo)" \
 		--bind "ctrl-o:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo $_fzf_split Opening in browser...)+execute-silent(gh pr view {1} --web)" \
 		--bind "ctrl-r:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo $_fzf_split Reloading...)+reload($gh_pr_list_reload)" \
-		--bind "load:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo)" \
 		--bind "ctrl-w:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo $_fzf_split Opening checks in browser...)+execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
 		--bind "alt-a:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo $_fzf_split Approving PR...)+execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($gh_pr_list_reload)" \
