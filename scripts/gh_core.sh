@@ -196,8 +196,7 @@ _gh_parse_list_args() {
 			((i += 2))
 			continue
 			;;
-		--json=* | --jq=* | --template=*)
-			;;
+		--json=* | --jq=* | --template=*) ;;
 		*)
 			_gh_parse_out_ref+=("${args[$i]}")
 			;;
