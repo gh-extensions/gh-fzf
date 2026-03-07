@@ -51,7 +51,7 @@ fi
 #   echo "$data" | fzf "${_fzf_options[@]}" ...
 #
 _gh_fzf_options() {
-	local command_id="${1:-}"
+	local cmd_id="${1:-}"
 
 	# Default fzf options for gh-fzf
 	_fzf_options=(
@@ -74,8 +74,8 @@ _gh_fzf_options() {
 	fi
 
 	# Add per-command fzf options (highest precedence)
-	if [[ -n "$command_id" ]]; then
-		local var_name="GH_FZF_${command_id}_OPTS"
+	if [[ -n "$cmd_id" ]]; then
+		local var_name="GH_FZF_${cmd_id}_OPTS"
 		local cmd_flags="${!var_name:-}"
 		if [[ -n "$cmd_flags" ]]; then
 			local cmd_flags_array=()

@@ -251,7 +251,7 @@ EOF
 main() {
 	local fzf_flags=()
 	local cmd=""
-	local command_args=()
+	local cmd_args=()
 
 	# Parse arguments: everything before command = fzf flags, everything after = command args
 	while [[ $# -gt 0 ]]; do
@@ -268,7 +268,7 @@ main() {
 			# Found the command, everything after this is command args
 			cmd="$1"
 			shift
-			command_args=("$@")
+			cmd_args=("$@")
 			break
 			;;
 		*)
@@ -281,7 +281,8 @@ main() {
 
 	# Export fzf flags for gh_core.sh to use (always export to clear any stale env value)
 	if [[ ${#fzf_flags[@]} -gt 0 ]]; then
-		export GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
+		export GH_FZF_FLAGS
+		GH_FZF_FLAGS="$(printf '%q ' "${fzf_flags[@]}")"
 	else
 		export GH_FZF_FLAGS=""
 	fi
@@ -289,19 +290,19 @@ main() {
 	# Dispatch to command with remaining args
 	case $cmd in
 	pr)
-		_gh_pr_list "${command_args[@]}"
+		_gh_pr_list "${cmd_args[@]}"
 		;;
 	run)
-		_gh_run_list "${command_args[@]}"
+		_gh_run_list "${cmd_args[@]}"
 		;;
 	issue)
-		_gh_issue_list "${command_args[@]}"
+		_gh_issue_list "${cmd_args[@]}"
 		;;
 	repo)
-		_gh_repo_list "${command_args[@]}"
+		_gh_repo_list "${cmd_args[@]}"
 		;;
 	search)
-		_gh_search_list "${command_args[@]}"
+		_gh_search_list "${cmd_args[@]}"
 		;;
 	"")
 		_show_root_help
