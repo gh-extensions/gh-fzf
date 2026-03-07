@@ -4,9 +4,6 @@
 
 set -euo pipefail
 
-# Force ANSI color output even when stdout is not a TTY (e.g. command substitution, fzf reload)
-export CLICOLOR_FORCE=1
-
 # Icon used in tmux popup titles
 _fzf_icon=" "
 # Separator used in fzf display templates
