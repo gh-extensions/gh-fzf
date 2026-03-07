@@ -9,10 +9,10 @@ gives you a fast, keyboard-driven interface to everything in your repo.
 
 ## Prerequisites
 
-- [Gum](https://github.com/charmbracelet/gum) (`gum`) — macOS: `brew install gum`
-- [Bash](https://www.gnu.org/software/bash/) 4.4+ (`bash`) — macOS: `brew install bash`
 - [GitHub CLI](https://cli.github.com/) (`gh`) — macOS: `brew install gh`
-- [Fzf](https://github.com/junegunn/fzf) (`fzf`) — macOS: `brew install fzf`
+- [Bash](https://www.gnu.org/software/bash/) 4.4+ (`bash`) — macOS: `brew install bash`
+- [Gum](https://github.com/charmbracelet/gum) (`gum`) — macOS: `brew install gum`
+- [fzf](https://github.com/junegunn/fzf) (`fzf`) — macOS: `brew install fzf`
 
 ## Installation
 
