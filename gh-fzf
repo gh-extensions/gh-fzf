@@ -250,7 +250,7 @@ EOF
 #
 main() {
 	local fzf_flags=()
-	local command=""
+	local cmd=""
 	local command_args=()
 
 	# Parse arguments: everything before command = fzf flags, everything after = command args
@@ -266,7 +266,7 @@ main() {
 			;;
 		pr | run | issue | repo | search)
 			# Found the command, everything after this is command args
-			command="$1"
+			cmd="$1"
 			shift
 			command_args=("$@")
 			break
@@ -287,7 +287,7 @@ main() {
 	fi
 
 	# Dispatch to command with remaining args
-	case $command in
+	case $cmd in
 	pr)
 		_gh_pr_list "${command_args[@]}"
 		;;
@@ -307,7 +307,7 @@ main() {
 		_show_root_help
 		;;
 	*)
-		gum log --level error "Unknown command '$command'"
+		gum log --level error "Unknown command '$cmd'"
 		gum log --level info "Available commands: pr, run, issue, repo, search"
 		gum log --level info "Run 'gh fzf --help' for detailed usage information"
 		exit 1
