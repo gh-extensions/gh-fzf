@@ -55,7 +55,7 @@ gh fzf pr --limit 50
 | `alt-r` | Mark as ready for review |
 | `alt-x` | Close PR |
 | `alt-m` | Merge PR (rebase, delete branch) |
-| `alt-k` | View checks in terminal |
+| `alt-v` | View checks in terminal |
 | `alt-w` | Watch checks in terminal |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
@@ -80,7 +80,7 @@ gh fzf issue --limit 50
 | `alt-x` | Close issue |
 | `alt-r` | Reopen issue |
 | `alt-a` | Assign to me |
-| `alt-t` | Add label |
+| `alt-l` | Add label |
 | `alt-p` | Pin issue |
 | `alt-u` | Unpin issue |
 | `alt-enter` | View details in terminal |
@@ -122,12 +122,12 @@ gh fzf repo --limit 50
 |-----|--------|
 | `ctrl-o` | Open in web browser |
 | `ctrl-r` | Reload list |
-| `alt-g` | Clone repository |
+| `alt-c` | Clone repository |
 | `alt-f` | Fork repository |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> `alt-g` and `alt-f` respect the `fzf.clone_base` config setting.
+> `alt-c` and `alt-f` respect the `fzf.clone_base` config setting.
 > See [Configuration](#configuration) for details.
 
 ## Search
@@ -147,7 +147,7 @@ gh fzf search repos "cli"        # start with an initial query
 |-----|--------|
 | `ctrl-o` | Open in web browser |
 | `ctrl-r` | Reload results |
-| `alt-g` | Clone repository |
+| `alt-c` | Clone repository |
 | `alt-enter` | View details in terminal |
 | `alt-h` | Toggle help |
 
@@ -175,7 +175,7 @@ gh fzf search repos "cli"        # start with an initial query
 
 ### Clone base directory
 
-By default `alt-g` (clone) and `alt-f` (fork) clone into the current directory.
+By default `alt-c` (clone) and `alt-f` (fork) clone into the current directory.
 Set a base directory to have gh-fzf organise clones automatically:
 
 ```bash

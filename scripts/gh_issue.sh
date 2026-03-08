@@ -41,7 +41,7 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   alt-x     - Close issue
 #   alt-r     - Reopen issue
 #   alt-a     - Assign issue to self (@me)
-#   alt-t     - Add label to issue
+#   alt-l     - Add label to issue
 #   alt-p     - Pin issue
 #   alt-u     - Unpin issue
 #   alt-enter - View issue details in terminal
@@ -115,7 +115,7 @@ _gh_issue_list() {
 		--bind "alt-x:change-footer($gh_issue_footer $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-r:change-footer($gh_issue_footer $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-a:change-footer($gh_issue_footer $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_cmd)" \
-		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-l:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-p:change-footer($gh_issue_footer $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-u:change-footer($gh_issue_footer $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-h:toggle-preview"

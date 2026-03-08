@@ -31,7 +31,7 @@ source "$_gh_search_source_dir/gh_core.sh"
 # KEYBOARD SHORTCUTS:
 #   ctrl-o    - Open repository in web browser
 #   ctrl-r    - Manual reload with current query
-#   alt-g     - Clone repository
+#   alt-c     - Clone repository
 #   alt-enter - View repository details in terminal
 #
 _gh_search_repos_list() {
@@ -72,7 +72,7 @@ _gh_search_repos_list() {
 		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
 		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($gh_search_cmd repos {q})" \
 		--bind "load:change-footer($gh_search_footer)" \
-		--bind "alt-g:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
+		--bind "alt-c:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -238,7 +238,7 @@ EXAMPLES:
 KEYBOARD SHORTCUTS:
     ctrl-o      Open in web browser
     ctrl-r      Reload search results
-    alt-g       Clone repo (repos only)
+    alt-c       Clone repo (repos only)
     alt-c       Comment on issue or PR
     alt-enter   View details in terminal
     ESC         Exit

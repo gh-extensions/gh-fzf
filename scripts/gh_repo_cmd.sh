@@ -165,7 +165,7 @@ _gh_repo_preview_help() {
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload list |
-| **`alt-g`** | Clone repository |
+| **`alt-c`** | Clone repository |
 | **`alt-f`** | Fork and clone |
 | **`alt-enter`** | View details |
 | **`alt-h`** | Toggle help |

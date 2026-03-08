@@ -45,7 +45,7 @@ source "$_gh_pr_source_dir/gh_core.sh"
 #   alt-m     - Merge PR (with review and delete branch)
 #   alt-enter - View PR details in terminal
 #   alt-w     - Watch PR checks in terminal
-#   alt-k     - View PR checks in terminal
+#   alt-v     - View PR checks in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -94,11 +94,11 @@ _gh_pr_list() {
 		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
 
 		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1} --watch)")
-		_fzf_options+=(--bind "alt-k:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1})")
 		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1})")
 	else
 		_fzf_options+=(--bind "alt-w:execute(gh pr checks {1} --watch)")
-		_fzf_options+=(--bind "alt-k:execute(gh pr checks {1})")
+		_fzf_options+=(--bind "alt-v:execute(gh pr checks {1})")
 		_fzf_options+=(--bind "alt-enter:execute(gh pr view {1})")
 	fi
 

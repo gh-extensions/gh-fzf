@@ -114,7 +114,7 @@ _gh_issue_preview_help() {
 | **`alt-x`** | Close issue |
 | **`alt-r`** | Reopen issue |
 | **`alt-a`** | Assign to me |
-| **`alt-t`** | Add label |
+| **`alt-l`** | Add label |
 | **`alt-p`** | Pin issue |
 | **`alt-u`** | Unpin issue |
 | **`alt-enter`** | View details |

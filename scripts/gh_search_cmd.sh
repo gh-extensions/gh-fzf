@@ -131,7 +131,7 @@ _gh_search_repos_preview_help() {
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
-| **`alt-g`** | Clone repository |
+| **`alt-c`** | Clone repository |
 | **`alt-enter`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |

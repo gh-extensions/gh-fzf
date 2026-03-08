@@ -72,7 +72,7 @@ _gh_pr_preview_help() {
 | **`alt-m`** | Merge PR |
 | **`alt-enter`** | View details |
 | **`alt-w`** | Watch checks |
-| **`alt-k`** | View checks |
+| **`alt-v`** | View checks |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
