@@ -40,7 +40,7 @@ source "$_gh_repo_source_dir/gh_core.sh"
 #   ctrl-r    - Reload repository list with current filters
 #   alt-c     - Clone repository to custom directory (if configured)
 #   alt-f     - Fork repository and clone to custom directory (if configured)
-#   alt-enter - View repository details in terminal
+#   alt-v - View repository details in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -99,9 +99,9 @@ _gh_repo_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute(gh repo view {1})")
 	fi
 
 	# Transform and present in fzf

@@ -124,7 +124,7 @@ gh fzf repo --limit 50
 | `ctrl-r` | Reload list |
 | `alt-c` | Clone repository |
 | `alt-f` | Fork repository |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 > `alt-c` and `alt-f` respect the `fzf.clone_base` config setting.
