@@ -57,7 +57,7 @@ gh fzf pr --limit 50
 | `alt-m` | Merge PR (rebase, delete branch) |
 | `alt-v` | View checks in terminal |
 | `alt-w` | Watch checks in terminal |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 ## Issues
@@ -83,7 +83,7 @@ gh fzf issue --limit 50
 | `alt-l` | Add label |
 | `alt-p` | Pin issue |
 | `alt-u` | Unpin issue |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 ## Workflow Runs
@@ -105,7 +105,7 @@ gh fzf run --limit 50
 | `alt-l` | View logs in terminal |
 | `alt-d` | Download artifacts |
 | `alt-w` | Watch run progress in terminal |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 ## Repositories
@@ -148,7 +148,7 @@ gh fzf search repos "cli"        # start with an initial query
 | `ctrl-o` | Open in web browser |
 | `ctrl-r` | Reload results |
 | `alt-c` | Clone repository |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 **Issues**
@@ -158,7 +158,7 @@ gh fzf search repos "cli"        # start with an initial query
 | `ctrl-o` | Open in web browser |
 | `ctrl-r` | Reload results |
 | `alt-c` | Comment on issue |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 **Pull Requests**
@@ -168,7 +168,7 @@ gh fzf search repos "cli"        # start with an initial query
 | `ctrl-o` | Open in web browser |
 | `ctrl-r` | Reload results |
 | `alt-c` | Comment on PR |
-| `alt-enter` | View details in terminal |
+| `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
 ## Configuration

@@ -44,7 +44,7 @@ source "$_gh_issue_source_dir/gh_core.sh"
 #   alt-l     - Add label to issue
 #   alt-p     - Pin issue
 #   alt-u     - Unpin issue
-#   alt-enter - View issue details in terminal
+#   alt-v - View issue details in terminal
 #
 # DEPENDENCIES:
 #   - gh (GitHub CLI)
@@ -96,9 +96,9 @@ _gh_issue_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh issue view {1})")
+		_fzf_options+=(--bind "alt-v:execute(gh issue view {1})")
 	fi
 
 	# Transform and present in fzf

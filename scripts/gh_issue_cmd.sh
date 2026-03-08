@@ -117,7 +117,7 @@ _gh_issue_preview_help() {
 | **`alt-l`** | Add label |
 | **`alt-p`** | Pin issue |
 | **`alt-u`** | Unpin issue |
-| **`alt-enter`** | View details |
+| **`alt-v`** | View details |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF

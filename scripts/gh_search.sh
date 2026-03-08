@@ -32,7 +32,7 @@ source "$_gh_search_source_dir/gh_core.sh"
 #   ctrl-o    - Open repository in web browser
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Clone repository
-#   alt-enter - View repository details in terminal
+#   alt-v - View repository details in terminal
 #
 _gh_search_repos_list() {
 	local search_query
@@ -55,9 +55,9 @@ _gh_search_repos_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute(gh repo view {1})")
 	fi
 
 	# Note: Using --disabled to disable fzf's fuzzy matching, allowing us to
@@ -95,7 +95,7 @@ _gh_search_repos_list() {
 #   ctrl-o    - Open issue in web browser
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Comment on issue
-#   alt-enter - View issue details in terminal
+#   alt-v - View issue details in terminal
 #
 _gh_search_issues_list() {
 	local search_query
@@ -118,9 +118,9 @@ _gh_search_issues_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1} --repo {2})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh issue view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute(gh issue view {1} --repo {2})")
 	fi
 
 	fzf "${_fzf_options[@]}" \
@@ -156,7 +156,7 @@ _gh_search_issues_list() {
 #   ctrl-o    - Open PR in web browser
 #   ctrl-r    - Manual reload with current query
 #   alt-c     - Comment on PR
-#   alt-enter - View PR details in terminal
+#   alt-v - View PR details in terminal
 #
 _gh_search_prs_list() {
 	local search_query
@@ -179,9 +179,9 @@ _gh_search_prs_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1} --repo {2})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh pr view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute(gh pr view {1} --repo {2})")
 	fi
 
 	fzf "${_fzf_options[@]}" --disabled \
@@ -240,7 +240,7 @@ KEYBOARD SHORTCUTS:
     ctrl-r      Reload search results
     alt-c       Clone repo (repos only)
     alt-c       Comment on issue or PR
-    alt-enter   View details in terminal
+    alt-v   View details in terminal
     ESC         Exit
 EOF
 		return 0

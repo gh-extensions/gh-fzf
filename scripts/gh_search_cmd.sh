@@ -132,7 +132,7 @@ _gh_search_repos_preview_help() {
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Clone repository |
-| **`alt-enter`** | View details in terminal |
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -152,7 +152,7 @@ _gh_search_issues_preview_help() {
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on issue |
-| **`alt-enter`** | View details in terminal |
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -172,7 +172,7 @@ _gh_search_prs_preview_help() {
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on PR |
-| **`alt-enter`** | View details in terminal |
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 

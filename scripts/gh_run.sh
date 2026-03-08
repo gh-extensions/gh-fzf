@@ -40,7 +40,7 @@ source "$_gh_run_source_dir/gh_core.sh"
 #   alt-r     - Rerun workflow
 #   alt-l     - View run logs in gum pager
 #   alt-d     - Download run artifacts
-#   alt-enter - View run details in terminal
+#   alt-v - View run details in terminal
 #   alt-w     - Watch run progress in terminal
 #
 # DEPENDENCIES:
@@ -93,10 +93,10 @@ _gh_run_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Run {-1}"
 
-		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run view {-1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run view {-1})")
 		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run watch {-1})")
 	else
-		_fzf_options+=(--bind "alt-enter:execute(gh run view {-1})")
+		_fzf_options+=(--bind "alt-v:execute(gh run view {-1})")
 		_fzf_options+=(--bind "alt-w:execute(gh run watch {-1})")
 	fi
 

@@ -65,7 +65,7 @@ _gh_run_preview_help() {
 | **`alt-r`** | Rerun workflow |
 | **`alt-l`** | View logs in pager |
 | **`alt-d`** | Download artifacts |
-| **`alt-enter`** | View details |
+| **`alt-v`** | View details |
 | **`alt-w`** | Watch progress |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
