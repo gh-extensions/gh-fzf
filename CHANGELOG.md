@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.9.0](https://github.com/gh-extensions/gh-fzf/compare/v0.8.0...v0.9.0) (2026-03-08)
+
+
+### Features
+
+* add clone/fork path configuration via env vars and git config ([0a9301f](https://github.com/gh-extensions/gh-fzf/commit/0a9301f40d04ed9bfd548b73bab0d0e96f1c35c8))
+
+
+### Bug Fixes
+
+* improve fzf keybinding mnemonics ([91f7253](https://github.com/gh-extensions/gh-fzf/commit/91f7253d9c898a0d0b49b76e117b22a988d1c92f))
+* rebind pr view details from alt-enter/alt-v(checks) to alt-v ([31910f2](https://github.com/gh-extensions/gh-fzf/commit/31910f26befefdc3f370b5023576bd19d0d5bf9f))
+* rebind repo view from alt-enter to alt-v ([16d597c](https://github.com/gh-extensions/gh-fzf/commit/16d597cb67a9c887eac25196dc2f179ccaaa9dc3))
+* rebind view details from alt-enter to alt-v for issue, run, search ([e916502](https://github.com/gh-extensions/gh-fzf/commit/e9165020d5c73c6e5476a7233ad6a3ee74c8a057))
+
 ## [0.8.0](https://github.com/gh-extensions/gh-fzf/compare/v0.7.0...v0.8.0) (2026-03-08)
 
 
