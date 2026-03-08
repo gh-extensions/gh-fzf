@@ -84,6 +84,21 @@ _gh_run_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "RUN"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_run_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Run {-1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run view {-1})")
+		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run watch {-1})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh run view {-1})")
+		_fzf_options+=(--bind "alt-w:execute(gh run watch {-1})")
+	fi
+
 	# Transform and present in fzf
 	echo "$gh_run_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth -1 --with-nth 1.. \
@@ -96,8 +111,6 @@ _gh_run_list() {
 		--bind "alt-x:change-footer($gh_run_footer $_fzf_split Cancelling run...)+execute-silent(gh run cancel {-1})+reload($gh_run_list_reload)" \
 		--bind "alt-r:change-footer($gh_run_footer $_fzf_split Rerunning...)+execute-silent(gh run rerun {-1})+reload($gh_run_list_reload)" \
 		--bind "alt-d:change-footer($gh_run_footer $_fzf_split Downloading artifacts...)+execute-silent(gh run download {-1})" \
-		--bind "alt-enter:$_fzf_execute($_gh_run_source_dir/gh_core.sh run view {-1})" \
 		--bind "alt-l:execute(gh run view {-1} --log | gum pager)" \
-		--bind "alt-w:$_fzf_execute($_gh_run_source_dir/gh_core.sh run watch {-1})" \
 		--bind "alt-h:toggle-preview"
 }

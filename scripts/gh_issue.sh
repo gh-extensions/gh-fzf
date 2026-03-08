@@ -87,6 +87,19 @@ _gh_issue_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "ISSUE"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_issue_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh issue view {1})")
+	fi
+
 	# Transform and present in fzf
 	echo "$gh_issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
@@ -104,6 +117,5 @@ _gh_issue_list() {
 		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-p:change-footer($gh_issue_footer $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-u:change-footer($gh_issue_footer $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-enter:$_fzf_execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
 		--bind "alt-h:toggle-preview"
 }

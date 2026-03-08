@@ -9,13 +9,6 @@ _fzf_icon=" "
 # Separator used in fzf display templates
 _fzf_split="·"
 
-# fzf execute action: silent (keeps fzf alive) in tmux, blocking otherwise
-if [[ -n "${TMUX:-}" ]]; then
-	_fzf_execute="execute-silent"
-else
-	_fzf_execute="execute"
-fi
-
 # _gh_fzf_options()
 #
 # Build fzf options array with user-provided flags

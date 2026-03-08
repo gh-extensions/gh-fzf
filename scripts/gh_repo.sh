@@ -89,6 +89,19 @@ _gh_repo_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "REPO"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_repo_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh repo view {1})")
+	fi
+
 	# Transform and present in fzf
 	echo "$gh_repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
@@ -100,6 +113,5 @@ _gh_repo_list() {
 		--bind "ctrl-r:change-footer($gh_repo_footer $_fzf_split Reloading...)+reload($gh_repo_list_reload)" \
 		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
-		--bind "alt-enter:$_fzf_execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \
 		--bind "alt-h:toggle-preview"
 }

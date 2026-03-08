@@ -84,6 +84,23 @@ _gh_pr_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "PR"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_pr_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
+
+		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1} --watch)")
+		_fzf_options+=(--bind "alt-k:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1})")
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1})")
+	else
+		_fzf_options+=(--bind "alt-w:execute(gh pr checks {1} --watch)")
+		_fzf_options+=(--bind "alt-k:execute(gh pr checks {1})")
+		_fzf_options+=(--bind "alt-enter:execute(gh pr view {1})")
+	fi
+
 	# Transform and present in fzf
 	echo "$gh_pr_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
@@ -100,8 +117,5 @@ _gh_pr_list() {
 		--bind "alt-r:change-footer($gh_pr_footer $_fzf_split Marking PR as ready...)+execute-silent(gh pr ready {1})+reload($gh_pr_list_reload)" \
 		--bind "alt-x:change-footer($gh_pr_footer $_fzf_split Closing PR...)+execute-silent(gh pr close {1})+reload($gh_pr_list_reload)" \
 		--bind "alt-m:change-footer($gh_pr_footer $_fzf_split Merging PR...)+execute-silent(gh pr merge -r -d {1})+reload($gh_pr_list_reload)" \
-		--bind "alt-enter:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr view {1})" \
-		--bind "alt-w:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr checks {1} --watch)" \
-		--bind "alt-k:$_fzf_execute($_gh_pr_source_dir/gh_core.sh pr checks {1})" \
 		--bind "alt-h:toggle-preview"
 }
