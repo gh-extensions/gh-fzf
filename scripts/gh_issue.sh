@@ -90,7 +90,7 @@ _gh_issue_list() {
 	# Register tmux bindings only when running inside a tmux session
 	if [[ -n "${TMUX:-}" ]]; then
 		local gh_tmux_cmd
-		gh_tmux_cmd="$_gh_issue_source_dir/gh_tmux.sh"
+		gh_tmux_cmd="$_gh_issue_source_dir/gh_tmux_cmd.sh"
 
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Issue {1}"

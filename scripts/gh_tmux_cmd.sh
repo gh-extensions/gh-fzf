@@ -7,11 +7,12 @@ set -euo pipefail
 # Print usage to stdout
 _show_help() {
   cat <<'EOF'
-gh_tmux.sh - tmux helpers for gh-ai
+gh_tmux_cmd.sh - tmux helpers for gh-fzf
 
 USAGE:
-    gh_tmux.sh new-session <name> [command...]
-    gh_tmux.sh new-window  <name> [command...]
+    gh_tmux_cmd.sh new-session   <name> [command...]
+    gh_tmux_cmd.sh new-window    <name> [command...]
+    gh_tmux_cmd.sh display-popup <title> <command...>
 
 SUBCOMMANDS:
     new-session   Create a tmux session if it does not already exist, then
@@ -20,11 +21,15 @@ SUBCOMMANDS:
     new-window    Open a new tmux window with the given name and command.
                   '#' is stripped from the name.
 
+    display-popup Open a tmux popup with the given border title and run a
+                  command inside it. Closes automatically when done.
+
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
                   and '.' characters are replaced with '_' before passing
                   to tmux (# is a tmux format string prefix).
-    command       Optional command to run inside the session or window.
+    title         Popup border title (same sanitization applied).
+    command       Optional command to run inside the session, window, or popup.
 EOF
 }
 
@@ -92,37 +97,50 @@ _tmux_display_popup() {
   tmux display-popup -E -T " $title " "$@"
 }
 
-case "${1:-}" in
---help | -h | help)
-  _show_help
-  ;;
-new-session)
-  shift
-  [[ $# -ge 1 ]] || {
-    gum log --level error 'new-session: name required'
+# ------------------------------------------------------------------------------
+# Direct Execution Support
+# ------------------------------------------------------------------------------
+# When run directly (not sourced), dispatch to the appropriate function.
+# ------------------------------------------------------------------------------
+main() {
+  local subcommand="${1:-}"
+
+  case "$subcommand" in
+  --help | -h | help)
+    _show_help
+    ;;
+  new-session)
+    shift
+    [[ $# -ge 1 ]] || {
+      gum log --level error 'new-session: name required'
+      exit 1
+    }
+    _tmux_new_session "$@"
+    ;;
+  new-window)
+    shift
+    [[ $# -ge 1 ]] || {
+      gum log --level error 'new-window: name required'
+      exit 1
+    }
+    _tmux_new_window "$@"
+    ;;
+  display-popup)
+    shift
+    [[ $# -ge 2 ]] || {
+      gum log --level error 'display-popup: title and command required'
+      exit 1
+    }
+    _tmux_display_popup "$@"
+    ;;
+  *)
+    gum log --level error "unknown subcommand: ${subcommand:-(none)}"
+    gum log --level warn 'Run gh_tmux_cmd.sh --help for usage.'
     exit 1
-  }
-  _tmux_new_session "$@"
-  ;;
-new-window)
-  shift
-  [[ $# -ge 1 ]] || {
-    gum log --level error 'new-window: name required'
-    exit 1
-  }
-  _tmux_new_window "$@"
-  ;;
-display-popup)
-  shift
-  [[ $# -ge 2 ]] || {
-    gum log --level error 'display-popup: title and command required'
-    exit 1
-  }
-  _tmux_display_popup "$@"
-  ;;
-*)
-  gum log --level error "unknown subcommand: ${1:-(none)}"
-  gum log --level warn 'Run gh_tmux.sh --help for usage.'
-  exit 1
-  ;;
-esac
+    ;;
+  esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
