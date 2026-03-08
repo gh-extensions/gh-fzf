@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.8.0](https://github.com/gh-extensions/gh-fzf/compare/v0.7.0...v0.8.0) (2026-03-08)
+
+
+### Features
+
+* add tmux display-popup support for terminal bindings ([bade230](https://github.com/gh-extensions/gh-fzf/commit/bade2302d2d54b6f9666ed877d5ef9e60f1f1880))
+
+
+### Bug Fixes
+
+* parse GH_FZF_*_OPTS like FZF_DEFAULT_OPTS using eval ([ac02c71](https://github.com/gh-extensions/gh-fzf/commit/ac02c71a8fb64237c9a04fc89344148431a3ec90))
+* rename `command` to `cmd` in main() to avoid shadowing bash builtin ([32cc213](https://github.com/gh-extensions/gh-fzf/commit/32cc21385aaeab2e09877d8592f0b85667f01275))
+* replace eval array parsing with xargs to handle unquoted parentheses ([e03fed9](https://github.com/gh-extensions/gh-fzf/commit/e03fed912e73b6fdd4fd2417162cb166ad69782c))
+* use execute instead of execute-silent for alt-e (gh pr edit) ([25b4e4b](https://github.com/gh-extensions/gh-fzf/commit/25b4e4be7449adef68f655250e1c776e006ca2dd))
+
 ## [0.7.0](https://github.com/gh-extensions/gh-fzf/compare/v0.6.0...v0.7.0) (2026-03-07)
 
 
