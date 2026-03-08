@@ -114,7 +114,7 @@ _gh_pr_list() {
 		--bind "ctrl-w:change-footer($gh_pr_footer $_fzf_split Opening checks in browser...)+execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
 		--bind "alt-a:change-footer($gh_pr_footer $_fzf_split Approving PR...)+execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($gh_pr_list_cmd)" \
-		--bind "alt-e:change-footer($gh_pr_footer $_fzf_split Editing PR...)+execute-silent(gh pr edit {1})+reload($gh_pr_list_cmd)" \
+		--bind "alt-e:change-footer($gh_pr_footer $_fzf_split Editing PR...)+execute(gh pr edit {1})+reload($gh_pr_list_cmd)" \
 		--bind "alt-r:change-footer($gh_pr_footer $_fzf_split Marking PR as ready...)+execute-silent(gh pr ready {1})+reload($gh_pr_list_cmd)" \
 		--bind "alt-x:change-footer($gh_pr_footer $_fzf_split Closing PR...)+execute-silent(gh pr close {1})+reload($gh_pr_list_cmd)" \
 		--bind "alt-m:change-footer($gh_pr_footer $_fzf_split Merging PR...)+execute-silent(gh pr merge -r -d {1})+reload($gh_pr_list_cmd)" \
