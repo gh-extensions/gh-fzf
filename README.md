@@ -55,7 +55,6 @@ gh fzf pr --limit 50
 | `alt-r` | Mark as ready for review |
 | `alt-x` | Close PR |
 | `alt-m` | Merge PR (rebase, delete branch) |
-| `alt-v` | View checks in terminal |
 | `alt-w` | Watch checks in terminal |
 | `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |

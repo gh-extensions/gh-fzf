@@ -70,9 +70,8 @@ _gh_pr_preview_help() {
 | **`alt-r`** | Mark as ready |
 | **`alt-x`** | Close PR |
 | **`alt-m`** | Merge PR |
-| **`alt-enter`** | View details |
 | **`alt-w`** | Watch checks |
-| **`alt-v`** | View checks |
+| **`alt-v`** | View details |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
