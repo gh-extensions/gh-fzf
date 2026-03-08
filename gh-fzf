@@ -118,23 +118,24 @@ ENVIRONMENT VARIABLES:
 
     Precedence: Defaults < GH_FZF_FLAGS < GH_FZF_<COMMAND>_OPTS
 
+    Format:
+        Same as FZF_DEFAULT_OPTS: space-separated fzf options with shell
+        quoting for values that contain spaces or special characters.
+
     Examples:
-        # Different heights per command
-        export GH_FZF_PR_OPTS="--height 90%"
-        export GH_FZF_ISSUE_OPTS="--height 50%"
-
-        # Custom preview windows
-        export GH_FZF_PR_OPTS="--preview 'gh pr view {1}' --preview-window right:50%"
-
-        # Multi-select for batch operations
+        # Simple flags
+        export GH_FZF_PR_OPTS="--height=90% --border=rounded"
         export GH_FZF_ISSUE_OPTS="--multi"
 
         # Different layouts per command
         export GH_FZF_RUN_OPTS="--layout=reverse"
         export GH_FZF_REPO_OPTS="--layout=default --preview-window=bottom:40%"
 
-        # Custom search experience
-        export GH_FZF_SEARCH_REPO_OPTS="--height 80% --border rounded"
+        # Key bindings — quote the bind value
+        export GH_FZF_ISSUE_OPTS="--bind 'alt-I:execute(gh ai issue plan {1} | gum pager)'"
+
+        # Multiple options including bindings
+        export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh ai run explain {-1} | gum pager)'"
 
 COMMANDS:
     pr          Browse and interact with GitHub pull requests

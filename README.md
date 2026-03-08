@@ -201,9 +201,18 @@ precedence over the global one.
 | `GH_FZF_SEARCH_ISSUE_OPTS` | Issue search only |
 | `GH_FZF_SEARCH_PR_OPTS` | Pull request search only |
 
+The format is the same as `FZF_DEFAULT_OPTS`: space-separated fzf options, with shell quoting for values that contain spaces or special characters.
+
 ```bash
-export GH_FZF_PR_OPTS="--height 90% --border rounded"
-export GH_FZF_ISSUE_OPTS="--height 50%"
+# Simple flags
+export GH_FZF_ISSUE_OPTS="--multi"
+export GH_FZF_PR_OPTS="--height=90% --border=rounded"
+
+# Key bindings — quote the bind value
+export GH_FZF_ISSUE_OPTS="--bind 'alt-I:execute(gh ai issue plan {1} | gum pager)'"
+
+# Multiple options including bindings
+export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh ai run explain {-1} | gum pager)'"
 ```
 
 ### Debug mode

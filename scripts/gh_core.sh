@@ -59,9 +59,7 @@ _gh_fzf_options() {
 	# Add user-provided fzf flags (global)
 	if [[ -n "${GH_FZF_FLAGS:-}" ]]; then
 		local user_flags=()
-		while IFS= read -r -d $'\0' flag; do
-			user_flags+=("$flag")
-		done < <(printf '%s' "$GH_FZF_FLAGS" | xargs printf '%s\0' 2>/dev/null)
+		eval "user_flags=($GH_FZF_FLAGS)"
 		_fzf_options+=("${user_flags[@]}")
 	fi
 
@@ -71,9 +69,7 @@ _gh_fzf_options() {
 		local cmd_flags="${!var_name:-}"
 		if [[ -n "$cmd_flags" ]]; then
 			local cmd_flags_array=()
-			while IFS= read -r -d $'\0' flag; do
-				cmd_flags_array+=("$flag")
-			done < <(printf '%s' "$cmd_flags" | xargs printf '%s\0' 2>/dev/null)
+			eval "cmd_flags_array=($cmd_flags)"
 			_fzf_options+=("${cmd_flags_array[@]}")
 		fi
 	fi
