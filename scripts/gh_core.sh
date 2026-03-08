@@ -32,7 +32,7 @@ _fzf_split="·"
 #   Sets _fzf_options array with merged options
 #
 # ENVIRONMENT:
-#   GH_FZF_FLAGS - Space-separated string of user fzf flags (set by main entry point)
+#   GH_FZF_FLAGS - Shell-quoted space-separated tokens (set by main entry point via printf '%q')
 #   GH_FZF_<COMMAND>_OPTS - Per-command fzf options (e.g., GH_FZF_PR_OPTS)
 #
 # EXAMPLE:
