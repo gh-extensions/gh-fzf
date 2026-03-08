@@ -71,15 +71,18 @@ _gh_issue_list() {
 	local gh_issue_list
 	gh_issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
 
-	local gh_issue_list_reload
-	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh"
-	[ $# -gt 0 ] && gh_issue_list_reload+="$(printf ' %q' "$@")"
-
 	# Check if we got any issues
 	if [ -z "$gh_issue_list" ]; then
 		gum log --level warn "No GitHub Issues found. Make sure you're in a GitHub repository and have issues available."
 		return 1
 	fi
+
+	local gh_issue_list_reload
+	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh"
+	[ $# -gt 0 ] && gh_issue_list_reload+="$(printf ' %q' "$@")"
+
+	local gh_issue_footer
+	gh_issue_footer="$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo"
 
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "ISSUE"
@@ -87,20 +90,20 @@ _gh_issue_list() {
 	# Transform and present in fzf
 	echo "$gh_issue_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo" \
+		--footer "$gh_issue_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh preview-help" \
-		--bind "load:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo)" \
-		--bind "ctrl-o:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --web)" \
-		--bind "ctrl-r:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Reloading...)+reload($gh_issue_list_reload)" \
+		--bind "load:change-footer($gh_issue_footer)" \
+		--bind "ctrl-o:change-footer($gh_issue_footer $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --web)" \
+		--bind "ctrl-r:change-footer($gh_issue_footer $_fzf_split Reloading...)+reload($gh_issue_list_reload)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
 		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-x:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-r:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-a:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
+		--bind "alt-x:change-footer($gh_issue_footer $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-r:change-footer($gh_issue_footer $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-a:change-footer($gh_issue_footer $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
 		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-p:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-u:change-footer($_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-p:change-footer($gh_issue_footer $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-u:change-footer($gh_issue_footer $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
 		--bind "alt-enter:$_fzf_execute($_gh_issue_source_dir/gh_core.sh issue view {1})" \
 		--bind "alt-h:toggle-preview"
 }

@@ -83,18 +83,21 @@ _gh_repo_list() {
 	gh_repo_list_reload="$_gh_repo_source_dir/gh_repo_cmd.sh list"
 	[ $# -gt 0 ] && gh_repo_list_reload+="$(printf ' %q' "$@")"
 
+	local gh_repo_footer
+	gh_repo_footer="$_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner"
+
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "REPO"
 
 	# Transform and present in fzf
 	echo "$gh_repo_list" | fzf "${_fzf_options[@]}" \
 		--accept-nth 1 --with-nth 1.. \
-		--footer "$_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner" \
+		--footer "$gh_repo_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$_gh_repo_source_dir/gh_repo_cmd.sh preview-help" \
-		--bind "load:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner)" \
-		--bind "ctrl-o:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:change-footer($_fzf_icon GitHub Repositories $_fzf_split $gh_repo_owner $_fzf_split Reloading...)+reload($gh_repo_list_reload)" \
+		--bind "load:change-footer($gh_repo_footer)" \
+		--bind "ctrl-o:change-footer($gh_repo_footer $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
+		--bind "ctrl-r:change-footer($gh_repo_footer $_fzf_split Reloading...)+reload($gh_repo_list_reload)" \
 		--bind "alt-g:execute($_gh_repo_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-f:execute($_gh_repo_source_dir/gh_repo_cmd.sh fork {1})" \
 		--bind "alt-enter:$_fzf_execute($_gh_repo_source_dir/gh_core.sh repo view {1})" \
