@@ -126,7 +126,7 @@ gh fzf repo --limit 50
 | `alt-v` | View details in terminal |
 | `alt-h` | Toggle help |
 
-> `alt-c` and `alt-f` respect the `fzf.clone_base` config setting.
+> `alt-c` and `alt-f` respect the `GH_FZF_REPO_PATH` env var or `fzf.repoPath` config setting.
 > See [Configuration](#configuration) for details.
 
 ## Search
@@ -172,17 +172,32 @@ gh fzf search repos "cli"        # start with an initial query
 
 ## Configuration
 
-### Clone base directory
+### Repository base directory
 
-By default `alt-c` (clone) and `alt-f` (fork) clone into the current directory.
-Set a base directory to have gh-fzf organise clones automatically:
+By default `alt-c` (clone) and `alt-f` (fork) operate in the current directory.
+Set a base directory to have gh-fzf organise all repos automatically.
+
+**Using an environment variable (takes precedence):**
 
 ```bash
-gh config set fzf.clone_base ~/Projects
+export GH_FZF_REPO_PATH=~/Projects
 ```
 
-With this set, cloning `owner/repo` places it at `~/Projects/github.com/owner/repo`.
+**Using gh config:**
+
+```bash
+gh config set fzf.repoPath ~/Projects
+```
+
+With either set, cloning `owner/repo` places it at `~/Projects/github.com/owner/repo`
+and forking `owner/repo` places it at `~/Projects/github.com/your-username/repo`.
 Parent directories are created automatically. Tilde (`~`) is expanded to `$HOME`.
+
+> **Migration note:** If you previously set `fzf.clone_base`, `fzf.clonePath`, or `fzf.forkPath`,
+> re-set with the new key:
+> ```bash
+> gh config set fzf.repoPath ~/Projects
+> ```
 
 ### Custom fzf options
 
@@ -191,6 +206,7 @@ precedence over the global one.
 
 | Variable | Scope |
 |----------|-------|
+| `GH_FZF_REPO_PATH` | Base directory for clone and fork (`alt-c` / `alt-f`) |
 | `GH_FZF_FLAGS` | Applied to all views |
 | `GH_FZF_PR_OPTS` | Pull requests only |
 | `GH_FZF_ISSUE_OPTS` | Issues only |

@@ -11,53 +11,64 @@ source "$_gh_repo_cmd_source_dir/gh_core.sh"
 # gh_repo_cmd.sh - Repository command wrapper for gh-fzf
 #
 # Provides clone and fork functionality, primarily for use with fzf bindings.
-# Handles optional cloning into base directories configured via `gh config set fzf.clone_base <path>`.
+# Handles optional cloning into base directories configured via GH_FZF_REPO_PATH
+# or `gh config set fzf.repoPath <path>`.
 #
 # SUBCOMMANDS:
 #   clone [repo] - Clones the specified repository.
 #   fork [repo]  - Forks and clones the specified repository.
 #
 # CONFIGURATION:
-#   - fzf.clone_base: Optional base directory for cloning.
-#     Example: gh config set fzf.clone_base ~/Projects
+#   - GH_FZF_REPO_PATH: Optional base directory for clone and fork (env var, takes precedence).
+#     Example: export GH_FZF_REPO_PATH=~/Projects
+#   - fzf.repoPath: Optional base directory for clone and fork (gh config fallback).
+#     Example: gh config set fzf.repoPath ~/Projects
 #
 # DIRECT EXECUTION:
 #   When run directly, dispatches to the specified subcommand.
 #   Example: ./gh_repo_cmd.sh clone owner/repo
 
+# _gh_config_repo_path()
+#
+# Resolves the base directory for clone and fork operations.
+# Checks GH_FZF_REPO_PATH env var first, then fzf.repoPath gh config.
+# Expands tilde to $HOME.
+#
+_gh_config_repo_path() {
+	local repo_path="${GH_FZF_REPO_PATH:-}"
+	if [[ -z "$repo_path" ]]; then
+		repo_path=$(gh config get fzf.repoPath 2>/dev/null)
+	fi
+	# Expand tilde to home directory
+	printf '%s' "${repo_path/#\~/$HOME}"
+}
+
 # _gh_repo_clone()
 #
-# Clones a GitHub repository, respecting fzf.clone_base if set.
+# Clones a GitHub repository, respecting GH_FZF_REPO_PATH or fzf.repoPath if set.
 #
 # DESCRIPTION:
-#   Clones the specified repository using `gh repo clone`. If `fzf.clone_base`
-#   is configured in gh settings, it constructs a destination path of
-#   `$base/github.com/owner/repo`. Otherwise, it clones into the current directory.
+#   Clones the specified repository using `gh repo clone`. If a repo path is
+#   configured, it constructs a destination of `$base/github.com/owner/repo`.
+#   Otherwise, it clones into the current directory.
 #
 # PARAMETERS:
 #   $1 - The repository to clone (e.g., "owner/repo").
 #
-# BEHAVIOR:
-#   - Reads `fzf.clone_base` from gh config.
-#   - If fzf.clone_base is configured, clones to $base/github.com/owner/repo.
-#   - If not, clones to the current directory.
-#
 # EXAMPLE:
 #   _gh_repo_clone "owner/repo"
-#   # With fzf.clone_base = ~/Projects -> gh repo clone owner/repo ~/Projects/github.com/owner/repo
+#   # With GH_FZF_REPO_PATH=~/Projects -> gh repo clone owner/repo ~/Projects/github.com/owner/repo
 #
 #   _gh_repo_clone "owner/repo"
-#   # Without fzf.clone_base -> gh repo clone owner/repo
+#   # Without repoPath configured -> gh repo clone owner/repo
 #
 _gh_repo_clone() {
 	local repo="$1"
-	local clone_base
-	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
-	# Expand tilde to home directory
-	clone_base="${clone_base/#\~/$HOME}"
+	local repo_path
+	repo_path=$(_gh_config_repo_path)
 
-	if [ -n "$clone_base" ]; then
-		local clone_dir="$clone_base/github.com/$repo"
+	if [ -n "$repo_path" ]; then
+		local clone_dir="$repo_path/github.com/$repo"
 		mkdir -p "$(dirname "$clone_dir")"
 		# process substitution to show spinner while cloning
 		gum spin --title "Cloning $repo to $clone_dir..." -- \
@@ -70,25 +81,19 @@ _gh_repo_clone() {
 
 # _gh_repo_fork()
 #
-# Forks a GitHub repository and clones it, respecting fzf.clone_base.
+# Forks a GitHub repository and clones it, respecting GH_FZF_REPO_PATH or fzf.repoPath.
 #
 # DESCRIPTION:
 #   Forks the specified repository using `gh repo fork --clone`.
-#   If fzf.clone_base is configured, it forks AND clones to a destination path of
-#   `$base/github.com/your-username/repo`. Otherwise, it clones to the current directory.
+#   If a repo path is configured, it forks AND clones to a destination of
+#   `$base/github.com/your-username/repo`. Otherwise, clones to the current directory.
 #
 # PARAMETERS:
 #   $1 - The repository to fork (e.g., "owner/repo").
 #
-# BEHAVIOR:
-#   - Reads `fzf.clone_base` from gh config.
-#   - Forks the repository with the `--clone` flag.
-#   - If fzf.clone_base is set: Fork AND clone to $base/github.com/your-username/repo
-#   - If not, fork and clone to the current directory.
-#
 # EXAMPLE:
 #   _gh_repo_fork "owner/repo"
-#   # With fzf.clone_base = ~/Projects -> gh repo fork owner/repo --clone --fork-name ...
+#   # With GH_FZF_REPO_PATH=~/Projects -> gh repo fork owner/repo --clone --fork-name ...
 #
 _gh_repo_fork() {
 	local repo="$1"
@@ -101,19 +106,17 @@ _gh_repo_fork() {
 
 	local fork_name
 	fork_name=$(basename "$repo")
-	local clone_base
-	clone_base=$(gh config get fzf.clone_base 2>/dev/null)
-	# Expand tilde to home directory
-	clone_base="${clone_base/#\~/$HOME}"
+	local repo_path
+	repo_path=$(_gh_config_repo_path)
 
-	if [ -n "$clone_base" ]; then
-		local clone_dir="$clone_base/github.com/$owner/$fork_name"
-		mkdir -p "$(dirname "$clone_dir")"
+	if [ -n "$repo_path" ]; then
+		local fork_dir="$repo_path/github.com/$owner/$fork_name"
+		mkdir -p "$(dirname "$fork_dir")"
 		# Fork without cloning, then clone to the target directory
 		gum spin --title "Forking $repo..." -- \
 			gh repo fork "$repo" --clone=false --fork-name "$fork_name"
-		gum spin --title "Cloning $owner/$fork_name to $clone_dir..." -- \
-			gh repo clone "$owner/$fork_name" "$clone_dir"
+		gum spin --title "Cloning $owner/$fork_name to $fork_dir..." -- \
+			gh repo clone "$owner/$fork_name" "$fork_dir"
 	else
 		gum spin --title "Forking and cloning $repo..." --show-stderr -- \
 			gh repo fork "$repo" --clone

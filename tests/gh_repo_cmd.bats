@@ -9,14 +9,15 @@ REPO_ROOT="$(cd "$(dirname "$BATS_TEST_DIRNAME")" && pwd)"
 
 setup() {
 	# Default mock state (overridden per test as needed)
-	export _mock_clone_base=""
+	export _mock_repoPath=""
 	export _mock_gh_user="testuser"
+	unset GH_FZF_REPO_PATH
 
-	# Mock gh: returns config values or logs clone/fork commands to a file
+	# Mock gh: routes config get by key; logs clone/fork commands to a file
 	gh() {
-		case "$1 $2" in
-		"config get") printf '%s' "$_mock_clone_base" ;;
-		"api user") printf '%s' "$_mock_gh_user" ;;
+		case "$1 $2 ${3:-}" in
+		"config get fzf.repoPath") printf '%s' "$_mock_repoPath" ;;
+		"api user "*) printf '%s' "$_mock_gh_user" ;;
 		*) echo "$@" >>"$BATS_TEST_TMPDIR/gh.log" ;;
 		esac
 	}
@@ -40,27 +41,21 @@ setup() {
 	eval "$(
 		# shellcheck source=../scripts/gh_repo_cmd.sh
 		source "$REPO_ROOT/scripts/gh_repo_cmd.sh"
-		declare -f _gh_repo_clone _gh_repo_fork
+		declare -f _gh_config_repo_path _gh_repo_clone _gh_repo_fork
 	)"
 }
 
 # ---------------------------------------------------------------------------
-# _gh_repo_clone: without clone_base configured
+# _gh_repo_clone: without repoPath configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_clone: clones into current directory when clone_base is not configured" {
-	_mock_clone_base=""
-	export _mock_clone_base
-
+@test "_gh_repo_clone: clones into current directory when repoPath is not configured" {
 	_gh_repo_clone "owner/repo"
 
 	grep -q "repo clone owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
-@test "_gh_repo_clone: passes no destination argument when clone_base is unset" {
-	_mock_clone_base=""
-	export _mock_clone_base
-
+@test "_gh_repo_clone: passes no destination argument when repoPath is unset" {
 	_gh_repo_clone "owner/repo"
 
 	local logged
@@ -69,12 +64,12 @@ setup() {
 }
 
 # ---------------------------------------------------------------------------
-# _gh_repo_clone: with clone_base configured
+# _gh_repo_clone: with repoPath configured via gh config
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_clone: clones to <clone_base>/github.com/owner/repo when clone_base is configured" {
-	_mock_clone_base="/tmp/projects"
-	export _mock_clone_base
+@test "_gh_repo_clone: clones to <repoPath>/github.com/owner/repo when repoPath is configured" {
+	_mock_repoPath="/tmp/projects"
+	export _mock_repoPath
 
 	_gh_repo_clone "owner/repo"
 
@@ -82,21 +77,43 @@ setup() {
 }
 
 @test "_gh_repo_clone: creates parent directory before cloning" {
-	_mock_clone_base="/tmp/projects"
-	export _mock_clone_base
+	_mock_repoPath="/tmp/projects"
+	export _mock_repoPath
 
 	_gh_repo_clone "owner/repo"
 
 	grep -q "mkdir -p /tmp/projects/github.com/owner" "$BATS_TEST_TMPDIR/mkdir.log"
 }
 
-@test "_gh_repo_clone: constructs clone path as <clone_base>/github.com/<owner>/<repo>" {
-	_mock_clone_base="/opt/code"
-	export _mock_clone_base
+@test "_gh_repo_clone: constructs clone path as <repoPath>/github.com/<owner>/<repo>" {
+	_mock_repoPath="/opt/code"
+	export _mock_repoPath
 
 	_gh_repo_clone "myorg/myrepo"
 
 	grep -q "/opt/code/github.com/myorg/myrepo" "$BATS_TEST_TMPDIR/gh.log"
+}
+
+# ---------------------------------------------------------------------------
+# _gh_repo_clone: with GH_FZF_REPO_PATH env var
+# ---------------------------------------------------------------------------
+
+@test "_gh_repo_clone: GH_FZF_REPO_PATH env var takes precedence over gh config" {
+	_mock_repoPath="/tmp/from-config"
+	export _mock_repoPath
+	export GH_FZF_REPO_PATH="/tmp/from-env"
+
+	_gh_repo_clone "owner/repo"
+
+	grep -q "repo clone owner/repo /tmp/from-env/github.com/owner/repo" "$BATS_TEST_TMPDIR/gh.log"
+}
+
+@test "_gh_repo_clone: GH_FZF_REPO_PATH env var alone configures clone destination" {
+	export GH_FZF_REPO_PATH="/tmp/envpath"
+
+	_gh_repo_clone "owner/repo"
+
+	grep -q "repo clone owner/repo /tmp/envpath/github.com/owner/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
 
 # ---------------------------------------------------------------------------
@@ -112,28 +129,49 @@ setup() {
 }
 
 # ---------------------------------------------------------------------------
-# _gh_repo_fork: without clone_base configured
+# _gh_repo_fork: without repoPath configured
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_fork: forks and clones in a single step when clone_base is not configured" {
-	_mock_clone_base=""
-	export _mock_clone_base
-
+@test "_gh_repo_fork: forks and clones in a single step when repoPath is not configured" {
 	_gh_repo_fork "owner/repo"
 
 	grep -q "repo fork owner/repo --clone" "$BATS_TEST_TMPDIR/gh.log"
 }
 
 # ---------------------------------------------------------------------------
-# _gh_repo_fork: with clone_base configured
+# _gh_repo_fork: with repoPath configured via gh config
 # ---------------------------------------------------------------------------
 
-@test "_gh_repo_fork: forks then clones separately to <clone_base>/github.com/<user>/<repo>" {
-	_mock_clone_base="/tmp/projects"
-	export _mock_clone_base
+@test "_gh_repo_fork: forks then clones separately to <repoPath>/github.com/<user>/<repo>" {
+	_mock_repoPath="/tmp/projects"
+	export _mock_repoPath
 
 	_gh_repo_fork "owner/repo"
 
 	grep -q "repo fork owner/repo --clone=false" "$BATS_TEST_TMPDIR/gh.log"
 	grep -q "repo clone testuser/repo /tmp/projects/github.com/testuser/repo" "$BATS_TEST_TMPDIR/gh.log"
+}
+
+# ---------------------------------------------------------------------------
+# _gh_repo_fork: with GH_FZF_REPO_PATH env var
+# ---------------------------------------------------------------------------
+
+@test "_gh_repo_fork: GH_FZF_REPO_PATH env var takes precedence over gh config" {
+	_mock_repoPath="/tmp/from-config"
+	export _mock_repoPath
+	export GH_FZF_REPO_PATH="/tmp/from-env"
+
+	_gh_repo_fork "owner/repo"
+
+	grep -q "repo fork owner/repo --clone=false" "$BATS_TEST_TMPDIR/gh.log"
+	grep -q "repo clone testuser/repo /tmp/from-env/github.com/testuser/repo" "$BATS_TEST_TMPDIR/gh.log"
+}
+
+@test "_gh_repo_fork: GH_FZF_REPO_PATH env var alone configures fork destination" {
+	export GH_FZF_REPO_PATH="/tmp/envpath"
+
+	_gh_repo_fork "owner/repo"
+
+	grep -q "repo fork owner/repo --clone=false" "$BATS_TEST_TMPDIR/gh.log"
+	grep -q "repo clone testuser/repo /tmp/envpath/github.com/testuser/repo" "$BATS_TEST_TMPDIR/gh.log"
 }
