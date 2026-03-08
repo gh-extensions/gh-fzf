@@ -125,6 +125,66 @@ _gh_search_prs_cmd() {
 	}
 }
 
+_gh_search_repos_preview_help() {
+	gum format <<'EOF'
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-g`** | Clone repository |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public repositories
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
+_gh_search_issues_preview_help() {
+	gum format <<'EOF'
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on issue |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public issues
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
+_gh_search_prs_preview_help() {
+	gum format <<'EOF'
+| Key | Action |
+|-----|--------|
+| **`ctrl-o`** | Open in web browser |
+| **`ctrl-r`** | Reload search |
+| **`alt-c`** | Comment on PR |
+| **`alt-enter`** | View details in terminal |
+| **`alt-h`** | Toggle help |
+| **`ESC`** | Exit |
+
+## Search Tips
+
+- Search all public PRs
+- Results update as you type
+- Use GitHub search syntax
+- `ctrl-r` refreshes results
+EOF
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
@@ -139,11 +199,20 @@ main() {
 	repos | repositories)
 		_gh_search_repos_cmd "$@"
 		;;
+	repos-preview-help)
+		_gh_search_repos_preview_help
+		;;
 	issues)
 		_gh_search_issues_cmd "$@"
 		;;
+	issues-preview-help)
+		_gh_search_issues_preview_help
+		;;
 	prs | pull-requests)
 		_gh_search_prs_cmd "$@"
+		;;
+	prs-preview-help)
+		_gh_search_prs_preview_help
 		;;
 	*)
 		gum log --level error "Unknown search type '$search_type'"
