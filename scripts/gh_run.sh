@@ -65,8 +65,11 @@ _gh_run_list() {
 	local gh_run_repo
 	gh_run_repo=$(_gh_get_repo)
 
+	local gh_run_list_cmd
+	gh_run_list_cmd="$_gh_run_source_dir/gh_run_cmd.sh"
+
 	local gh_run_list
-	gh_run_list=$("$_gh_run_source_dir/gh_run_cmd.sh" "$@")
+	gh_run_list=$("$gh_run_list_cmd" "$@")
 
 	# Check if we got any runs
 	if [ -z "$gh_run_list" ]; then
@@ -74,9 +77,7 @@ _gh_run_list() {
 		return 1
 	fi
 
-	local gh_run_list_reload
-	gh_run_list_reload="$_gh_run_source_dir/gh_run_cmd.sh"
-	[ $# -gt 0 ] && gh_run_list_reload+="$(printf ' %q' "$@")"
+	[ $# -gt 0 ] && gh_run_list_cmd+="$(printf ' %q' "$@")"
 
 	local gh_run_footer
 	gh_run_footer="$_fzf_icon GitHub Runs $_fzf_split $gh_run_repo"
@@ -107,9 +108,9 @@ _gh_run_list() {
 		--preview "$_gh_run_source_dir/gh_run_cmd.sh preview-help" \
 		--bind "load:change-footer($gh_run_footer)" \
 		--bind "ctrl-o:change-footer($gh_run_footer $_fzf_split Opening in browser...)+execute-silent(gh run view {-1} --web)" \
-		--bind "ctrl-r:change-footer($gh_run_footer $_fzf_split Reloading...)+reload($gh_run_list_reload)" \
-		--bind "alt-x:change-footer($gh_run_footer $_fzf_split Cancelling run...)+execute-silent(gh run cancel {-1})+reload($gh_run_list_reload)" \
-		--bind "alt-r:change-footer($gh_run_footer $_fzf_split Rerunning...)+execute-silent(gh run rerun {-1})+reload($gh_run_list_reload)" \
+		--bind "ctrl-r:change-footer($gh_run_footer $_fzf_split Reloading...)+reload($gh_run_list_cmd)" \
+		--bind "alt-x:change-footer($gh_run_footer $_fzf_split Cancelling run...)+execute-silent(gh run cancel {-1})+reload($gh_run_list_cmd)" \
+		--bind "alt-r:change-footer($gh_run_footer $_fzf_split Rerunning...)+execute-silent(gh run rerun {-1})+reload($gh_run_list_cmd)" \
 		--bind "alt-d:change-footer($gh_run_footer $_fzf_split Downloading artifacts...)+execute-silent(gh run download {-1})" \
 		--bind "alt-l:execute(gh run view {-1} --log | gum pager)" \
 		--bind "alt-h:toggle-preview"

@@ -58,6 +58,9 @@ _gh_search_repos_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_cmd
+	gh_search_cmd="$_gh_search_source_dir/gh_search_cmd.sh"
+
 	local gh_search_footer
 	gh_search_footer="$_fzf_icon GitHub Repositories"
 
@@ -84,10 +87,10 @@ _gh_search_repos_list() {
 		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_repos_preview_help); _gh_search_repos_preview_help" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos $search_query" \
-		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
+		--bind "start:reload:$gh_search_cmd repos $search_query" \
+		--bind "change:reload:sleep 0.1; $gh_search_cmd repos {q} || true" \
 		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($gh_search_cmd repos {q})" \
 		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-g:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
 		--bind "alt-h:toggle-preview"
@@ -138,6 +141,9 @@ _gh_search_issues_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_cmd
+	gh_search_cmd="$_gh_search_source_dir/gh_search_cmd.sh"
+
 	local gh_search_footer
 	gh_search_footer="$_fzf_icon GitHub Issues"
 
@@ -162,10 +168,10 @@ _gh_search_issues_list() {
 		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_issues_preview_help); _gh_search_issues_preview_help" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues $search_query" \
-		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
+		--bind "start:reload:$gh_search_cmd issues $search_query" \
+		--bind "change:reload:sleep 0.1; $gh_search_cmd issues {q} || true" \
 		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --repo {2} --web)" \
-		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($gh_search_cmd issues {q})" \
 		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
 		--bind "alt-h:toggle-preview"
@@ -216,6 +222,9 @@ _gh_search_prs_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_cmd
+	gh_search_cmd="$_gh_search_source_dir/gh_search_cmd.sh"
+
 	local gh_search_footer
 	gh_search_footer="$_fzf_icon GitHub Pull Requests"
 
@@ -239,10 +248,10 @@ _gh_search_prs_list() {
 		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_prs_preview_help); _gh_search_prs_preview_help" \
-		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
-		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
+		--bind "start:reload:$gh_search_cmd prs $search_query" \
+		--bind "change:reload:sleep 0.1; $gh_search_cmd prs {q} || true" \
 		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh pr view {1} --repo {2} --web)" \
-		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($gh_search_cmd prs {q})" \
 		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
 		--bind "alt-h:toggle-preview"

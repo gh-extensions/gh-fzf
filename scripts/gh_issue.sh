@@ -68,8 +68,11 @@ _gh_issue_list() {
 	local gh_issue_repo
 	gh_issue_repo=$(_gh_get_repo)
 
+	local gh_issue_list_cmd
+	gh_issue_list_cmd="$_gh_issue_source_dir/gh_issue_cmd.sh"
+
 	local gh_issue_list
-	gh_issue_list=$("$_gh_issue_source_dir/gh_issue_cmd.sh" "$@")
+	gh_issue_list=$("$gh_issue_list_cmd" "$@")
 
 	# Check if we got any issues
 	if [ -z "$gh_issue_list" ]; then
@@ -77,9 +80,7 @@ _gh_issue_list() {
 		return 1
 	fi
 
-	local gh_issue_list_reload
-	gh_issue_list_reload="$_gh_issue_source_dir/gh_issue_cmd.sh"
-	[ $# -gt 0 ] && gh_issue_list_reload+="$(printf ' %q' "$@")"
+	[ $# -gt 0 ] && gh_issue_list_cmd+="$(printf ' %q' "$@")"
 
 	local gh_issue_footer
 	gh_issue_footer="$_fzf_icon GitHub Issues $_fzf_split $gh_issue_repo"
@@ -108,14 +109,14 @@ _gh_issue_list() {
 		--preview "$_gh_issue_source_dir/gh_issue_cmd.sh preview-help" \
 		--bind "load:change-footer($gh_issue_footer)" \
 		--bind "ctrl-o:change-footer($gh_issue_footer $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --web)" \
-		--bind "ctrl-r:change-footer($gh_issue_footer $_fzf_split Reloading...)+reload($gh_issue_list_reload)" \
+		--bind "ctrl-r:change-footer($gh_issue_footer $_fzf_split Reloading...)+reload($gh_issue_list_cmd)" \
 		--bind "alt-c:execute(gh issue comment {1} --editor)" \
-		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-x:change-footer($gh_issue_footer $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-r:change-footer($gh_issue_footer $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-a:change-footer($gh_issue_footer $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_reload)" \
-		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-p:change-footer($gh_issue_footer $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_reload)" \
-		--bind "alt-u:change-footer($gh_issue_footer $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_reload)" \
+		--bind "alt-e:execute(gh issue edit {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-x:change-footer($gh_issue_footer $_fzf_split Closing issue...)+execute-silent(gh issue close {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-r:change-footer($gh_issue_footer $_fzf_split Reopening issue...)+execute-silent(gh issue reopen {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-a:change-footer($gh_issue_footer $_fzf_split Assigning to @me...)+execute-silent(gh issue edit {1} --add-assignee @me)+reload($gh_issue_list_cmd)" \
+		--bind "alt-t:execute($_gh_issue_source_dir/gh_issue_cmd.sh add-label {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-p:change-footer($gh_issue_footer $_fzf_split Pinning issue...)+execute-silent(gh issue pin {1})+reload($gh_issue_list_cmd)" \
+		--bind "alt-u:change-footer($gh_issue_footer $_fzf_split Unpinning issue...)+execute-silent(gh issue unpin {1})+reload($gh_issue_list_cmd)" \
 		--bind "alt-h:toggle-preview"
 }

@@ -65,8 +65,11 @@ _gh_pr_list() {
 	local gh_pr_repo
 	gh_pr_repo=$(_gh_get_repo)
 
+	local gh_pr_list_cmd
+	gh_pr_list_cmd="$_gh_pr_source_dir/gh_pr_cmd.sh"
+
 	local gh_pr_list
-	gh_pr_list=$("$_gh_pr_source_dir/gh_pr_cmd.sh" "$@")
+	gh_pr_list=$("$gh_pr_list_cmd" "$@")
 
 	# Check if we got any pull requests
 	if [ -z "$gh_pr_list" ]; then
@@ -74,9 +77,7 @@ _gh_pr_list() {
 		return 1
 	fi
 
-	local gh_pr_list_reload
-	gh_pr_list_reload="$_gh_pr_source_dir/gh_pr_cmd.sh"
-	[ $# -gt 0 ] && gh_pr_list_reload+="$(printf ' %q' "$@")"
+	[ $# -gt 0 ] && gh_pr_list_cmd+="$(printf ' %q' "$@")"
 
 	local gh_pr_footer
 	gh_pr_footer="$_fzf_icon GitHub Pull Requests $_fzf_split $gh_pr_repo"
@@ -109,13 +110,13 @@ _gh_pr_list() {
 		--preview "$_gh_pr_source_dir/gh_pr_cmd.sh preview-help" \
 		--bind "load:change-footer($gh_pr_footer)" \
 		--bind "ctrl-o:change-footer($gh_pr_footer $_fzf_split Opening in browser...)+execute-silent(gh pr view {1} --web)" \
-		--bind "ctrl-r:change-footer($gh_pr_footer $_fzf_split Reloading...)+reload($gh_pr_list_reload)" \
+		--bind "ctrl-r:change-footer($gh_pr_footer $_fzf_split Reloading...)+reload($gh_pr_list_cmd)" \
 		--bind "ctrl-w:change-footer($gh_pr_footer $_fzf_split Opening checks in browser...)+execute-silent(gh pr checks {1} --web)" \
 		--bind "alt-c:execute(gh pr comment {1} --editor)" \
-		--bind "alt-a:change-footer($gh_pr_footer $_fzf_split Approving PR...)+execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($gh_pr_list_reload)" \
-		--bind "alt-e:change-footer($gh_pr_footer $_fzf_split Editing PR...)+execute-silent(gh pr edit {1})+reload($gh_pr_list_reload)" \
-		--bind "alt-r:change-footer($gh_pr_footer $_fzf_split Marking PR as ready...)+execute-silent(gh pr ready {1})+reload($gh_pr_list_reload)" \
-		--bind "alt-x:change-footer($gh_pr_footer $_fzf_split Closing PR...)+execute-silent(gh pr close {1})+reload($gh_pr_list_reload)" \
-		--bind "alt-m:change-footer($gh_pr_footer $_fzf_split Merging PR...)+execute-silent(gh pr merge -r -d {1})+reload($gh_pr_list_reload)" \
+		--bind "alt-a:change-footer($gh_pr_footer $_fzf_split Approving PR...)+execute-silent(gh pr review {1} --approve -c 'LGTM')+reload($gh_pr_list_cmd)" \
+		--bind "alt-e:change-footer($gh_pr_footer $_fzf_split Editing PR...)+execute-silent(gh pr edit {1})+reload($gh_pr_list_cmd)" \
+		--bind "alt-r:change-footer($gh_pr_footer $_fzf_split Marking PR as ready...)+execute-silent(gh pr ready {1})+reload($gh_pr_list_cmd)" \
+		--bind "alt-x:change-footer($gh_pr_footer $_fzf_split Closing PR...)+execute-silent(gh pr close {1})+reload($gh_pr_list_cmd)" \
+		--bind "alt-m:change-footer($gh_pr_footer $_fzf_split Merging PR...)+execute-silent(gh pr merge -r -d {1})+reload($gh_pr_list_cmd)" \
 		--bind "alt-h:toggle-preview"
 }
