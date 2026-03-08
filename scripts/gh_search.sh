@@ -58,23 +58,38 @@ _gh_search_repos_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_footer
+	gh_search_footer="$_fzf_icon GitHub Repositories"
+
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_REPO"
+
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_search_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh repo view {1})")
+	fi
 
 	# Note: Using --disabled to disable fzf's fuzzy matching, allowing us to
 	# pass the query directly to GitHub's search API
 	fzf "${_fzf_options[@]}" \
 		--disabled \
-		--footer "$_fzf_icon GitHub Repositories" \
+		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_repos_preview_help); _gh_search_repos_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh repos $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh repos {q} || true" \
-		--bind "ctrl-o:change-footer($_fzf_icon GitHub Repositories $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
-		--bind "ctrl-r:change-footer($_fzf_icon GitHub Repositories $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
-		--bind "load:change-footer($_fzf_icon GitHub Repositories)" \
+		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh repo view {1} --web)" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh repos {q})" \
+		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-g:execute($_gh_search_source_dir/gh_repo_cmd.sh clone {1})" \
-		--bind "alt-enter:$_fzf_execute($_gh_search_source_dir/gh_core.sh repo view {1})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -123,21 +138,36 @@ _gh_search_issues_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_footer
+	gh_search_footer="$_fzf_icon GitHub Issues"
+
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_ISSUE"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_search_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1} --repo {2})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh issue view {1} --repo {2})")
+	fi
+
 	fzf "${_fzf_options[@]}" \
 		--disabled \
-		--footer "$_fzf_icon GitHub Issues" \
+		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_issues_preview_help); _gh_search_issues_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh issues $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh issues {q} || true" \
-		--bind "ctrl-o:change-footer($_fzf_icon GitHub Issues $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --repo {2} --web)" \
-		--bind "ctrl-r:change-footer($_fzf_icon GitHub Issues $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
-		--bind "load:change-footer($_fzf_icon GitHub Issues)" \
+		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh issue view {1} --repo {2} --web)" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh issues {q})" \
+		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-c:execute(gh issue comment {1} --repo {2} --editor)" \
-		--bind "alt-enter:$_fzf_execute($_gh_search_source_dir/gh_core.sh issue view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 
@@ -186,20 +216,35 @@ _gh_search_prs_list() {
 	local search_query
 	search_query=$(printf '%q' "${1:-}")
 
+	local gh_search_footer
+	gh_search_footer="$_fzf_icon GitHub Pull Requests"
+
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "SEARCH_PR"
 
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
+		local gh_tmux_cmd
+		gh_tmux_cmd="$_gh_search_source_dir/gh_tmux.sh"
+
+		local gh_tmux_title
+		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
+
+		_fzf_options+=(--bind "alt-enter:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1} --repo {2})")
+	else
+		_fzf_options+=(--bind "alt-enter:execute(gh pr view {1} --repo {2})")
+	fi
+
 	fzf "${_fzf_options[@]}" --disabled \
-		--footer "$_fzf_icon GitHub Pull Requests" \
+		--footer "$gh_search_footer" \
 		--preview-label " Keyboard Shortcuts " \
 		--preview "$(declare -f _gh_search_prs_preview_help); _gh_search_prs_preview_help" \
 		--bind "start:reload:$_gh_search_source_dir/gh_search_cmd.sh prs $search_query" \
 		--bind "change:reload:sleep 0.1; $_gh_search_source_dir/gh_search_cmd.sh prs {q} || true" \
-		--bind "ctrl-o:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split Opening in browser...)+execute-silent(gh pr view {1} --repo {2} --web)" \
-		--bind "ctrl-r:change-footer($_fzf_icon GitHub Pull Requests $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
-		--bind "load:change-footer($_fzf_icon GitHub Pull Requests)" \
+		--bind "ctrl-o:change-footer($gh_search_footer $_fzf_split Opening in browser...)+execute-silent(gh pr view {1} --repo {2} --web)" \
+		--bind "ctrl-r:change-footer($gh_search_footer $_fzf_split Reloading...)+reload($_gh_search_source_dir/gh_search_cmd.sh prs {q})" \
+		--bind "load:change-footer($gh_search_footer)" \
 		--bind "alt-c:execute(gh pr comment {1} --repo {2} --editor)" \
-		--bind "alt-enter:$_fzf_execute($_gh_search_source_dir/gh_core.sh pr view {1} --repo {2})" \
 		--bind "alt-h:toggle-preview"
 }
 

@@ -19,7 +19,7 @@ setup() {
 	eval "$(
 		# shellcheck source=../scripts/gh_core.sh
 		source "$REPO_ROOT/scripts/gh_core.sh"
-		declare -f _gh_resource _gh_parse_list_args _gh_fzf_options
+		declare -f _gh_parse_list_args _gh_fzf_options
 	)"
 
 	# Reset fzf environment to avoid test pollution
@@ -31,38 +31,6 @@ setup() {
 	unset GH_FZF_SEARCH_REPO_OPTS
 	unset GH_FZF_SEARCH_ISSUE_OPTS
 	unset GH_FZF_SEARCH_PR_OPTS
-}
-
-# ---------------------------------------------------------------------------
-# _gh_resource
-# ---------------------------------------------------------------------------
-
-@test "_gh_resource: maps pr to Pull Request" {
-	[[ "$(_gh_resource pr)" == "Pull Request" ]]
-}
-
-@test "_gh_resource: maps repo to Repository" {
-	[[ "$(_gh_resource repo)" == "Repository" ]]
-}
-
-@test "_gh_resource: maps issue to Issue" {
-	[[ "$(_gh_resource issue)" == "Issue" ]]
-}
-
-@test "_gh_resource: maps run to Run" {
-	[[ "$(_gh_resource run)" == "Run" ]]
-}
-
-@test "_gh_resource: maps search to Search" {
-	[[ "$(_gh_resource search)" == "Search" ]]
-}
-
-@test "_gh_resource: maps unknown type to GitHub" {
-	[[ "$(_gh_resource unknown)" == "GitHub" ]]
-}
-
-@test "_gh_resource: maps empty input to GitHub" {
-	[[ "$(_gh_resource "")" == "GitHub" ]]
 }
 
 # ---------------------------------------------------------------------------
