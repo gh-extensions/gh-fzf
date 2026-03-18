@@ -236,10 +236,10 @@ export GH_FZF_ISSUE_OPTS="--multi"
 export GH_FZF_PR_OPTS="--height=90% --border=rounded"
 
 # Key bindings — quote the bind value
-export GH_FZF_ISSUE_OPTS="--bind 'alt-I:execute(gh ai issue plan {1} | gum pager)'"
+export GH_FZF_ISSUE_OPTS="--bind 'alt-I:execute(gh claude issue plan {1} | gum pager)'"
 
 # Multiple options including bindings
-export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh ai run explain {-1} | gum pager)'"
+export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh claude run explain {-1} | gum pager)'"
 ```
 
 ### Debug mode
@@ -247,6 +247,13 @@ export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh ai run explain {-1
 ```bash
 DEBUG=1 gh fzf pr
 ```
+
+## See Also
+
+- [gh-claude](https://github.com/gh-extensions/gh-claude) — AI-powered copilot for the GitHub CLI
+- [gh-worktree](https://github.com/gh-extensions/gh-worktree) — Isolated git worktrees for PRs, issues, and workflow runs
+- [git-ai](https://github.com/git-extensions/git-ai) — AI-powered commit messages for git (`git ai commit`)
+- [git-fzf](https://github.com/git-extensions/git-fzf) — Fuzzy finder for git
 
 ## License
 
