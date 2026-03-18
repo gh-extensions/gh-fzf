@@ -23,7 +23,7 @@ brew install gh bash gum fzf
 **Nix:**
 
 ```bash
-nix-env -iA nixpkgs.gh nixpkgs.bash nixpkgs.gum nixpkgs.fzf
+nix profile install nixpkgs#gh nixpkgs#bash nixpkgs#gum nixpkgs#fzf
 ```
 
 ## Installation
