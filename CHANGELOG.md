@@ -65,7 +65,7 @@
 ### Features
 
 * add AI plan issue keybinding to gh_issue script ([91bb669](https://github.com/gh-extensions/gh-fzf/commit/91bb669c95c72af0a765ae47268d619f86f2721c))
-* add gh-ai integration with conditional keybindings ([954ccc2](https://github.com/gh-extensions/gh-fzf/commit/954ccc2a4175a965efc7ccc3341ada7f19d89b9d))
+* add gh-claude integration with conditional keybindings ([954ccc2](https://github.com/gh-extensions/gh-fzf/commit/954ccc2a4175a965efc7ccc3341ada7f19d89b9d))
 
 
 ### Bug Fixes
