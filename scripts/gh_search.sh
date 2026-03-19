@@ -55,7 +55,7 @@ _gh_search_repos_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh repo view {1})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh repo view {1})")
 	fi
@@ -118,7 +118,7 @@ _gh_search_issues_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh issue view {1} --repo {2})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh issue view {1} --repo {2})")
 	fi
@@ -179,7 +179,7 @@ _gh_search_prs_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1} --repo {2})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh pr view {1} --repo {2})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh pr view {1} --repo {2})")
 	fi

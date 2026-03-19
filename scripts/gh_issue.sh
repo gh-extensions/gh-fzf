@@ -96,7 +96,7 @@ _gh_issue_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Issue {1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh issue view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh issue view {1})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh issue view {1})")
 	fi

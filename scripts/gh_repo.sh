@@ -99,7 +99,7 @@ _gh_repo_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh repo view {1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh repo view {1})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh repo view {1})")
 	fi

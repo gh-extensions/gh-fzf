@@ -93,8 +93,8 @@ _gh_run_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Run {-1}"
 
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run view {-1})")
-		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh run watch {-1})")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh run view {-1})")
+		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh run watch {-1})")
 	else
 		_fzf_options+=(--bind "alt-v:execute(gh run view {-1})")
 		_fzf_options+=(--bind "alt-w:execute(gh run watch {-1})")

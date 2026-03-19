@@ -92,8 +92,8 @@ _gh_pr_list() {
 		local gh_tmux_title
 		gh_tmux_title="$_fzf_icon GitHub Pull Request {1}"
 
-		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr checks {1} --watch)")
-		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup $gh_tmux_title gh pr view {1})")
+		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh pr checks {1} --watch)")
+		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-popup '$gh_tmux_title' gh pr view {1})")
 	else
 		_fzf_options+=(--bind "alt-w:execute(gh pr checks {1} --watch)")
 		_fzf_options+=(--bind "alt-v:execute(gh pr view {1})")
