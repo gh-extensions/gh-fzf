@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.2](https://github.com/gh-extensions/gh-fzf/compare/v0.9.1...v0.9.2) (2026-03-19)
+
+
+### Bug Fixes
+
+* make gh_tmux_cmd.sh executable ([6a53cd1](https://github.com/gh-extensions/gh-fzf/commit/6a53cd1ea39a5bd3a98d867d975357245e6fd870))
+* remove -E flag from tmux display-popup command ([1939b6a](https://github.com/gh-extensions/gh-fzf/commit/1939b6a5bebb7b28bad89d8d316f0f7115183672))
+
 ## [0.9.1](https://github.com/gh-extensions/gh-fzf/compare/v0.9.0...v0.9.1) (2026-03-19)
 
 
