@@ -248,12 +248,13 @@ export GH_FZF_RUN_OPTS="--height=90% --bind 'alt-E:execute(gh claude run explain
 DEBUG=1 gh fzf pr
 ```
 
-## See Also
+## The gh-extensions Ecosystem
 
-- [gh-claude](https://github.com/gh-extensions/gh-claude) — AI-powered copilot for the GitHub CLI
-- [gh-worktree](https://github.com/gh-extensions/gh-worktree) — Isolated git worktrees for PRs, issues, and workflow runs
-- [git-ai](https://github.com/git-extensions/git-ai) — AI-powered commit messages for git (`git ai commit`)
-- [git-fzf](https://github.com/git-extensions/git-fzf) — Fuzzy finder for git
+| Repo | What it provides |
+|------|-----------------|
+| [gh-claude](https://github.com/gh-extensions/gh-claude) | AI-powered copilot for the GitHub CLI |
+| **gh-fzf** ← you are here | Fuzzy finder for GitHub CLI |
+| [gh-worktree](https://github.com/gh-extensions/gh-worktree) | Isolated git worktrees for PRs, issues, and workflow runs |
 
 ## License
 
