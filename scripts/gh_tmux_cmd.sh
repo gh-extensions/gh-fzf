@@ -94,7 +94,7 @@ _tmux_display_popup() {
   title=$(_tmux_strip_name "$1")
   shift
 
-  tmux display-popup -E -T " $title " "$@"
+  tmux display-popup -T " $title " "$@"
 }
 
 # ------------------------------------------------------------------------------
