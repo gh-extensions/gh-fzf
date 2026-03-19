@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/gh-extensions/gh-fzf/compare/v0.9.0...v0.9.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* quote tmux title in execute-silent bindings to prevent word-splitting ([d42c05a](https://github.com/gh-extensions/gh-fzf/commit/d42c05ab8e9e43d47e13e1aff396fcbc4b9505f9))
+
 ## [0.9.0](https://github.com/gh-extensions/gh-fzf/compare/v0.8.0...v0.9.0) (2026-03-08)
 
 
