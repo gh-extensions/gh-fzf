@@ -1,5 +1,7 @@
 # gh-fzf
 
+[![CI Tests](https://github.com/gh-extensions/gh-fzf/actions/workflows/test.yml/badge.svg)](https://github.com/gh-extensions/gh-fzf/actions/workflows/test.yml)
+
 Supercharge the GitHub CLI with fuzzy finding. Browse, search, and act on
 pull requests, issues, workflow runs, and repositories — instantly, from
 your terminal.
