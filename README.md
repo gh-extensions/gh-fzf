@@ -1,6 +1,8 @@
 # gh-fzf
 
 [![CI Tests](https://github.com/gh-extensions/gh-fzf/actions/workflows/test.yml/badge.svg)](https://github.com/gh-extensions/gh-fzf/actions/workflows/test.yml)
+[![Release](https://img.shields.io/github/v/release/gh-extensions/gh-fzf)](https://github.com/gh-extensions/gh-fzf/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Supercharge the GitHub CLI with fuzzy finding. Browse, search, and act on
 pull requests, issues, workflow runs, and repositories — instantly, from
