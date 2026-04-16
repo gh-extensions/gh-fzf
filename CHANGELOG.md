@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.3](https://github.com/gh-extensions/gh-fzf/compare/v0.9.2...v0.9.3) (2026-04-16)
+
+
+### Bug Fixes
+
+* add postCreateCommand to restore nix volume permissions ([b29c397](https://github.com/gh-extensions/gh-fzf/commit/b29c3976a5e4f2419b5547e7c70a0b76aee5e69a))
+
 ## [0.9.2](https://github.com/gh-extensions/gh-fzf/compare/v0.9.1...v0.9.2) (2026-03-19)
 
 
