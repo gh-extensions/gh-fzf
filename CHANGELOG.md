@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.4](https://github.com/gh-extensions/gh-fzf/compare/v0.9.3...v0.9.4) (2026-05-04)
+
+
+### Bug Fixes
+
+* **github:** correct action versions in update.yml ([902691e](https://github.com/gh-extensions/gh-fzf/commit/902691ed1ae820179f4c6a2501bfd807e31aa723))
+
 ## [0.9.3](https://github.com/gh-extensions/gh-fzf/compare/v0.9.2...v0.9.3) (2026-04-16)
 
 
