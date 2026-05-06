@@ -58,20 +58,20 @@ gh fzf pr --search "query"
 gh fzf pr --limit 50
 ```
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload list |
-| `ctrl-w` | View checks in web browser |
-| `alt-c` | Comment on PR |
-| `alt-a` | Approve PR (LGTM) |
-| `alt-e` | Edit PR |
-| `alt-r` | Mark as ready for review |
-| `alt-x` | Close PR |
-| `alt-m` | Merge PR (rebase, delete branch) |
-| `alt-w` | Watch checks in terminal |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                           |
+| -------- | -------------------------------- |
+| `ctrl-o` | Open in web browser              |
+| `ctrl-r` | Reload list                      |
+| `ctrl-w` | View checks in web browser       |
+| `alt-c`  | Comment on PR                    |
+| `alt-a`  | Approve PR (LGTM)                |
+| `alt-e`  | Edit PR                          |
+| `alt-r`  | Mark as ready for review         |
+| `alt-x`  | Close PR                         |
+| `alt-m`  | Merge PR (rebase, delete branch) |
+| `alt-w`  | Watch checks in terminal         |
+| `alt-v`  | View details in terminal         |
+| `alt-h`  | Toggle help                      |
 
 ## Issues
 
@@ -84,20 +84,20 @@ gh fzf issue --search "query"
 gh fzf issue --limit 50
 ```
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload list |
-| `alt-c` | Comment on issue |
-| `alt-e` | Edit issue |
-| `alt-x` | Close issue |
-| `alt-r` | Reopen issue |
-| `alt-a` | Assign to me |
-| `alt-l` | Add label |
-| `alt-p` | Pin issue |
-| `alt-u` | Unpin issue |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                   |
+| -------- | ------------------------ |
+| `ctrl-o` | Open in web browser      |
+| `ctrl-r` | Reload list              |
+| `alt-c`  | Comment on issue         |
+| `alt-e`  | Edit issue               |
+| `alt-x`  | Close issue              |
+| `alt-r`  | Reopen issue             |
+| `alt-a`  | Assign to me             |
+| `alt-l`  | Add label                |
+| `alt-p`  | Pin issue                |
+| `alt-u`  | Unpin issue              |
+| `alt-v`  | View details in terminal |
+| `alt-h`  | Toggle help              |
 
 ## Workflow Runs
 
@@ -109,17 +109,17 @@ gh fzf run --workflow "CI"
 gh fzf run --limit 50
 ```
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload list |
-| `alt-x` | Cancel run |
-| `alt-r` | Rerun workflow |
-| `alt-l` | View logs in terminal |
-| `alt-d` | Download artifacts |
-| `alt-w` | Watch run progress in terminal |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                         |
+| -------- | ------------------------------ |
+| `ctrl-o` | Open in web browser            |
+| `ctrl-r` | Reload list                    |
+| `alt-x`  | Cancel run                     |
+| `alt-r`  | Rerun workflow                 |
+| `alt-l`  | View logs in terminal          |
+| `alt-d`  | Download artifacts             |
+| `alt-w`  | Watch run progress in terminal |
+| `alt-v`  | View details in terminal       |
+| `alt-h`  | Toggle help                    |
 
 ## Repositories
 
@@ -131,14 +131,14 @@ gh fzf repo --visibility public
 gh fzf repo --limit 50
 ```
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload list |
-| `alt-c` | Clone repository |
-| `alt-f` | Fork repository |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                   |
+| -------- | ------------------------ |
+| `ctrl-o` | Open in web browser      |
+| `ctrl-r` | Reload list              |
+| `alt-c`  | Clone repository         |
+| `alt-f`  | Fork repository          |
+| `alt-v`  | View details in terminal |
+| `alt-h`  | Toggle help              |
 
 > `alt-c` and `alt-f` respect the `GH_FZF_REPO_PATH` env var or `fzf.repoPath` config setting.
 > See [Configuration](#configuration) for details.
@@ -156,33 +156,33 @@ gh fzf search repos "cli"        # start with an initial query
 
 **Repositories**
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload results |
-| `alt-c` | Clone repository |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                   |
+| -------- | ------------------------ |
+| `ctrl-o` | Open in web browser      |
+| `ctrl-r` | Reload results           |
+| `alt-c`  | Clone repository         |
+| `alt-v`  | View details in terminal |
+| `alt-h`  | Toggle help              |
 
 **Issues**
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload results |
-| `alt-c` | Comment on issue |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                   |
+| -------- | ------------------------ |
+| `ctrl-o` | Open in web browser      |
+| `ctrl-r` | Reload results           |
+| `alt-c`  | Comment on issue         |
+| `alt-v`  | View details in terminal |
+| `alt-h`  | Toggle help              |
 
 **Pull Requests**
 
-| Key | Action |
-|-----|--------|
-| `ctrl-o` | Open in web browser |
-| `ctrl-r` | Reload results |
-| `alt-c` | Comment on PR |
-| `alt-v` | View details in terminal |
-| `alt-h` | Toggle help |
+| Key      | Action                   |
+| -------- | ------------------------ |
+| `ctrl-o` | Open in web browser      |
+| `ctrl-r` | Reload results           |
+| `alt-c`  | Comment on PR            |
+| `alt-v`  | View details in terminal |
+| `alt-h`  | Toggle help              |
 
 ## Configuration
 
@@ -209,6 +209,7 @@ Parent directories are created automatically. Tilde (`~`) is expanded to `$HOME`
 
 > **Migration note:** If you previously set `fzf.clone_base`, `fzf.clonePath`, or `fzf.forkPath`,
 > re-set with the new key:
+>
 > ```bash
 > gh config set fzf.repoPath ~/Projects
 > ```
@@ -218,17 +219,17 @@ Parent directories are created automatically. Tilde (`~`) is expanded to `$HOME`
 Each view can be tuned with environment variables. Per-command variables take
 precedence over the global one.
 
-| Variable | Scope |
-|----------|-------|
-| `GH_FZF_REPO_PATH` | Base directory for clone and fork (`alt-c` / `alt-f`) |
-| `GH_FZF_FLAGS` | Applied to all views |
-| `GH_FZF_PR_OPTS` | Pull requests only |
-| `GH_FZF_ISSUE_OPTS` | Issues only |
-| `GH_FZF_RUN_OPTS` | Workflow runs only |
-| `GH_FZF_REPO_OPTS` | Repositories only |
-| `GH_FZF_SEARCH_REPO_OPTS` | Repository search only |
-| `GH_FZF_SEARCH_ISSUE_OPTS` | Issue search only |
-| `GH_FZF_SEARCH_PR_OPTS` | Pull request search only |
+| Variable                   | Scope                                                 |
+| -------------------------- | ----------------------------------------------------- |
+| `GH_FZF_REPO_PATH`         | Base directory for clone and fork (`alt-c` / `alt-f`) |
+| `GH_FZF_FLAGS`             | Applied to all views                                  |
+| `GH_FZF_PR_OPTS`           | Pull requests only                                    |
+| `GH_FZF_ISSUE_OPTS`        | Issues only                                           |
+| `GH_FZF_RUN_OPTS`          | Workflow runs only                                    |
+| `GH_FZF_REPO_OPTS`         | Repositories only                                     |
+| `GH_FZF_SEARCH_REPO_OPTS`  | Repository search only                                |
+| `GH_FZF_SEARCH_ISSUE_OPTS` | Issue search only                                     |
+| `GH_FZF_SEARCH_PR_OPTS`    | Pull request search only                              |
 
 The format is the same as `FZF_DEFAULT_OPTS`: space-separated fzf options, with shell quoting for values that contain spaces or special characters.
 
@@ -252,10 +253,10 @@ DEBUG=1 gh fzf pr
 
 ## The gh-extensions Ecosystem
 
-| Repo | What it provides |
-|------|-----------------|
-| [gh-claude](https://github.com/gh-extensions/gh-claude) | AI-powered copilot for the GitHub CLI |
-| **gh-fzf** ← you are here | Fuzzy finder for GitHub CLI |
+| Repo                                                        | What it provides                                          |
+| ----------------------------------------------------------- | --------------------------------------------------------- |
+| [gh-ai](https://github.com/gh-extensions/gh-ai)             | AI-powered copilot for the GitHub CLI                     |
+| **gh-fzf** ← you are here                                   | Fuzzy finder for GitHub CLI                               |
 | [gh-worktree](https://github.com/gh-extensions/gh-worktree) | Isolated git worktrees for PRs, issues, and workflow runs |
 
 ## License
