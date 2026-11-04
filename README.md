@@ -35,6 +35,18 @@ gh extension install gh-extensions/gh-fzf --pin v0.6.0  # recommended: pin to a 
 gh extension install gh-extensions/gh-fzf                # installs from main (unstable)
 ```
 
+**Nix:** the flake has the extension as a package, with its tools (`bash`, `gh`, `fzf`, `gum`) in its `PATH`. With
+home-manager, add it to `programs.gh.extensions`:
+
+```nix
+{
+  inputs.gh-fzf.url = "github:gh-extensions/gh-fzf";
+
+  # in a home-manager module
+  programs.gh.extensions = [ inputs.gh-fzf.packages.${system}.default ];
+}
+```
+
 ## Usage
 
 ```bash
