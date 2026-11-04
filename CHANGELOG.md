@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/gh-extensions/gh-fzf/compare/v0.9.4...v0.10.0) (2026-11-04)
+
+
+### Features
+
+* **flake:** add the extension as a nix package ([#40](https://github.com/gh-extensions/gh-fzf/issues/40)) ([cd6e73a](https://github.com/gh-extensions/gh-fzf/commit/cd6e73a89ffff3d8d5d789a474da116c188807d3))
+
 ## [0.9.4](https://github.com/gh-extensions/gh-fzf/compare/v0.9.3...v0.9.4) (2026-05-04)
 
 
