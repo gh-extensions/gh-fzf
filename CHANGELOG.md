@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/gh-extensions/gh-fzf/compare/v0.10.0...v0.10.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* **ci:** merge with the App token so main gets its CI run ([#43](https://github.com/gh-extensions/gh-fzf/issues/43)) ([f77e7ac](https://github.com/gh-extensions/gh-fzf/commit/f77e7ac83766bbd637323e607a51ef841b7d990b))
+
 ## [0.10.0](https://github.com/gh-extensions/gh-fzf/compare/v0.9.4...v0.10.0) (2026-11-04)
 
 
