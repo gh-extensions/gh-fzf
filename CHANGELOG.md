@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/gh-extensions/gh-fzf/compare/v0.10.1...v0.11.0) (2026-11-23)
+
+
+### Features
+
+* show tmux detail actions in floating panes when available ([#48](https://github.com/gh-extensions/gh-fzf/issues/48)) ([3389db4](https://github.com/gh-extensions/gh-fzf/commit/3389db4d5f782e6037b5c9250a02d2f6e6897a15))
+
 ## [0.10.1](https://github.com/gh-extensions/gh-fzf/compare/v0.10.0...v0.10.1) (2026-11-07)
 
 
