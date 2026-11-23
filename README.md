@@ -63,10 +63,9 @@ Inside tmux, `alt-v` opens details in a non-modal floating pane (and `alt-w`
 opens live PR checks or workflow runs). You can switch back to the finder while
 leaving the pane open, and move or resize it with tmux. The pane remains open
 until a keypress after its command exits, so short output and errors stay
-readable. This requires a running tmux server with floating-pane support
-(tmux 3.7+); older servers use the previous popup behavior. Outside tmux,
-terminal actions work as before. `gh fzf --tmux` controls the finder itself,
-not these action panes.
+readable. This requires a running tmux 3.8+ server (not just a 3.8 client
+binary). Outside tmux, terminal actions work as before. `gh fzf --tmux`
+controls the finder itself, not these action panes.
 
 ## Pull Requests
 
