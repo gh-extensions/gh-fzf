@@ -62,8 +62,8 @@ In every view, press `alt-h` to toggle the keyboard shortcut reference.
 Inside tmux, `alt-v` opens details in a non-modal floating pane (and `alt-w`
 opens live PR checks or workflow runs). You can switch back to the finder while
 leaving the pane open, and move or resize it with tmux. The pane remains open
-until a keypress after its command exits, so short output and errors stay
-readable. This requires a running tmux 3.8+ server (not just a 3.8 client
+after its command exits (including across session switches); close it explicitly
+with tmux's `prefix x` when done. This requires a running tmux 3.8+ server (not just a 3.8 client
 binary). Outside tmux, terminal actions work as before. To leave the finder
 and views open while switching tmux sessions, run `gh fzf pr` in a normal pane:
 `gh fzf --tmux` puts the finder in a client popup, which intercepts the tmux

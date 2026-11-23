@@ -22,8 +22,8 @@ SUBCOMMANDS:
                   '#' is stripped from the name.
 
     display-view  Open a non-modal floating pane (requires tmux 3.8), leaving
-                  the caller free to use the finder. The pane stays open until
-                  a keypress after the command exits.
+                  the caller free to use the finder. Exited panes stay open
+                  until explicitly closed with tmux kill-pane (prefix x).
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
@@ -84,14 +84,18 @@ _tmux_new_window() {
 }
 
 # Open a titled, non-modal floating pane. Do not use -W: waiting here would
-# block fzf until the command exits. -k keeps short output and errors readable.
+# block fzf until the command exits. -k prevents short commands from vanishing
+# before we can set remain-on-exit on this pane. Unlike -k, remain-on-exit on
+# doesn't destroy the pane when the user presses the tmux prefix to switch
+# sessions. The user can explicitly close it with prefix x.
 _tmux_display_view() {
-  local title
+  local title pane_id
   title=$(_tmux_strip_name "$1")
   shift
 
   # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
-  tmux new-pane -x '80%' -y '70%' -X '10%' -Y '15%' -k -T " $title " "$@"
+  pane_id=$(tmux new-pane -P -F '#{pane_id}' -x '80%' -y '70%' -X '10%' -Y '15%' -k -T " $title " "$@")
+  tmux set-option -p -t "$pane_id" remain-on-exit on
 }
 
 # ------------------------------------------------------------------------------
