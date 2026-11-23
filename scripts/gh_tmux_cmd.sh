@@ -12,7 +12,6 @@ gh_tmux_cmd.sh - tmux helpers for gh-fzf
 USAGE:
     gh_tmux_cmd.sh new-session   <name> [command...]
     gh_tmux_cmd.sh new-window    <name> [command...]
-    gh_tmux_cmd.sh display-popup <title> <command...>
     gh_tmux_cmd.sh display-view  <title> <command...>
 
 SUBCOMMANDS:
@@ -22,19 +21,16 @@ SUBCOMMANDS:
     new-window    Open a new tmux window with the given name and command.
                   '#' is stripped from the name.
 
-    display-popup Open a tmux popup with the given border title and run a
-                  command inside it. Closes automatically when done.
-
-    display-view  Open a non-modal floating pane on tmux 3.7+, leaving the
-                  caller free to use the finder. Fall back to a popup on older
-                  servers. The pane stays open until a keypress after exit.
+    display-view  Open a non-modal floating pane (requires tmux 3.8), leaving
+                  the caller free to use the finder. The pane stays open until
+                  a keypress after the command exits.
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
                   and '.' characters are replaced with '_' before passing
                   to tmux (# is a tmux format string prefix).
-    title         Popup border title (same sanitization applied).
-    command       Optional command to run inside the session, window, or popup.
+    title         Floating pane title (same sanitization applied).
+    command       Optional command to run inside the session, window, or pane.
 EOF
 }
 
@@ -87,44 +83,14 @@ _tmux_new_window() {
   tmux new-window -n "$name" "${cmd[@]+"${cmd[@]}"}"
 }
 
-# Open a tmux popup window with the given border title and run a command
-# inside it. The popup closes automatically when the command exits.
-#
-# Usage:   _tmux_display_popup <title> [command...]
-# Args:
-#   title    — popup border title (sanitized via _tmux_strip_name before use)
-#   command  — command to run inside the popup
-_tmux_display_popup() {
+# Open a titled, non-modal floating pane. Do not use -W: waiting here would
+# block fzf until the command exits. -k keeps short output and errors readable.
+_tmux_display_view() {
   local title
   title=$(_tmux_strip_name "$1")
   shift
 
-  tmux display-popup -T " $title " "$@"
-}
-
-# Query the running server, not the installed client (tmux -V), which may be
-# newer than an already-running server. -x width on new-pane creates a floating
-# pane in tmux 3.7+. -T title was added in 3.8.
-_tmux_new_pane_usage() {
-  tmux list-commands new-pane 2>/dev/null || true
-}
-
-_tmux_display_view() {
-  local title usage
-  title=$(_tmux_strip_name "$1")
-  shift
-  usage=$(_tmux_new_pane_usage)
-
-  if [[ "$usage" == *'[-x width]'* && "$usage" == *'[-y height]'* ]]; then
-    local flags=(-x '80%' -y '70%' -k)
-    if [[ "$usage" == *'[-T title]'* ]]; then
-      flags+=(-T " $title ")
-    fi
-    # Do not use -W: waiting here would block fzf until the view exits.
-    tmux new-pane "${flags[@]}" "$@"
-  else
-    _tmux_display_popup "$title" "$@"
-  fi
+  tmux new-pane -x '80%' -y '70%' -k -T " $title " "$@"
 }
 
 # ------------------------------------------------------------------------------
@@ -155,18 +121,13 @@ main() {
     }
     _tmux_new_window "$@"
     ;;
-  display-popup | display-view)
-    local action=$subcommand
+  display-view)
     shift
     [[ $# -ge 2 ]] || {
-      gum log --level error "$action: title and command required"
+      gum log --level error 'display-view: title and command required'
       exit 1
     }
-    if [[ "$action" == display-view ]]; then
-      _tmux_display_view "$@"
-    else
-      _tmux_display_popup "$@"
-    fi
+    _tmux_display_view "$@"
     ;;
   *)
     gum log --level error "unknown subcommand: ${subcommand:-(none)}"
