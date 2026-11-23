@@ -15,17 +15,18 @@ gives you a fast, keyboard-driven interface to everything in your repo.
 - [Bash](https://www.gnu.org/software/bash/) 4.4+ (`bash`)
 - [Gum](https://github.com/charmbracelet/gum) (`gum`)
 - [fzf](https://github.com/junegunn/fzf) (`fzf`)
+- [less](https://www.greenwoodsoftware.com/less/) (`less`, for tmux detail views)
 
 **macOS (Homebrew):**
 
 ```bash
-brew install gh bash gum fzf
+brew install gh bash gum fzf less
 ```
 
 **Nix:**
 
 ```bash
-nix profile install nixpkgs#gh nixpkgs#bash nixpkgs#gum nixpkgs#fzf
+nix profile install nixpkgs#gh nixpkgs#bash nixpkgs#gum nixpkgs#fzf nixpkgs#less
 ```
 
 ## Installation
@@ -35,7 +36,7 @@ gh extension install gh-extensions/gh-fzf --pin v0.6.0  # recommended: pin to a 
 gh extension install gh-extensions/gh-fzf                # installs from main (unstable)
 ```
 
-**Nix:** the flake has the extension as a package, with its tools (`bash`, `gh`, `fzf`, `gum`) in its `PATH`. With
+**Nix:** the flake has the extension as a package, with its tools (`bash`, `gh`, `fzf`, `gum`, `less`) in its `PATH`. With
 home-manager, add it to `programs.gh.extensions`:
 
 ```nix
@@ -61,11 +62,13 @@ In every view, press `alt-h` to toggle the keyboard shortcut reference.
 
 Inside tmux, `alt-v` opens details in a non-modal floating pane (and `alt-w`
 opens live PR checks or workflow runs). You can switch back to the finder while
-leaving the pane open, and move or resize it with tmux. The pane remains open
-until a keypress after its command exits, so short output and errors stay
-readable. This requires a running tmux 3.8+ server (not just a 3.8 client
-binary). Outside tmux, terminal actions work as before. `gh fzf --tmux`
-controls the finder itself, not these action panes.
+leaving the pane open, and move or resize it with tmux. Press `q` in the pane
+to close it: for `alt-w`, `q` also stops a running watch. This requires a
+running tmux 3.8+ server (not just a 3.8 client binary). Outside tmux,
+terminal actions work as before. To leave the finder
+and views open while switching tmux sessions, run `gh fzf pr` in a normal pane:
+`gh fzf --tmux` puts the finder in a client popup, which intercepts the tmux
+prefix while open. It does not control the action panes.
 
 ## Pull Requests
 

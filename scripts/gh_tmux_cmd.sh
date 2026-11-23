@@ -13,6 +13,7 @@ USAGE:
     gh_tmux_cmd.sh new-session   <name> [command...]
     gh_tmux_cmd.sh new-window    <name> [command...]
     gh_tmux_cmd.sh display-view  <title> <command...>
+    gh_tmux_cmd.sh display-watch <title> <command...>
 
 SUBCOMMANDS:
     new-session   Create a tmux session if it does not already exist, then
@@ -21,9 +22,9 @@ SUBCOMMANDS:
     new-window    Open a new tmux window with the given name and command.
                   '#' is stripped from the name.
 
-    display-view  Open a non-modal floating pane (requires tmux 3.8), leaving
-                  the caller free to use the finder. The pane stays open until
-                  a keypress after the command exits.
+    display-view  Open a non-modal floating pane with a pager; q closes it.
+    display-watch Open a non-modal floating pane with a live watch; q stops
+                  the watch or closes it after completion. Requires tmux 3.8.
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
@@ -83,14 +84,19 @@ _tmux_new_window() {
   tmux new-window -n "$name" "${cmd[@]+"${cmd[@]}"}"
 }
 
-# Open a titled, non-modal floating pane. Do not use -W: waiting here would
-# block fzf until the command exits. -k keeps short output and errors readable.
+# Open a titled, non-modal floating pane. The foreground wrapper waits for q,
+# so the pane stays alive across session switches and closes on exit. Do not use
+# -W: waiting here would block fzf until the view exits.
 _tmux_display_view() {
-  local title
+  local mode=$1 title source_dir
+  shift
   title=$(_tmux_strip_name "$1")
   shift
+  source_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 
-  tmux new-pane -x '80%' -y '70%' -k -T " $title " "$@"
+  # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
+  tmux new-pane -x '80%' -y '70%' -X '10%' -Y '15%' -c "$PWD" \
+    -T " $title " "$source_dir/gh_tmux_view.sh" "$mode" "$@"
 }
 
 # ------------------------------------------------------------------------------
@@ -121,13 +127,15 @@ main() {
     }
     _tmux_new_window "$@"
     ;;
-  display-view)
+  display-view | display-watch)
+    local action=$subcommand mode=view
+    [[ "$action" == display-watch ]] && mode=watch
     shift
     [[ $# -ge 2 ]] || {
-      gum log --level error 'display-view: title and command required'
+      gum log --level error "$action: title and command required"
       exit 1
     }
-    _tmux_display_view "$@"
+    _tmux_display_view "$mode" "$@"
     ;;
   *)
     gum log --level error "unknown subcommand: ${subcommand:-(none)}"

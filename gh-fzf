@@ -22,6 +22,9 @@ _check_dependencies() {
 	if ! command -v gum &>/dev/null; then
 		missing+=("gum     — https://github.com/charmbracelet/gum")
 	fi
+	if [[ -n "${TMUX:-}" ]] && ! command -v less &>/dev/null; then
+		missing+=("less    — required for tmux detail views")
+	fi
 
 	if [[ ${#missing[@]} -gt 0 ]]; then
 		echo "gh-fzf: missing required dependencies:" >&2
