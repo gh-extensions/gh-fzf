@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/gh-extensions/gh-fzf/compare/v0.11.0...v0.12.0) (2026-11-23)
+
+
+### Features
+
+* **tmux:** close floating views with q ([#51](https://github.com/gh-extensions/gh-fzf/issues/51)) ([f9cac58](https://github.com/gh-extensions/gh-fzf/commit/f9cac581a33fd0d546c3838de1883bd8d4ec2458))
+
 ## [0.11.0](https://github.com/gh-extensions/gh-fzf/compare/v0.10.1...v0.11.0) (2026-11-23)
 
 
