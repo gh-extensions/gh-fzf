@@ -7,9 +7,6 @@ setup() {
   cat > "$BATS_TEST_TMPDIR/bin/tmux" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$@" > "$TMUX_CALL_LOG.$1"
-if [[ "$1" == new-pane ]]; then
-  printf '%%42\n'
-fi
 EOF
   chmod +x "$BATS_TEST_TMPDIR/bin/tmux"
   export PATH="$BATS_TEST_TMPDIR/bin:$PATH"
@@ -20,8 +17,6 @@ EOF
   run "$REPO_ROOT/scripts/gh_tmux_cmd.sh" display-view 'PR #12' gh pr view 12 --repo 'owner/repo'
   [ "$status" -eq 0 ]
   [ "$(head -1 "$TMUX_CALL_LOG.new-pane")" = new-pane ]
-  grep -qx -- '-P' "$TMUX_CALL_LOG.new-pane"
-  grep -qx -- '#{pane_id}' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-x' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '80%' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-y' "$TMUX_CALL_LOG.new-pane"
@@ -30,16 +25,22 @@ EOF
   grep -qx -- '10%' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-Y' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '15%' "$TMUX_CALL_LOG.new-pane"
-  grep -qx -- '-m' "$TMUX_CALL_LOG.new-pane"
-  grep -qx -- 'View exited — close with tmux prefix + x' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-T' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- ' PR 12 ' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'owner/repo' "$TMUX_CALL_LOG.new-pane"
   ! grep -qx -- '-W' "$TMUX_CALL_LOG.new-pane"
-  [ "$(head -1 "$TMUX_CALL_LOG.set-option")" = set-option ]
-  grep -qx -- '%42' "$TMUX_CALL_LOG.set-option"
-  grep -qx -- 'remain-on-exit' "$TMUX_CALL_LOG.set-option"
-  grep -qx -- 'on' "$TMUX_CALL_LOG.set-option"
+  grep -qx -- '-c' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- "$PWD" "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- "$REPO_ROOT/scripts/gh_tmux_view.sh" "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- 'view' "$TMUX_CALL_LOG.new-pane"
+  [ ! -e "$TMUX_CALL_LOG.set-option" ]
+}
+
+@test "watch actions use the q-aware wrapper" {
+  run "$REPO_ROOT/scripts/gh_tmux_cmd.sh" display-watch 'Run 42' gh run watch 42
+  [ "$status" -eq 0 ]
+  grep -qx -- 'watch' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- '42' "$TMUX_CALL_LOG.new-pane"
 }
 
 @test "missing command fails before contacting tmux" {

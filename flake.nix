@@ -23,6 +23,7 @@
           gh
           fzf
           gum
+          less
         ];
       in
       {
