@@ -84,9 +84,10 @@ _tmux_new_window() {
 }
 
 # Open a titled, non-modal floating pane. Do not use -W: waiting here would
-# block fzf until the command exits. -k prevents short commands from vanishing
-# before we can set remain-on-exit on this pane. Unlike -k, remain-on-exit on
-# doesn't destroy the pane when the user presses the tmux prefix to switch
+# block fzf until the command exits. -m prevents short commands from vanishing
+# before we can set remain-on-exit on this pane and explains how to close them.
+# Unlike -m alone, remain-on-exit on doesn't destroy the pane when the user
+# presses the tmux prefix to switch
 # sessions. The user can explicitly close it with prefix x.
 _tmux_display_view() {
   local title pane_id
@@ -94,7 +95,8 @@ _tmux_display_view() {
   shift
 
   # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
-  pane_id=$(tmux new-pane -P -F '#{pane_id}' -x '80%' -y '70%' -X '10%' -Y '15%' -k -T " $title " "$@")
+  pane_id=$(tmux new-pane -P -F '#{pane_id}' -x '80%' -y '70%' -X '10%' -Y '15%' \
+    -m 'View exited — close with tmux prefix + x' -T " $title " "$@")
   tmux set-option -p -t "$pane_id" remain-on-exit on
 }
 
