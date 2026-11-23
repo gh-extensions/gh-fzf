@@ -64,8 +64,10 @@ opens live PR checks or workflow runs). You can switch back to the finder while
 leaving the pane open, and move or resize it with tmux. The pane remains open
 until a keypress after its command exits, so short output and errors stay
 readable. This requires a running tmux 3.8+ server (not just a 3.8 client
-binary). Outside tmux, terminal actions work as before. `gh fzf --tmux`
-controls the finder itself, not these action panes.
+binary). Outside tmux, terminal actions work as before. To leave the finder
+and views open while switching tmux sessions, run `gh fzf pr` in a normal pane:
+`gh fzf --tmux` puts the finder in a client popup, which intercepts the tmux
+prefix while open. It does not control the action panes.
 
 ## Pull Requests
 

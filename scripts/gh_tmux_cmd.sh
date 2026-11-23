@@ -90,7 +90,8 @@ _tmux_display_view() {
   title=$(_tmux_strip_name "$1")
   shift
 
-  tmux new-pane -x '80%' -y '70%' -k -T " $title " "$@"
+  # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
+  tmux new-pane -x '80%' -y '70%' -X '10%' -Y '15%' -k -T " $title " "$@"
 }
 
 # ------------------------------------------------------------------------------
