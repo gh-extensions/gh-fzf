@@ -13,6 +13,7 @@ USAGE:
     gh_tmux_cmd.sh new-session   <name> [command...]
     gh_tmux_cmd.sh new-window    <name> [command...]
     gh_tmux_cmd.sh display-popup <title> <command...>
+    gh_tmux_cmd.sh display-view  <title> <command...>
 
 SUBCOMMANDS:
     new-session   Create a tmux session if it does not already exist, then
@@ -23,6 +24,10 @@ SUBCOMMANDS:
 
     display-popup Open a tmux popup with the given border title and run a
                   command inside it. Closes automatically when done.
+
+    display-view  Open a non-modal floating pane on tmux 3.7+, leaving the
+                  caller free to use the finder. Fall back to a popup on older
+                  servers. The pane stays open until a keypress after exit.
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
@@ -97,6 +102,31 @@ _tmux_display_popup() {
   tmux display-popup -T " $title " "$@"
 }
 
+# Query the running server, not the installed client (tmux -V), which may be
+# newer than an already-running server. -x width on new-pane creates a floating
+# pane in tmux 3.7+. -T title was added in 3.8.
+_tmux_new_pane_usage() {
+  tmux list-commands new-pane 2>/dev/null || true
+}
+
+_tmux_display_view() {
+  local title usage
+  title=$(_tmux_strip_name "$1")
+  shift
+  usage=$(_tmux_new_pane_usage)
+
+  if [[ "$usage" == *'[-x width]'* && "$usage" == *'[-y height]'* ]]; then
+    local flags=(-x '80%' -y '70%' -k)
+    if [[ "$usage" == *'[-T title]'* ]]; then
+      flags+=(-T " $title ")
+    fi
+    # Do not use -W: waiting here would block fzf until the view exits.
+    tmux new-pane "${flags[@]}" "$@"
+  else
+    _tmux_display_popup "$title" "$@"
+  fi
+}
+
 # ------------------------------------------------------------------------------
 # Direct Execution Support
 # ------------------------------------------------------------------------------
@@ -125,13 +155,18 @@ main() {
     }
     _tmux_new_window "$@"
     ;;
-  display-popup)
+  display-popup | display-view)
+    local action=$subcommand
     shift
     [[ $# -ge 2 ]] || {
-      gum log --level error 'display-popup: title and command required'
+      gum log --level error "$action: title and command required"
       exit 1
     }
-    _tmux_display_popup "$@"
+    if [[ "$action" == display-view ]]; then
+      _tmux_display_view "$@"
+    else
+      _tmux_display_popup "$@"
+    fi
     ;;
   *)
     gum log --level error "unknown subcommand: ${subcommand:-(none)}"
