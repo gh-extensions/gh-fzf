@@ -163,17 +163,27 @@ _gh_repo_list_cmd() {
 #   Formatted help text with shortcuts and tips
 #
 _gh_repo_preview_help() {
-	gum format <<'EOF'
+	local rows
+	rows=$(
+		cat <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload list |
 | **`alt-c`** | Clone repository |
 | **`alt-f`** | Fork and clone |
-| **`alt-v`** | View details |
+EOF
+	)
+	if _gh_terminal_views_available; then
+		rows+=$'\n| **`alt-v`** | View details |'
+	fi
+	{
+		printf '%s\n' "$rows"
+		cat <<'EOF'
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
+	} | gum format
 }
 
 # Main dispatcher for direct execution

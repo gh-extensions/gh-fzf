@@ -104,7 +104,9 @@ _gh_issue_add_label_cmd() {
 #   Formatted help text with shortcuts and tips
 #
 _gh_issue_preview_help() {
-	gum format <<'EOF'
+	local rows
+	rows=$(
+		cat <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -117,10 +119,18 @@ _gh_issue_preview_help() {
 | **`alt-l`** | Add label |
 | **`alt-p`** | Pin issue |
 | **`alt-u`** | Unpin issue |
-| **`alt-v`** | View details |
+EOF
+	)
+	if _gh_terminal_views_available; then
+		rows+=$'\n| **`alt-v`** | View details |'
+	fi
+	{
+		printf '%s\n' "$rows"
+		cat <<'EOF'
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
+	} | gum format
 }
 
 # ------------------------------------------------------------------------------
