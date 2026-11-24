@@ -136,3 +136,14 @@ _gh_parse_list_args() {
 	done
 }
 
+
+# _gh_terminal_views_available()
+#
+# Whether the alt-v/alt-w terminal-view bindings are registered for the
+# current environment: always outside tmux, and inside tmux only when the
+# tmux-view binary is installed. Preview help tables use this to avoid
+# advertising keys that are not bound.
+#
+_gh_terminal_views_available() {
+	[[ -z "${TMUX:-}" ]] || command -v tmux-view &>/dev/null
+}

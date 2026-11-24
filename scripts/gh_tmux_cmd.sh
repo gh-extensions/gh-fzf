@@ -13,7 +13,6 @@ USAGE:
     gh_tmux_cmd.sh new-session   <name> [command...]
     gh_tmux_cmd.sh new-window    <name> [command...]
     gh_tmux_cmd.sh display-view  <title> <command...>
-    gh_tmux_cmd.sh display-watch <title> <command...>
 
 SUBCOMMANDS:
     new-session   Create a tmux session if it does not already exist, then
@@ -22,9 +21,11 @@ SUBCOMMANDS:
     new-window    Open a new tmux window with the given name and command.
                   '#' is stripped from the name.
 
-    display-view  Open a non-modal floating pane with a pager; q closes it.
-    display-watch Open a non-modal floating pane with a live watch; q stops
-                  the watch or closes it after completion. Requires tmux 3.8.
+    display-view  Open a non-modal floating pane running tmux-view; q stops
+                  a live command and closes the pane, or closes a finished one.
+                  The pane title is shown on the floating-pane border (enabling
+                  top-floating border status when it is off). Requires tmux 3.8
+                  and the tmux-view binary in PATH.
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
@@ -84,19 +85,31 @@ _tmux_new_window() {
   tmux new-window -n "$name" "${cmd[@]+"${cmd[@]}"}"
 }
 
-# Open a titled, non-modal floating pane. The foreground wrapper waits for q,
-# so the pane stays alive across session switches and closes on exit. Do not use
-# -W: waiting here would block fzf until the view exits.
+# Open a titled, non-modal floating pane running tmux-view. The viewer keeps
+# the pane alive across session switches; q stops a running child and closes,
+# or closes once a finished child has been read. Do not use -W: waiting here
+# would block fzf until the view exits.
 _tmux_display_view() {
-  local mode=$1 title source_dir
-  shift
+  local title border_status
   title=$(_tmux_strip_name "$1")
   shift
-  source_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+
+  # Floating-pane titles are only drawn when border status lines are on. Use
+  # the floating-only variant so tiled panes keep the user's choice; `top` and
+  # `bottom` already cover floating panes, so leave those alone. Leave the
+  # border *format* to the user: it is personal styling (and carries tmux's
+  # clickable controls), so only the status toggle is ours to make.
+  border_status=$(tmux show-options -wqv pane-border-status 2>/dev/null || true)
+  if [[ -z "$border_status" || "$border_status" == off ]]; then
+    tmux set-option -w pane-border-status top-floating
+  fi
 
   # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
+  # -e disables gh's nested pager and forces terminal-style output: tmux-view
+  # pipes child output, so gh would otherwise drop color and markdown styling.
   tmux new-pane -x '80%' -y '70%' -X '10%' -Y '15%' -c "$PWD" \
-    -T " $title " "$source_dir/gh_tmux_view.sh" "$mode" "$@"
+    -e GH_PAGER=cat -e GH_FORCE_TTY=1 -T "$title" \
+    -- tmux-view -- "$@"
 }
 
 # ------------------------------------------------------------------------------
@@ -127,15 +140,13 @@ main() {
     }
     _tmux_new_window "$@"
     ;;
-  display-view | display-watch)
-    local action=$subcommand mode=view
-    [[ "$action" == display-watch ]] && mode=watch
+  display-view)
     shift
     [[ $# -ge 2 ]] || {
-      gum log --level error "$action: title and command required"
+      gum log --level error 'display-view: title and command required'
       exit 1
     }
-    _tmux_display_view "$mode" "$@"
+    _tmux_display_view "$@"
     ;;
   *)
     gum log --level error "unknown subcommand: ${subcommand:-(none)}"

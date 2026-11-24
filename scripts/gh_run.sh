@@ -85,8 +85,8 @@ _gh_run_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "RUN"
 
-	# Register tmux bindings only when running inside a tmux session
-	if [[ -n "${TMUX:-}" ]]; then
+	# Register tmux bindings only when running inside tmux with tmux-view available
+	if [[ -n "${TMUX:-}" ]] && command -v tmux-view &>/dev/null; then
 		local gh_tmux_cmd
 		gh_tmux_cmd="$_gh_run_source_dir/gh_tmux_cmd.sh"
 
@@ -94,8 +94,8 @@ _gh_run_list() {
 		gh_tmux_title="$_fzf_icon GitHub Run {-1}"
 
 		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-view '$gh_tmux_title' gh run view {-1})")
-		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-watch '$gh_tmux_title' gh run watch {-1})")
-	else
+		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-view '$gh_tmux_title' gh run watch {-1})")
+	elif [[ -z "${TMUX:-}" ]]; then
 		_fzf_options+=(--bind "alt-v:execute(gh run view {-1})")
 		_fzf_options+=(--bind "alt-w:execute(gh run watch {-1})")
 	fi
