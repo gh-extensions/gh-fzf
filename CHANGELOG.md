@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/gh-extensions/gh-fzf/compare/v0.13.0...v0.14.0) (2026-11-25)
+
+
+### Features
+
+* **tmux:** open detail views as modal panes with read-hold ([#55](https://github.com/gh-extensions/gh-fzf/issues/55)) ([b961fff](https://github.com/gh-extensions/gh-fzf/commit/b961fffa4ce16f95951795afb6b6b1f79b9185e6))
+
 ## [0.13.0](https://github.com/gh-extensions/gh-fzf/compare/v0.12.0...v0.13.0) (2026-11-24)
 
 
