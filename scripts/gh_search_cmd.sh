@@ -126,22 +126,13 @@ _gh_search_prs_cmd() {
 }
 
 _gh_search_repos_preview_help() {
-	local rows
-	rows=$(
-		cat <<'EOF'
+	gum format <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Clone repository |
-EOF
-	)
-	if _gh_terminal_views_available; then
-		rows+=$'\n| **`alt-v`** | View details in terminal |'
-	fi
-	{
-		printf '%s\n' "$rows"
-		cat <<'EOF'
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -152,26 +143,16 @@ EOF
 - Use GitHub search syntax
 - `ctrl-r` refreshes results
 EOF
-	} | gum format
 }
 
 _gh_search_issues_preview_help() {
-	local rows
-	rows=$(
-		cat <<'EOF'
+	gum format <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on issue |
-EOF
-	)
-	if _gh_terminal_views_available; then
-		rows+=$'\n| **`alt-v`** | View details in terminal |'
-	fi
-	{
-		printf '%s\n' "$rows"
-		cat <<'EOF'
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -182,26 +163,16 @@ EOF
 - Use GitHub search syntax
 - `ctrl-r` refreshes results
 EOF
-	} | gum format
 }
 
 _gh_search_prs_preview_help() {
-	local rows
-	rows=$(
-		cat <<'EOF'
+	gum format <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
 | **`ctrl-r`** | Reload search |
 | **`alt-c`** | Comment on PR |
-EOF
-	)
-	if _gh_terminal_views_available; then
-		rows+=$'\n| **`alt-v`** | View details in terminal |'
-	fi
-	{
-		printf '%s\n' "$rows"
-		cat <<'EOF'
+| **`alt-v`** | View details in terminal |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 
@@ -212,7 +183,6 @@ EOF
 - Use GitHub search syntax
 - `ctrl-r` refreshes results
 EOF
-	} | gum format
 }
 
 # ------------------------------------------------------------------------------

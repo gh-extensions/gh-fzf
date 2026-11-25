@@ -237,30 +237,3 @@ setup() {
 	done
 	[[ "$found" -eq 1 ]]
 }
-
-
-# ---------------------------------------------------------------------------
-# _gh_terminal_views_available: alt-v/alt-w binding eligibility
-# ---------------------------------------------------------------------------
-
-@test "_gh_terminal_views_available: available outside tmux without tmux-view" {
-	eval "$(
-		# shellcheck source=../scripts/gh_core.sh
-		source "$REPO_ROOT/scripts/gh_core.sh"
-		declare -f _gh_terminal_views_available
-	)"
-
-	unset TMUX
-	PATH=/usr/bin:/bin _gh_terminal_views_available
-}
-
-@test "_gh_terminal_views_available: hidden inside tmux without tmux-view" {
-	eval "$(
-		# shellcheck source=../scripts/gh_core.sh
-		source "$REPO_ROOT/scripts/gh_core.sh"
-		declare -f _gh_terminal_views_available
-	)"
-
-	export TMUX=1
-	PATH=/usr/bin:/bin _gh_terminal_views_available && return 1 || return 0
-}

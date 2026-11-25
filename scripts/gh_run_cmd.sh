@@ -56,9 +56,7 @@ _gh_run_list_cmd() {
 #   Formatted help text with shortcuts and tips
 #
 _gh_run_preview_help() {
-	local rows
-	rows=$(
-		cat <<'EOF'
+	gum format <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -67,18 +65,11 @@ _gh_run_preview_help() {
 | **`alt-r`** | Rerun workflow |
 | **`alt-l`** | View logs in pager |
 | **`alt-d`** | Download artifacts |
-EOF
-	)
-	if _gh_terminal_views_available; then
-		rows+=$'\n| **`alt-v`** | View details |'$'\n| **`alt-w`** | Watch progress |'
-	fi
-	{
-		printf '%s\n' "$rows"
-		cat <<'EOF'
+| **`alt-v`** | View details |
+| **`alt-w`** | Watch progress |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
-	} | gum format
 }
 
 # ------------------------------------------------------------------------------
