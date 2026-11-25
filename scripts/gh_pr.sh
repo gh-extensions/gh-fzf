@@ -84,8 +84,8 @@ _gh_pr_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "PR"
 
-	# Register tmux bindings only when running inside tmux with tmux-view available
-	if [[ -n "${TMUX:-}" ]] && command -v tmux-view &>/dev/null; then
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
 		local gh_tmux_cmd
 		gh_tmux_cmd="$_gh_pr_source_dir/gh_tmux_cmd.sh"
 
@@ -94,7 +94,7 @@ _gh_pr_list() {
 
 		_fzf_options+=(--bind "alt-w:execute-silent($gh_tmux_cmd display-view '$gh_tmux_title' gh pr checks {1} --watch)")
 		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-view '$gh_tmux_title' gh pr view {1})")
-	elif [[ -z "${TMUX:-}" ]]; then
+	else
 		_fzf_options+=(--bind "alt-w:execute(gh pr checks {1} --watch)")
 		_fzf_options+=(--bind "alt-v:execute(gh pr view {1})")
 	fi

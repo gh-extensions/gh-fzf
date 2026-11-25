@@ -91,8 +91,8 @@ _gh_repo_list() {
 	# Build fzf options with user-provided flags
 	_gh_fzf_options "REPO"
 
-	# Register tmux bindings only when running inside tmux with tmux-view available
-	if [[ -n "${TMUX:-}" ]] && command -v tmux-view &>/dev/null; then
+	# Register tmux bindings only when running inside a tmux session
+	if [[ -n "${TMUX:-}" ]]; then
 		local gh_tmux_cmd
 		gh_tmux_cmd="$_gh_repo_source_dir/gh_tmux_cmd.sh"
 
@@ -100,7 +100,7 @@ _gh_repo_list() {
 		gh_tmux_title="$_fzf_icon GitHub Repository {1}"
 
 		_fzf_options+=(--bind "alt-v:execute-silent($gh_tmux_cmd display-view '$gh_tmux_title' gh repo view {1})")
-	elif [[ -z "${TMUX:-}" ]]; then
+	else
 		_fzf_options+=(--bind "alt-v:execute(gh repo view {1})")
 	fi
 

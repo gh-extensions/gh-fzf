@@ -22,10 +22,6 @@ _check_dependencies() {
 	if ! command -v gum &>/dev/null; then
 		missing+=("gum     — https://github.com/charmbracelet/gum")
 	fi
-	if [[ -n "${TMUX:-}" ]] && ! command -v tmux-view &>/dev/null; then
-		echo "gh-fzf: tmux-view is not installed — alt-v/alt-w terminal views are disabled" >&2
-		echo "  tmux-view — https://github.com/tmux-contrib/tmux-view" >&2
-	fi
 
 	if [[ ${#missing[@]} -gt 0 ]]; then
 		echo "gh-fzf: missing required dependencies:" >&2

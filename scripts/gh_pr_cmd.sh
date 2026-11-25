@@ -58,9 +58,7 @@ _gh_pr_list_cmd() {
 #   Formatted help text with shortcuts and tips
 #
 _gh_pr_preview_help() {
-	local rows
-	rows=$(
-		cat <<'EOF'
+	gum format <<'EOF'
 | Key | Action |
 |-----|--------|
 | **`ctrl-o`** | Open in web browser |
@@ -72,18 +70,11 @@ _gh_pr_preview_help() {
 | **`alt-r`** | Mark as ready |
 | **`alt-x`** | Close PR |
 | **`alt-m`** | Merge PR |
-EOF
-	)
-	if _gh_terminal_views_available; then
-		rows+=$'\n| **`alt-w`** | Watch checks |'$'\n| **`alt-v`** | View details |'
-	fi
-	{
-		printf '%s\n' "$rows"
-		cat <<'EOF'
+| **`alt-w`** | Watch checks |
+| **`alt-v`** | View details |
 | **`alt-h`** | Toggle help |
 | **`ESC`** | Exit |
 EOF
-	} | gum format
 }
 
 # ------------------------------------------------------------------------------

@@ -15,19 +15,12 @@ gives you a fast, keyboard-driven interface to everything in your repo.
 - [Bash](https://www.gnu.org/software/bash/) 4.4+ (`bash`)
 - [Gum](https://github.com/charmbracelet/gum) (`gum`)
 - [fzf](https://github.com/junegunn/fzf) (`fzf`)
-- [tmux-view](https://github.com/tmux-contrib/tmux-view) (`tmux-view`, optional — enables `alt-v`/`alt-w` inside tmux)
 
 **macOS (Homebrew):**
 
 ```bash
 brew install gh bash gum fzf
 ```
-
-For tmux detail views, also install `tmux-view`:
-
-```bash
-nix profile install github:tmux-contrib/tmux-view
-# or: cargo install tmux-view
 
 **Nix:**
 
@@ -66,23 +59,21 @@ gh fzf search repos "cli"   # search across all of GitHub
 
 In every view, press `alt-h` to toggle the keyboard shortcut reference.
 
-Inside tmux with [tmux-view](https://github.com/tmux-contrib/tmux-view)
-**v0.1.0+** installed, `alt-v` opens details in a non-modal floating pane (and
-`alt-w` opens live PR checks or workflow runs). You can switch back to the
-finder while leaving the pane open, and move or resize it with tmux. Press `q`
-in the pane to close it: `q` also stops a running watch. Scroll with the arrow
-keys and PageUp/PageDown. Each pane carries a title for the selected item,
-drawn on the floating-pane border: if your `pane-border-status` is `off`,
-gh-fzf sets it to `top-floating` (floating panes only, tiled panes unaffected)
-so the title is visible. The border format stays yours; to drop tmux's pane
-index, quotes and the clickable `[t][f][z][x]` controls, set:
+Inside tmux, `alt-v` opens details in a modal floating pane (and `alt-w`
+opens live PR checks or workflow runs). Escape or `C-c` close the pane — even
+while a watch is still running — and once the command exits, any key closes it.
+Switching sessions keeps the pane open in its window. Each pane carries a
+title for the selected item, drawn on the floating-pane border: if your
+`pane-border-status` is `off`, gh-fzf sets it to `top-floating` (floating panes
+only, tiled panes unaffected) so the title is visible. The border format stays
+yours; to drop tmux's pane index, quotes and the clickable `[t][f][z][x]`
+controls, set:
 
 ```tmux
 set -g pane-border-format '#[align=centre] #{pane_title} '
 ```
 
-Without `tmux-view`, these bindings are not
-registered. This requires a
+This requires a
 running tmux 3.8+ server (not just a 3.8 client binary). Outside tmux,
 terminal actions work as before. To leave the finder
 and views open while switching tmux sessions, run `gh fzf pr` in a normal pane:

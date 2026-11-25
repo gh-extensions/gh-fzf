@@ -13,10 +13,12 @@ EOF
   export TMUX_CALL_LOG="$BATS_TEST_TMPDIR/tmux.log"
 }
 
-@test "opens a titled floating pane running tmux-view with intact arguments" {
+@test "opens a titled modal floating pane that holds after the command exits" {
   run "$REPO_ROOT/scripts/gh_tmux_cmd.sh" display-view 'PR #12' gh pr view 12 --repo 'owner/repo'
   [ "$status" -eq 0 ]
   [ "$(head -1 "$TMUX_CALL_LOG.new-pane")" = new-pane ]
+  grep -qx -- '-O' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- '-D' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-x' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '80%' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-y' "$TMUX_CALL_LOG.new-pane"
@@ -29,11 +31,13 @@ EOF
   grep -qx -- "$PWD" "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-e' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'GH_PAGER=cat' "$TMUX_CALL_LOG.new-pane"
-  grep -qx -- 'GH_FORCE_TTY=1' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '-T' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'PR 12' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- '--' "$TMUX_CALL_LOG.new-pane"
-  grep -qx -- 'tmux-view' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- 'bash' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- '-c' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- '"$@"; read -rsn1' "$TMUX_CALL_LOG.new-pane"
+  grep -qx -- '_' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'gh' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'pr' "$TMUX_CALL_LOG.new-pane"
   grep -qx -- 'view' "$TMUX_CALL_LOG.new-pane"

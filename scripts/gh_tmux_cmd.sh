@@ -21,11 +21,11 @@ SUBCOMMANDS:
     new-window    Open a new tmux window with the given name and command.
                   '#' is stripped from the name.
 
-    display-view  Open a non-modal floating pane running tmux-view; q stops
-                  a live command and closes the pane, or closes a finished one.
-                  The pane title is shown on the floating-pane border (enabling
-                  top-floating border status when it is off). Requires tmux 3.8
-                  and the tmux-view binary in PATH.
+    display-view  Open a modal floating pane with the command output; Escape
+                  or C-c close it, and once the command exits any key closes
+                  it. The pane title is shown on the floating-pane border
+                  (enabling top-floating border status when it is off).
+                  Requires tmux 3.8.
 
 ARGUMENTS:
     name          Session or window name. Any '#' characters are removed
@@ -85,10 +85,9 @@ _tmux_new_window() {
   tmux new-window -n "$name" "${cmd[@]+"${cmd[@]}"}"
 }
 
-# Open a titled, non-modal floating pane running tmux-view. The viewer keeps
-# the pane alive across session switches; q stops a running child and closes,
-# or closes once a finished child has been read. Do not use -W: waiting here
-# would block fzf until the view exits.
+# Open a titled, modal floating pane. Escape or C-c close it via -D at any time;
+# the trailing read holds the pane after the command exits, so any single key
+# closes a finished view. Do not use -W: it would block fzf until that happens.
 _tmux_display_view() {
   local title border_status
   title=$(_tmux_strip_name "$1")
@@ -105,11 +104,14 @@ _tmux_display_view() {
   fi
 
   # Center an 80% × 70% pane; without -X/-Y tmux cascades from the top-left.
-  # -e disables gh's nested pager and forces terminal-style output: tmux-view
-  # pipes child output, so gh would otherwise drop color and markdown styling.
-  tmux new-pane -x '80%' -y '70%' -X '10%' -Y '15%' -c "$PWD" \
-    -e GH_PAGER=cat -e GH_FORCE_TTY=1 -T "$title" \
-    -- tmux-view -- "$@"
+  # -O -D: a modal pane, closed by Escape or C-c at any time. The trailing
+  # read holds the pane after the command exits, so any single key closes the
+  # view. No -W: it would block fzf until the view closes. GH_PAGER=cat keeps
+  # closing one-step: on a real TTY gh would otherwise launch its own pager
+  # and demand a second keypress. bash -c with "$@" passes the command through
+  # without re-quoting, regardless of the user's default shell.
+  tmux new-pane -O -D -x '80%' -y '70%' -X '10%' -Y '15%' -c "$PWD" \
+    -e GH_PAGER=cat -T "$title" -- bash -c '"$@"; read -rsn1' _ "$@"
 }
 
 # ------------------------------------------------------------------------------
