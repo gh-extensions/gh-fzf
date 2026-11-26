@@ -1,11 +1,11 @@
 {{- $headerColor := "blue+b" -}}
-{{- tablerow
-    ("PR" | autocolor $headerColor)
-    ("LAST UPDATE" | autocolor $headerColor)
-    ("TITLE" | autocolor $headerColor)
-    ("DIFF STAT" | autocolor $headerColor)
-    ("BRANCH" | autocolor $headerColor)
-    ("LABELS" | autocolor $headerColor)
+{{- printf "%s  %s  %s  %s  %s  %s  %s\n"
+    (printf "%-7s" "PR" | autocolor $headerColor)
+    (printf "%-14s" "LAST UPDATE" | autocolor $headerColor)
+    (printf "%-50s" "TITLE" | autocolor $headerColor)
+    (printf "%-26s" "DIFF STAT" | autocolor $headerColor)
+    (printf "%-40s" "BRANCH" | autocolor $headerColor)
+    (printf "%-24s" "LABELS" | autocolor $headerColor)
     ("MILESTONE" | autocolor $headerColor)
 -}}
 
@@ -24,17 +24,15 @@
         {{- $stateColor = "magenta" -}}
     {{- end -}}
 
-    {{- tablerow
-        (printf "#%v" .number | autocolor $stateColor)
-        ((timeago .updatedAt) | autocolor "white+d")
-        (truncate 90 (.title | autocolor "white+h"))
-        (printf "%s %s %s"
-        (printf "+%v" .additions | autocolor "green+d")
-        (printf "-%v" .deletions | autocolor "red+d")
-        (printf "(%v files)" .changedFiles | autocolor "white+d")
-    )
-        (truncate 60 (.headRefName | autocolor "white+h"))
-        (pluck "name" .labels | join ", " | autocolor "white+d")
-        ($milestoneTitle | autocolor "white+h")
+    {{- $diffStat := printf "+%v -%v (%v files)" .additions .deletions .changedFiles -}}
+
+    {{- printf "%s  %s  %s  %s  %s  %s  %s\n"
+        (printf "%-7s" (printf "#%v" .number) | autocolor $stateColor)
+        (printf "%-14s" (timeago .updatedAt) | autocolor "white+d")
+        (printf "%-50s" (truncate 50 .title) | autocolor "white+h")
+        (printf "%-26s" (truncate 26 $diffStat) | autocolor "white+d")
+        (printf "%-40s" (truncate 40 .headRefName) | autocolor "white+h")
+        (printf "%-24s" (truncate 24 (pluck "name" .labels | join ", ")) | autocolor "white+d")
+        (truncate 24 $milestoneTitle | autocolor "white+h")
     -}}
 {{- end -}}

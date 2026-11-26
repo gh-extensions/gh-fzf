@@ -1,9 +1,9 @@
 {{- $headerColor := "blue+b" -}}
-{{- tablerow
-    ("REPOSITORY" | autocolor $headerColor)
-    ("DESCRIPTION" | autocolor $headerColor)
-    ("STARS" | autocolor $headerColor)
-    ("LANGUAGE" | autocolor $headerColor)
+{{- printf "%s  %s  %s  %s  %s\n"
+    (printf "%-40s" "REPOSITORY" | autocolor $headerColor)
+    (printf "%-40s" "DESCRIPTION" | autocolor $headerColor)
+    (printf "%7s" "STARS" | autocolor $headerColor)
+    (printf "%-12s" "LANGUAGE" | autocolor $headerColor)
     ("UPDATED" | autocolor $headerColor)
 -}}
 
@@ -18,11 +18,9 @@
         {{- $lang = .language -}}
     {{- end -}}
 
-    {{- $repoColor := "green" -}}
-
-    {{- tablerow
-        (.fullName | autocolor $repoColor)
-        (truncate 50 ($desc | autocolor "white+d"))
+    {{- printf "%s  %s  %s  %s  %s\n"
+        (printf "%-40s" .fullName | autocolor "green")
+        (printf "%-40s" (truncate 40 $desc) | autocolor "white+d")
         (printf "%7.0f" .stargazersCount | autocolor "white+h")
         (printf "%-12s" $lang | autocolor "cyan")
         ((timeago .updatedAt) | autocolor "white+d")
