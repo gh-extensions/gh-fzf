@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.1](https://github.com/gh-extensions/gh-fzf/compare/v0.14.0...v0.14.1) (2026-11-26)
+
+
+### Bug Fixes
+
+* keep full values in list rows regardless of terminal width ([#58](https://github.com/gh-extensions/gh-fzf/issues/58)) ([ff37bc0](https://github.com/gh-extensions/gh-fzf/commit/ff37bc0d34e4592491ead268c67c192b49379a47)), closes [#57](https://github.com/gh-extensions/gh-fzf/issues/57)
+
 ## [0.14.0](https://github.com/gh-extensions/gh-fzf/compare/v0.13.0...v0.14.0) (2026-11-25)
 
 
