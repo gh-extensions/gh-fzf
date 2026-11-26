@@ -1,10 +1,10 @@
 {{- $headerColor := "blue+b" -}}
-{{- tablerow
-    ("PR" | autocolor $headerColor)
-    ("REPOSITORY" | autocolor $headerColor)
-    ("TITLE" | autocolor $headerColor)
-    ("AUTHOR" | autocolor $headerColor)
-    ("STATE" | autocolor $headerColor)
+{{- printf "%s  %s  %s  %s  %s  %s\n"
+    (printf "%-7s" "PR" | autocolor $headerColor)
+    (printf "%-40s" "REPOSITORY" | autocolor $headerColor)
+    (printf "%-60s" "TITLE" | autocolor $headerColor)
+    (printf "%-20s" "AUTHOR" | autocolor $headerColor)
+    (printf "%-8s" "STATE" | autocolor $headerColor)
     ("CREATED" | autocolor $headerColor)
 -}}
 
@@ -23,12 +23,12 @@
         {{- $stateDisplay = "DRAFT" -}}
     {{- end -}}
 
-    {{- tablerow
-        (printf "#%v" .number | autocolor $stateColor)
-        (.repository.nameWithOwner | autocolor "cyan")
-        (truncate 80 (.title | autocolor "white+h"))
-        (.author.login | autocolor "white+d")
-        ($stateDisplay | autocolor $stateColor)
+    {{- printf "%s  %s  %s  %s  %s  %s\n"
+        (printf "%-7s" (printf "#%v" .number) | autocolor $stateColor)
+        (printf "%-40s" .repository.nameWithOwner | autocolor "cyan")
+        (printf "%-60s" (truncate 60 .title) | autocolor "white+h")
+        (printf "%-20s" .author.login | autocolor "white+d")
+        (printf "%-8s" $stateDisplay | autocolor $stateColor)
         ((timeago .createdAt) | autocolor "white+d")
     -}}
 {{- end -}}

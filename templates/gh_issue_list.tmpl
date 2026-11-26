@@ -1,10 +1,10 @@
 {{- $headerColor := "blue+b" -}}
-{{- tablerow
-    ("NUMBER" | autocolor $headerColor)
-    ("UPDATED" | autocolor $headerColor)
-    ("TITLE" | autocolor $headerColor)
-    ("AUTHOR" | autocolor $headerColor)
-    ("MILESTONE" | autocolor $headerColor)
+{{- printf "%s  %s  %s  %s  %s  %s\n"
+    (printf "%-7s" "NUMBER" | autocolor $headerColor)
+    (printf "%-14s" "UPDATED" | autocolor $headerColor)
+    (printf "%-60s" "TITLE" | autocolor $headerColor)
+    (printf "%-20s" "AUTHOR" | autocolor $headerColor)
+    (printf "%-16s" "MILESTONE" | autocolor $headerColor)
     ("LABELS" | autocolor $headerColor)
 -}}
 
@@ -19,12 +19,12 @@
         {{- $stateColor = "red" -}}
     {{- end -}}
 
-    {{- tablerow
-        (printf "#%v" .number | autocolor $stateColor)
-        ((timeago .updatedAt) | autocolor "white+d")
-        (truncate 100 (.title | autocolor "white+h"))
-        (.author.login | autocolor "white+d")
-        ($milestoneTitle | autocolor "white+h")
+    {{- printf "%s  %s  %s  %s  %s  %s\n"
+        (printf "%-7s" (printf "#%v" .number) | autocolor $stateColor)
+        (printf "%-14s" (timeago .updatedAt) | autocolor "white+d")
+        (printf "%-60s" (truncate 60 .title) | autocolor "white+h")
+        (printf "%-20s" .author.login | autocolor "white+d")
+        (printf "%-16s" (truncate 16 $milestoneTitle) | autocolor "white+h")
         (pluck "name" .labels | join ", " | autocolor "white+d")
     -}}
 {{- end -}}
